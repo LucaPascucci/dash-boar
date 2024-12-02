@@ -27,11 +27,6 @@ export const appConfig: ApplicationConfig = {
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),
     provideAnalytics(() => getAnalytics()), ScreenTrackingService, UserTrackingService,
-    /*provideAppCheck(() => {
-      // NOTE get a reCAPTCHA Enterprise here https://console.cloud.google.com/security/recaptcha?project=_
-      const provider = new ReCaptchaEnterpriseProvider(/* reCAPTCHA Enterprise site key *//*);
-      return initializeAppCheck(undefined, {provider, isTokenAutoRefreshEnabled: true});
-    }),*/
     provideFirestore(() => getFirestore()),
     provideDatabase(() => getDatabase()),
     provideFunctions(() => getFunctions()),
@@ -39,5 +34,6 @@ export const appConfig: ApplicationConfig = {
     providePerformance(() => getPerformance()),
     provideStorage(() => getStorage()),
     provideRemoteConfig(() => getRemoteConfig()),
-    provideVertexAI(() => getVertexAI())]
+    provideVertexAI(() => getVertexAI())
+  ]
 };
