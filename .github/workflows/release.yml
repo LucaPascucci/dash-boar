@@ -20,10 +20,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node-version }} and setup enviroment file
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+        run:
+          node src/environments/set-environment.ts
+        env:
+          FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
 
       - name: Cache node modules
         id: cache-nodemodules
@@ -38,6 +42,9 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
+
+      - name: Create environment file
+        uses: actions/setup-node
 
       - name: Install Dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
