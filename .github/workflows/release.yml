@@ -29,7 +29,7 @@ jobs:
         run: | 
           node src/environments/set-environment.ts
         env:
-          FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
+          ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
 
       - name: Cache node modules
         id: cache-nodemodules
