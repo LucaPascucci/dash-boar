@@ -1,6 +1,6 @@
 interface Race {
-  id: number;
+  id: string;
   start: Date;
-  currentDriverId: number;
-  nextDriverId: number;
+  currentDriverId: string;
+  nextDriverId: string;
 }

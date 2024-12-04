@@ -1,10 +1,10 @@
 interface Pit {
-  id: number;
+  id: string;
   raceId: number;
   entryTime: Date;
   exitTime: Date;
-  entryDriverId: number;
-  exitDriverId: number;
+  entryDriverId: string;
+  exitDriverId: string;
   refuel: boolean;
   tyreChange: boolean;
 }
