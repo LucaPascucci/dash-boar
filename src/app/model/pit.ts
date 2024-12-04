@@ -1,4 +1,4 @@
-interface Pit {
+export interface Pit {
   id: string;
   raceId: number;
   entryTime: Date;

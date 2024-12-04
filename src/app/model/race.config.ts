@@ -1,4 +1,4 @@
-interface RaceConfig {
+export interface RaceConfig {
   durationHour: number; // 24
   fuelDurationMinute: number; // 120
   minDriverChange: number; // 30

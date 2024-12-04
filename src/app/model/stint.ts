@@ -1,4 +1,4 @@
-interface Stint {
+export interface Stint {
   id: string;
   raceId: string;
   driverId: string;
