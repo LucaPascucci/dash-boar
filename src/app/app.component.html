@@ -4,11 +4,13 @@
     <div>La <b>DashBoar</b> è quasi pronta a ruggire...🐗</div>
   </div>
 
-  <ul>
-    @for (item of items$ | async; track item) {
-      <li>{{ item.description }}</li>
-    }
-  </ul>
+  <div class="text-center">
+    <ul>
+      @for (driver of drivers$ | async; track driver) {
+        <li>{{ driver.id }} - {{ driver.name }} {{ driver.surname }}</li>
+      }
+    </ul>
+  </div>
 </div>
 
 

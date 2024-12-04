@@ -1,7 +1,7 @@
-interface Stint {
-  id: number;
-  raceId: number;
-  driverId: number;
+export interface Stint {
+  id: string;
+  raceId: string;
+  driverId: string;
   startDate: Date;
   endDate: Date;
 }

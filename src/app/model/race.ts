@@ -1,6 +1,6 @@
-interface Race {
-  id: number;
+export interface Race {
+  id: string;
   start: Date;
-  currentDriverId: number;
-  nextDriverId: number;
+  currentDriverId: string;
+  nextDriverId: string;
 }

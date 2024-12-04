@@ -1,10 +1,10 @@
-interface Pit {
-  id: number;
+export interface Pit {
+  id: string;
   raceId: number;
   entryTime: Date;
   exitTime: Date;
-  entryDriverId: number;
-  exitDriverId: number;
+  entryDriverId: string;
+  exitDriverId: string;
   refuel: boolean;
   tyreChange: boolean;
 }

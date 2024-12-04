@@ -1,8 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { collection, collectionData, Firestore } from "@angular/fire/firestore";
 import { Observable } from "rxjs";
 import { AsyncPipe } from "@angular/common";
+import { DriverService } from "./service/driver.service";
+import { Driver } from "./model/driver";
 
 @Component({
   selector: 'app-root',
@@ -12,11 +13,11 @@ import { AsyncPipe } from "@angular/common";
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  firestore: Firestore = inject(Firestore);
-  items$: Observable<any[]>;
+  private readonly driverService: DriverService = inject(DriverService);
+
+  drivers$: Observable<Driver[]>;
 
   constructor() {
-    const aCollection = collection(this.firestore, 'items')
-    this.items$ = collectionData(aCollection);
+    this.drivers$ = this.driverService.getAll();
   }
 }
