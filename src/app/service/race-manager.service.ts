@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Stint } from "../model/stint";
+import { Race } from "../model/race";
+import { RaceConfig } from "../model/race-config";
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +12,7 @@ export class RaceManagerService {
 
   nextStintsAvgTime(stints: Stint[], race: Race, raceConfig: RaceConfig): { avgStintTime: number | null, avgIfChangedNow: number | null } {
     const currentTime = new Date();
-    const raceEndTime = new Date(race.start.getTime() + raceConfig.durationHour * 60 * 60 * 1000);
+    const raceEndTime = new Date(race.start.toDate().getTime() + raceConfig.durationHour * 60 * 60 * 1000);
   
     if (currentTime >= raceEndTime) {
       console.error('La gara è già finita.');
@@ -33,7 +36,7 @@ export class RaceManagerService {
     }
   
     // Determine the time remaining at the last driver change
-    const lastDriverChange = stints.length > 0 ? stints[stints.length - 1].endDate : race.start;
+    const lastDriverChange = stints.length > 0 ? stints[stints.length - 1].endDate.toDate() : race.start.toDate();
     const timeRemainingAtLastChange = (raceEndTime.getTime() - lastDriverChange.getTime()) / 60000; // Time in minutes
   
     // Case 1: Calculate avgStintTime considering the time at the last driver change
