@@ -1,26 +1,39 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable, Signal } from '@angular/core';
 import {
   collection,
-  collectionData
+  collectionData, query, where
 } from "@angular/fire/firestore";
-import { map, Observable } from "rxjs";
+import { map, Observable, takeUntil } from "rxjs";
 import { Stint } from "../model/stint";
 import { FirestoreService } from "./firestore.service";
+import { RaceService } from "./race.service";
+import { Race } from "../model/race";
 
 @Injectable({
   providedIn: 'root'
 })
 export class StintService extends FirestoreService {
-  protected collectionPath: string = '/stints';
-  protected collectionRef: any = collection(this.firestore, this.collectionPath);
+  private readonly raceService = inject(RaceService);
+  protected collectionPath = '/stints';
+  protected collectionRef = collection(this.firestore, this.collectionPath);
+
+  private readonly activeRace: Signal<Race | undefined>;
 
   constructor() {
     super();
+    this.activeRace = this.raceService.activeRace;
   }
 
-  getAll(): Observable<Stint[]> {
+  getStintsForActiveRace(): Observable<Stint[]> {
     return collectionData(this.collectionRef).pipe(
-        map((stints: Stint[]) => stints.filter(stint => !stint.deleted))
+        takeUntil(this.destroy$),
+        map((stints: Stint[]) => stints.filter(stint => {
+          const activeRace = this.activeRace();
+          if (activeRace) {
+            return stint.raceId === activeRace.id && !stint.deleted;
+          }
+          return false
+        }))
     );
   }
 
