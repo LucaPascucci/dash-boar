@@ -8,7 +8,7 @@ import { Entity } from "../model/entity";
 })
 export abstract class FirestoreService implements OnDestroy {
   protected readonly firestore = inject(Firestore);
-  protected readonly destroy$: Subject<void> = new Subject<void>();
+  protected readonly destroy$ = new Subject<void>();
 
   protected abstract collectionPath: string;
   protected abstract collectionRef: any;
