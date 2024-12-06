@@ -1,6 +1,6 @@
 import { inject, Injectable, OnDestroy } from '@angular/core';
 import { Subject } from "rxjs";
-import { Firestore, getDocs } from "@angular/fire/firestore";
+import { deleteDoc, doc, Firestore, getDocs } from "@angular/fire/firestore";
 import { Entity } from "../model/entity";
 
 @Injectable({
@@ -28,6 +28,10 @@ export abstract class BaseService implements OnDestroy {
     });
     // Increment the highest ID to generate a new ID
     return (maxId + 1).toString();
+  }
+
+  delete(id: string): Promise<void> {
+    return deleteDoc(doc(this.collectionRef, id))
   }
 
   ngOnDestroy(): void {
