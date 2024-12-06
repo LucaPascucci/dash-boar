@@ -2,7 +2,7 @@ import { Timestamp } from "@firebase/firestore";
 
 export interface Pit {
   id: string;
-  raceId: number;
+  raceId: string;
   entryTime: Timestamp;
   exitTime: Timestamp;
   entryDriverId: string;
