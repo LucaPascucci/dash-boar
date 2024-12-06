@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.6.0
+
+**Added**
+---------
+- Introduced a new Tyre Change Window component to manage tyre changes during races.
+- Added functionality to track remaining tyre changes and display opening/closing times.
+
+**Changed**
+---------
+- Updated services to support active race data and improve data filtering.
+- Enhanced UI with new components and layout adjustments.
+
+---
+
 ## v0.5.0
 
 **Added**
