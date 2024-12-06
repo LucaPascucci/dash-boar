@@ -12,6 +12,9 @@
 ---------
 - Updated RaceService to extend BaseService and manage active races.
 - Modified data models to include a 'deleted' flag for soft deletion.
+- Refactored services to extend a new FirestoreService for improved code reuse and maintainability.
+- Updated service methods to use common data handling functions from FirestoreService.
+- Removed redundant code and console logs from service implementations.
 
 ---
 
