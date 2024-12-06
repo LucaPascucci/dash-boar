@@ -6,7 +6,7 @@ import { RaceConfig } from "../model/race-config";
 @Injectable({
   providedIn: 'root'
 })
-export class RaceManagerService {
+export class RaceLogicService {
 
   constructor() { }
 
