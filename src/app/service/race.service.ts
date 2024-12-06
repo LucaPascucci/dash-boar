@@ -1,19 +1,14 @@
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
-import {
-  collection,
-  collectionData,
-  doc, getDocs, query,
-  setDoc, where
-} from "@angular/fire/firestore";
+import { collection, collectionData } from "@angular/fire/firestore";
 import { Race } from "../model/race";
 import { RaceConfigService } from "./race-config.service";
 import { map, Observable, takeUntil } from "rxjs";
-import { BaseService } from "./base.service";
+import { FirestoreService } from "./firestore.service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class RaceService extends BaseService {
+export class RaceService extends FirestoreService {
   protected collectionPath: string = '/races';
   protected collectionRef: any = collection(this.firestore, this.collectionPath);
 
@@ -23,7 +18,6 @@ export class RaceService extends BaseService {
 
   constructor() {
     super();
-    console.log('RaceService constructor')
     this.getAll().pipe(
         takeUntil(this.destroy$)
     ).subscribe(races => {
@@ -36,33 +30,25 @@ export class RaceService extends BaseService {
   getAll(): Observable<Race[]> {
     return collectionData(this.collectionRef).pipe(
         map((races: Race[]) => races.filter(race => !race.deleted))
-    )
+    );
   }
 
   async create(race: Race): Promise<void> {
     if (this.activeRace() !== undefined) {
-      console.log('Race already active -> ' + this.activeRace());
+      console.warn('Race already active -> ' + this.activeRace());
       return Promise.resolve();
     }
 
     race.id = await this.generateNextId();
-
-    const documentReference = doc(this.collectionRef, race.id);
-    return setDoc(documentReference, race);
+    return this.createData(race.id, race);
   }
 
-  update(race: Race): Promise<void> {
-    return setDoc(doc(this.collectionRef, race.id), race, { merge: true });
+  updateRace(race: Race): Promise<void> {
+    return this.updateData(race.id, race)
   }
 
-  async getById(id: string): Promise<Race | undefined> {
-    const q = query(this.collectionRef, where("id", "==", id));
-    const querySnapshot = await getDocs(q);
-    if (!querySnapshot.empty) {
-      const docSnapshot = querySnapshot.docs[0];
-      return docSnapshot.data() as Race;
-    }
-    return undefined;
+  getById(id: string): Promise<Race | undefined> {
+    return this.getDataById(id);
   }
 
   private getActiveRace(races: Race[]): Race | undefined {

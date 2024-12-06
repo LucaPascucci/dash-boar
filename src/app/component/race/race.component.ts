@@ -1,10 +1,4 @@
-import {
-  Component,
-  inject,
-  OnDestroy,
-  OnInit,
-  WritableSignal
-} from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, WritableSignal } from '@angular/core';
 import { RaceService } from "../../service/race.service";
 import { RaceConfigService } from "../../service/race-config.service";
 import { Race } from "../../model/race";

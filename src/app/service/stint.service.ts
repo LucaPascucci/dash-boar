@@ -1,47 +1,39 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   collection,
-  collectionData,
-  deleteDoc,
-  doc,
-  Firestore, getDocs, query,
-  setDoc, where
+  collectionData
 } from "@angular/fire/firestore";
-import { Observable } from "rxjs";
+import { map, Observable } from "rxjs";
 import { Stint } from "../model/stint";
+import { FirestoreService } from "./firestore.service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class StintService {
-  private readonly firestorePath: string = '/stints';
-  private readonly firestore: Firestore = inject(Firestore);
-  private readonly stintsRef: any;
+export class StintService extends FirestoreService {
+  protected collectionPath: string = '/stints';
+  protected collectionRef: any = collection(this.firestore, this.collectionPath);
 
   constructor() {
-    this.stintsRef = collection(this.firestore, this.firestorePath);
+    super();
   }
 
   getAll(): Observable<Stint[]> {
-    return collectionData(this.stintsRef);
+    return collectionData(this.collectionRef).pipe(
+        map((stints: Stint[]) => stints.filter(stint => !stint.deleted))
+    );
   }
 
-  create(stint: Stint): Promise<void> {
-    const documentReference = stint.id ? doc(this.stintsRef, stint.id) : doc(this.stintsRef);
-    return setDoc(documentReference, stint);
+  async create(stint: Stint): Promise<void> {
+    stint.id = await this.generateNextId();
+    return this.createData(stint.id, stint);
   }
 
   update(stint: Stint): Promise<void> {
-    return setDoc(doc(this.stintsRef, stint.id), stint, { merge: true });
+    return this.updateData(stint.id, stint);
   }
 
-  async getById(id: string): Promise<Stint | undefined> {
-    const q = query(this.stintsRef, where("id", "==", id));
-    const querySnapshot = await getDocs(q);
-    if (!querySnapshot.empty) {
-      const docSnapshot = querySnapshot.docs[0];
-      return docSnapshot.data() as Stint;
-    }
-    return undefined;
+  getById(id: string): Promise<Stint | undefined> {
+    return this.getDataById(id);
   }
 }
