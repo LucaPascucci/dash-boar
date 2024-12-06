@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit, WritableSignal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, Signal, WritableSignal } from '@angular/core';
 import { RaceService } from "../../service/race.service";
 import { RaceConfigService } from "../../service/race-config.service";
 import { Race } from "../../model/race";
@@ -18,7 +18,7 @@ export class RaceComponent implements OnInit, OnDestroy {
 
   private intervalId: any;
 
-  activeRace: WritableSignal<Race | undefined>;
+  activeRace: Signal<Race | undefined>;
   timeLeft: string = '';
 
   constructor() {
@@ -28,9 +28,9 @@ export class RaceComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.intervalId = setInterval(() => {
-      if (this.activeRace()) {
-        // @ts-ignore
-        this.timeLeft = this.calculateLeftTime(this.activeRace()?.start.toDate());
+      const race = this.activeRace();
+      if (race) {
+        this.timeLeft = this.calculateLeftTime(race.start.toDate());
       } else {
         this.timeLeft = '';
       }
@@ -51,14 +51,6 @@ export class RaceComponent implements OnInit, OnDestroy {
     })
   }
 
-  private pad(num: number, size: number = 2): string {
-    let s = num.toString();
-    while (s.length < size) {
-      s = "0" + s;
-    }
-    return s;
-  }
-
   private calculateLeftTime(start: Date): string {
     const now = new Date().getTime();
     const targetTime = start.getTime() + this.durationHour * 60 * 60 * 1000;
@@ -75,5 +67,13 @@ export class RaceComponent implements OnInit, OnDestroy {
       // return `${this.pad(hours)}:${this.pad(minutes)}:${this.pad(seconds)}:${this.pad(milliseconds, 3)}`;
       return `${this.pad(hours)}:${this.pad(minutes)}:${this.pad(seconds)}`;
     }
+  }
+
+  private pad(num: number, size: number = 2): string {
+    let s = num.toString();
+    while (s.length < size) {
+      s = "0" + s;
+    }
+    return s;
   }
 }
