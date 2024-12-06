@@ -14,7 +14,7 @@ export class RaceService extends FirestoreService {
 
   private readonly raceConfigService = inject(RaceConfigService);
 
-  readonly activeRace: WritableSignal<Race | undefined> =  signal(undefined);
+  readonly activeRace: WritableSignal<Race | undefined> = signal(undefined);
 
   constructor() {
     super();

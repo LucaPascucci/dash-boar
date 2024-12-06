@@ -29,7 +29,7 @@ export class PitService extends FirestoreService {
     })
     .pipe(
         takeUntil(this.destroy$),
-        map(({ pits, activeRace }) => {
+        map(({pits, activeRace}) => {
           if (!activeRace) {
             return [];
           }

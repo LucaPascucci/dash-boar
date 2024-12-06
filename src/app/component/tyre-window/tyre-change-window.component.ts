@@ -27,14 +27,13 @@ export class TyreChangeWindowComponent implements OnDestroy {
   private readonly startTyreChangeWindowHour = this.raceConfigService.get().startTyreChangeWindowHour;
   private readonly endTyreChangeWindowHour = this.raceConfigService.get().endTyreChangeWindowHour;
   private readonly minTyreChange = this.raceConfigService.get().minTyreChange;
-  protected readonly destroy$ = new Subject<void>();
 
   private intervalId: any;
 
-  isOpen: boolean = true;
-  isTyreChangeWindowOpen: boolean = false;
-  remainingTyreChange: number;
-  activeRace: Signal<Race | undefined>;
+  isOpen = true;
+  isTyreChangeWindowOpen = false;
+  remainingTyreChange = this.raceConfigService.get().minTyreChange;
+  activeRace = this.raceService.activeRace;
 
   openingTime = computed(() => {
     const race = this.activeRace()
@@ -55,7 +54,6 @@ export class TyreChangeWindowComponent implements OnDestroy {
   })
 
   constructor() {
-    this.activeRace = this.raceService.activeRace;
 
     this.intervalId = setInterval(() => {
       const now = new Date();
@@ -69,7 +67,6 @@ export class TyreChangeWindowComponent implements OnDestroy {
       }
     }, 1000);
 
-    this.remainingTyreChange = this.raceConfigService.get().minTyreChange;
     this.pitService.getRacePits()
     .pipe(takeUntilDestroyed())
     .subscribe(pits => {
@@ -82,8 +79,5 @@ export class TyreChangeWindowComponent implements OnDestroy {
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
-    // Emit a value to complete all subscriptions
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

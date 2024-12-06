@@ -14,16 +14,14 @@ import { Timestamp } from "@firebase/firestore";
 export class RaceComponent implements OnInit, OnDestroy {
   private readonly raceService = inject(RaceService);
   private readonly raceConfigService = inject(RaceConfigService);
-  private readonly durationHour: number;
+  private readonly durationHour = this.raceConfigService.get().durationHour;
 
   private intervalId: any;
 
-  activeRace: Signal<Race | undefined>;
+  activeRace: Signal<Race | undefined> = this.raceService.activeRace;
   timeLeft: string = '';
 
   constructor() {
-    this.durationHour = this.raceConfigService.get().durationHour;
-    this.activeRace = this.raceService.activeRace;
   }
 
   ngOnInit(): void {

@@ -6,7 +6,8 @@ import { RaceConfig } from "../model/race-config";
 })
 export class RaceConfigService {
 
-  constructor() { }
+  constructor() {
+  }
 
   get(): RaceConfig {
     return {

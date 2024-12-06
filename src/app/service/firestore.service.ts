@@ -13,7 +13,8 @@ export abstract class FirestoreService implements OnDestroy {
   protected abstract collectionPath: string;
   protected abstract collectionRef: any;
 
-  constructor() { }
+  constructor() {
+  }
 
   delete(id: string): Promise<void> {
     return deleteDoc(doc(this.collectionRef, id))
@@ -45,7 +46,7 @@ export abstract class FirestoreService implements OnDestroy {
   }
 
   protected updateData(id: string, data: any): Promise<void> {
-    return setDoc(doc(this.collectionRef, id), data, { merge: true });
+    return setDoc(doc(this.collectionRef, id), data, {merge: true});
   }
 
   protected async getDataById(id: string): Promise<any | undefined> {
