@@ -7,4 +7,5 @@ export interface Pit {
   exitDriverId: string;
   refuel: boolean;
   tyreChange: boolean;
+  deleted: boolean;
 }

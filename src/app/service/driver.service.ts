@@ -34,10 +34,6 @@ export class DriverService {
     return setDoc(doc(this.driversRef, driver.id), driver, { merge: true });
   }
 
-  delete(id: string): Promise<void> {
-    return deleteDoc(doc(this.driversRef, id))
-  }
-
   async getById(id: string): Promise<Driver | undefined> {
     const q = query(this.driversRef, where("id", "==", id));
     const querySnapshot = await getDocs(q);

@@ -1,16 +1,5 @@
 <div class="container mx-auto">
-  <div class="text-center py-4 text-gray-800">
-    <div class="text-3xl">I Wild Boar Racing sono pronti a scatenarsi!</div>
-    <div>La <b>DashBoar</b> è quasi pronta a ruggire...🐗</div>
-  </div>
-
-  <div class="text-center">
-    <ul>
-      @for (driver of drivers$ | async; track driver) {
-        <li>{{ driver.id }} - {{ driver.name }} {{ driver.surname }}</li>
-      }
-    </ul>
-  </div>
+  <app-race></app-race>
 </div>
 
 

@@ -35,10 +35,6 @@ export class StintService {
     return setDoc(doc(this.stintsRef, stint.id), stint, { merge: true });
   }
 
-  delete(id: string): Promise<void> {
-    return deleteDoc(doc(this.stintsRef, id))
-  }
-
   async getById(id: string): Promise<Stint | undefined> {
     const q = query(this.stintsRef, where("id", "==", id));
     const querySnapshot = await getDocs(q);

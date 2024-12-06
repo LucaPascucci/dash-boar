@@ -1,50 +1,78 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import {
   collection,
   collectionData,
-  deleteDoc,
-  doc,
-  Firestore, getDocs, query,
+  doc, getDocs, query,
   setDoc, where
 } from "@angular/fire/firestore";
-import { Observable } from "rxjs";
 import { Race } from "../model/race";
+import { RaceConfigService } from "./race-config.service";
+import { map, Observable, takeUntil } from "rxjs";
+import { BaseService } from "./base.service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class RaceService {
-  private readonly firestorePath: string = '/races';
-  private readonly firestore: Firestore = inject(Firestore);
-  private readonly racesRef: any;
+export class RaceService extends BaseService {
+  protected collectionPath: string = '/races';
+  protected collectionRef: any = collection(this.firestore, this.collectionPath);
+
+  private readonly raceConfigService = inject(RaceConfigService);
+
+  readonly activeRace: WritableSignal<Race | undefined> =  signal(undefined);
 
   constructor() {
-    this.racesRef = collection(this.firestore, this.firestorePath);
+    super();
+    console.log('RaceService constructor')
+    this.getAll().pipe(
+        takeUntil(this.destroy$)
+    ).subscribe(races => {
+      const activeRace = this.getActiveRace(races);
+      this.activeRace.set(activeRace);
+    });
   }
 
+  // NOTE: emette due valori uguali
   getAll(): Observable<Race[]> {
-    return collectionData(this.racesRef);
+    return collectionData(this.collectionRef).pipe(
+        map((races: Race[]) => races.filter(race => !race.deleted))
+    )
   }
 
-  create(race: Race): Promise<void> {
-    const documentReference = race.id ? doc(this.racesRef, race.id) : doc(this.racesRef);
+  async create(race: Race): Promise<void> {
+    if (this.activeRace() !== undefined) {
+      console.log('Race already active -> ' + this.activeRace());
+      return Promise.resolve();
+    }
+
+    race.id = await this.generateNextId();
+
+    const documentReference = doc(this.collectionRef, race.id);
     return setDoc(documentReference, race);
   }
 
   update(race: Race): Promise<void> {
-    return setDoc(doc(this.racesRef, race.id), race, { merge: true });
-  }
-
-  delete(id: string): Promise<void> {
-    return deleteDoc(doc(this.racesRef, id))
+    return setDoc(doc(this.collectionRef, race.id), race, { merge: true });
   }
 
   async getById(id: string): Promise<Race | undefined> {
-    const q = query(this.racesRef, where("id", "==", id));
+    const q = query(this.collectionRef, where("id", "==", id));
     const querySnapshot = await getDocs(q);
     if (!querySnapshot.empty) {
       const docSnapshot = querySnapshot.docs[0];
       return docSnapshot.data() as Race;
+    }
+    return undefined;
+  }
+
+  private getActiveRace(races: Race[]): Race | undefined {
+    const now = new Date();
+    for (const race of races) {
+      const finishDate = race.start.toDate()
+      finishDate.setHours(finishDate.getHours() + this.raceConfigService.get().durationHour);
+      if (finishDate > now) {
+        return race;
+      }
     }
     return undefined;
   }

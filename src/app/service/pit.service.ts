@@ -35,10 +35,6 @@ export class PitService {
     return setDoc(doc(this.pitsRef, pit.id), pit, { merge: true });
   }
 
-  delete(id: string): Promise<void> {
-    return deleteDoc(doc(this.pitsRef, id))
-  }
-
   async getById(id: string): Promise<Pit | undefined> {
     const q = query(this.pitsRef, where("id", "==", id));
     const querySnapshot = await getDocs(q);
