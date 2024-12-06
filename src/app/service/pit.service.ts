@@ -1,47 +1,36 @@
-import { inject, Injectable } from '@angular/core';
-import {
-  collection,
-  collectionData,
-  deleteDoc,
-  doc,
-  Firestore, getDocs, query,
-  setDoc, where
-} from "@angular/fire/firestore";
-import { Observable } from "rxjs";
+import { Injectable } from '@angular/core';
+import { collection, collectionData } from "@angular/fire/firestore";
+import { map, Observable } from "rxjs";
 import { Pit } from "../model/pit";
+import { FirestoreService } from "./firestore.service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class PitService {
-  private readonly firestorePath: string = '/pits';
-  private readonly firestore: Firestore = inject(Firestore);
-  private readonly pitsRef: any;
+export class PitService extends FirestoreService {
+  protected collectionPath: string = '/pits';
+  protected collectionRef: any = collection(this.firestore, this.collectionPath);
 
   constructor() {
-    this.pitsRef = collection(this.firestore, this.firestorePath);
+    super();
   }
 
   getAll(): Observable<Pit[]> {
-    return collectionData(this.pitsRef);
+    return collectionData(this.collectionRef).pipe(
+        map((pits: Pit[]) => pits.filter(pit => !pit.deleted))
+    );
   }
 
-  create(pit: Pit): Promise<void> {
-    const documentReference = pit.id ? doc(this.pitsRef, pit.id) : doc(this.pitsRef);
-    return setDoc(documentReference, pit);
+  async create(pit: Pit): Promise<void> {
+    pit.id = await this.generateNextId();
+    return this.createData(pit.id, pit);
   }
 
   update(pit: Pit): Promise<void> {
-    return setDoc(doc(this.pitsRef, pit.id), pit, { merge: true });
+    return this.updateData(pit.id, pit);
   }
 
-  async getById(id: string): Promise<Pit | undefined> {
-    const q = query(this.pitsRef, where("id", "==", id));
-    const querySnapshot = await getDocs(q);
-    if (!querySnapshot.empty) {
-      const docSnapshot = querySnapshot.docs[0];
-      return docSnapshot.data() as Pit;
-    }
-    return undefined;
+  getById(id: string): Promise<Pit | undefined> {
+    return this.getDataById(id);
   }
 }

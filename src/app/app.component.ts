@@ -1,11 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Observable } from "rxjs";
-import { AsyncPipe } from "@angular/common";
 import { DriverService } from "./service/driver.service";
 import { Driver } from "./model/driver";
 import { RaceComponent } from "./component/race/race.component";
-import { RaceService } from './service/race.service';
 
 @Component({
   selector: 'app-root',
