@@ -15,6 +15,7 @@ export class RaceConfigService {
       fuelDurationMinute: 120,
       minDriverChange: 30,
       minStintMinute: 5,
+      minTyreChange: 1,
       startTyreChangeWindowHour: 10
     }
   }

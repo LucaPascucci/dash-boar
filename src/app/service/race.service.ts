@@ -9,8 +9,8 @@ import { FirestoreService } from "./firestore.service";
   providedIn: 'root'
 })
 export class RaceService extends FirestoreService {
-  protected collectionPath: string = '/races';
-  protected collectionRef: any = collection(this.firestore, this.collectionPath);
+  protected collectionPath = '/races';
+  protected collectionRef = collection(this.firestore, this.collectionPath);
 
   private readonly raceConfigService = inject(RaceConfigService);
 
@@ -29,6 +29,7 @@ export class RaceService extends FirestoreService {
   // NOTE: emette due valori uguali
   getAll(): Observable<Race[]> {
     return collectionData(this.collectionRef).pipe(
+        takeUntil(this.destroy$),
         map((races: Race[]) => races.filter(race => !race.deleted))
     );
   }

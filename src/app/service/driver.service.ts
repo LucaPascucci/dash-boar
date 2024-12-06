@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { collection, collectionData, } from "@angular/fire/firestore";
-import { map, Observable } from "rxjs";
+import { map, Observable, takeUntil } from "rxjs";
 import { Driver } from "../model/driver";
 import { FirestoreService } from "./firestore.service";
 
@@ -8,8 +8,8 @@ import { FirestoreService } from "./firestore.service";
   providedIn: 'root'
 })
 export class DriverService extends FirestoreService {
-  protected collectionPath: string = '/drivers';
-  protected collectionRef: any = collection(this.firestore, this.collectionPath);
+  protected collectionPath = '/drivers';
+  protected collectionRef = collection(this.firestore, this.collectionPath);
 
   constructor() {
     super();
@@ -17,6 +17,7 @@ export class DriverService extends FirestoreService {
 
   getAll(): Observable<Driver[]> {
     return collectionData(this.collectionRef).pipe(
+        takeUntil(this.destroy$),
         map((drivers: Driver[]) => drivers.filter(driver => !driver.deleted))
     );
   }
