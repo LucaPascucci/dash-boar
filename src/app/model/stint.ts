@@ -4,4 +4,5 @@ export interface Stint {
   driverId: string;
   startDate: Date;
   endDate: Date;
+  deleted: boolean
 }
