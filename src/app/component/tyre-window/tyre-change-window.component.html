@@ -1,43 +1,50 @@
-<div class="bg-white shadow-md rounded-lg p-4 max-w-md mx-auto border hover:shadow-2xl ">
+<div
+    class="bg-white shadow-md rounded-lg p-4 max-w-md mx-auto border hover:shadow-2xl hover:cursor-pointer"
+    (click)="isOpen = !isOpen">
 
-  <div class="flex justify-between items-center mb-2">
-    <div class="text-xl font-bold">Tyre change window</div>
-    @if (isOpen){
-      <div class="bg-green-500 p-2 rounded-lg text-white font-semibold">Open</div>
-    } @else {
-      <div class="bg-red-500 p-2 rounded-lg text-white font-semibold">Close</div>
-    }
-  </div>
+  <div [ngClass]="{'mb-2':isOpen}" class="flex justify-between items-center">
+    <div class="text-xl font-bold">🛞 Tyre change</div>
+    <div class="flex items-center">
 
-  <div class="flex justify-between mb-2">
+      @if (remainingTyreChange > 0) {
+        <div class="bg-yellow-500 p-2 rounded-lg text-white font-semibold mr-1 ">
+          Remaining: {{ remainingTyreChange }}
+        </div>
+      } @else {
+        <div class="bg-green-500 p-2 rounded-lg text-white font-semibold mr-1">Completed!</div>
+      }
 
-    <div>
-      <div class="text-gray-600">Opening Time</div>
-      <div class="text-black font-mono">
-        @if (openingTime()) {
-          {{ openingTime() | date:'HH:mm:ss' }}
-        } @else {
-          --:--:--
-        }
-      </div>
-    </div>
-
-    <div>
-      <div class="text-gray-600">Closing Time</div>
-      <div class="text-black font-mono">
-        @if (closingTime()) {
-          {{ closingTime() | date:'HH:mm:ss' }}
-        } @else {
-          --:--:--
-        }
-      </div>
+      @if (isTyreChangeWindowOpen) {
+        <div class="bg-green-500 p-2 rounded-lg text-white font-semibold mr-1">Open</div>
+      } @else {
+        <div class="bg-red-500 p-2 rounded-lg text-white font-semibold mr-1">Close</div>
+      }
     </div>
   </div>
-  <div class="flex justify-center">
-    @if (remainingTyreChange > 0) {
-      <div class="bg-yellow-500 p-2 rounded-lg text-white font-semibold">Remaining tyre change: {{ remainingTyreChange }}</div>
-    } @else {
-      <div class="bg-green-500 p-2 rounded-lg text-white font-semibold">Tyre change completed!</div>
-    }
-  </div>
+  @if (isOpen) {
+    <div class="flex justify-between">
+
+      <div>
+        <div class="text-gray-600">Window opening</div>
+        <div class="text-black font-mono">
+          @if (openingTime()) {
+            {{ openingTime() | date:'HH:mm:ss' }}
+          } @else {
+            --:--:--
+          }
+        </div>
+      </div>
+
+      <div>
+        <div class="text-gray-600">Window closing</div>
+        <div class="text-black font-mono text-right">
+          @if (closingTime()) {
+            {{ closingTime() | date:'HH:mm:ss' }}
+          } @else {
+            --:--:--
+          }
+        </div>
+      </div>
+    </div>
+  }
 </div>

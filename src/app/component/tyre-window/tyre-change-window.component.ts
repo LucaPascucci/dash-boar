@@ -31,7 +31,8 @@ export class TyreChangeWindowComponent implements OnDestroy {
 
   private intervalId: any;
 
-  isOpen: boolean = false;
+  isOpen: boolean = true;
+  isTyreChangeWindowOpen: boolean = false;
   remainingTyreChange: number;
   activeRace: Signal<Race | undefined>;
 
@@ -62,9 +63,9 @@ export class TyreChangeWindowComponent implements OnDestroy {
       const closing = this.closingTime();
 
       if (opening && closing) {
-        this.isOpen = now >= opening && now <= closing;
+        this.isTyreChangeWindowOpen = now >= opening && now <= closing;
       } else {
-        this.isOpen = false;
+        this.isTyreChangeWindowOpen = false;
       }
     }, 1000);
 
