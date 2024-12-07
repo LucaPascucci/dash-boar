@@ -7,17 +7,17 @@
     <div class="flex items-center">
 
       @if (remainingTyreChange > 0) {
-        <div class="bg-yellow-500 p-2 rounded-lg text-white font-semibold mr-1 ">
+        <div class="bg-yellow-500 px-2 py-1 rounded-lg text-white font-medium mr-1 hover:cursor-default">
           Remaining: {{ remainingTyreChange }}
         </div>
       } @else {
-        <div class="bg-green-500 p-2 rounded-lg text-white font-semibold mr-1">Completed!</div>
+        <div class="bg-green-500 px-2 py-1 rounded-lg text-white font-medium mr-1 hover:cursor-default">Completed!</div>
       }
 
       @if (isTyreChangeWindowOpen) {
-        <div [ngClass]="{'animate-bounce': remainingTyreChange > 0}" class="bg-green-500 p-2 rounded-lg text-white font-semibold mr-1">Open</div>
+        <div [ngClass]="{'animate-bounce': remainingTyreChange > 0}" class="bg-green-500 px-2 py-1 rounded-lg text-white font-medium mr-1 hover:cursor-default">Open</div>
       } @else {
-        <div class="bg-red-500 p-2 rounded-lg text-white font-semibold mr-1">Close</div>
+        <div class="bg-red-500 px-2 py-1 rounded-lg text-white font-medium mr-1 hover:cursor-default">Close</div>
       }
     </div>
   </div>
