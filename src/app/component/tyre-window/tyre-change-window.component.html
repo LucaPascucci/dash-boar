@@ -15,7 +15,7 @@
       }
 
       @if (isTyreChangeWindowOpen) {
-        <div class="bg-green-500 p-2 rounded-lg text-white font-semibold mr-1">Open</div>
+        <div [ngClass]="{'animate-bounce': remainingTyreChange > 0}" class="bg-green-500 p-2 rounded-lg text-white font-semibold mr-1">Open</div>
       } @else {
         <div class="bg-red-500 p-2 rounded-lg text-white font-semibold mr-1">Close</div>
       }
