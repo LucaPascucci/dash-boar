@@ -1,10 +1,13 @@
-interface Pit {
-  id: number;
-  raceId: number;
-  entryTime: Date;
-  exitTime: Date;
-  entryDriverId: number;
-  exitDriverId: number;
+import { Timestamp } from "@firebase/firestore";
+
+export interface Pit {
+  id: string;
+  raceId: string;
+  entryTime: Timestamp;
+  exitTime: Timestamp;
+  entryDriverId: string;
+  exitDriverId: string;
   refuel: boolean;
   tyreChange: boolean;
+  deleted: boolean;
 }

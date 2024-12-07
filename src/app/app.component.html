@@ -1,16 +1,18 @@
 <div class="container mx-auto">
-  <div class="text-center py-4 text-gray-800">
-    <div class="text-3xl">I Wild Boar Racing sono pronti a scatenarsi!</div>
-    <div>La <b>DashBoar</b> è quasi pronta a ruggire...🐗</div>
+  <div class="container px-4 py-2 flex items-center justify-between">
+
+    <div class="flex items-center">
+      <!--<img src="assets/wild_boar_racing_round.jpg" alt="Descrizione immagine" class="h-12 w-12 object-cover mr-4">-->
+      <span class="text-3xl font-semibold">🏎️ dash-boar 🐗</span>
+    </div>
+
+    <div>
+      <app-race></app-race>
+    </div>
   </div>
 
-  <ul>
-    @for (item of items$ | async; track item) {
-      <li>{{ item.description }}</li>
-    }
-  </ul>
+  <app-tyre-window></app-tyre-window>
+
 </div>
 
-
-
-<router-outlet />
+<router-outlet/>

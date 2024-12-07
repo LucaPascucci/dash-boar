@@ -1,6 +1,7 @@
 export interface Driver {
-  id: number;
+  id: string;
   name: string;
   surname: string;
   raceName: string;
+  deleted: boolean
 }

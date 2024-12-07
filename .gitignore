@@ -48,3 +48,6 @@ src/environments
 .firebase
 *-debug.log
 .runtimeconfig.json
+
+# Codium AI
+.codiumai

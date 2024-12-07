@@ -1,24 +1,24 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { collection, collectionData, Firestore } from "@angular/fire/firestore";
 import { Observable } from "rxjs";
-import { AsyncPipe } from "@angular/common";
-import { RaceManagerService } from './service/race-manager.service';
+import { DriverService } from "./service/driver.service";
+import { Driver } from "./model/driver";
+import { RaceComponent } from "./component/race/race.component";
+import { TyreChangeWindowComponent } from "./component/tyre-window/tyre-change-window.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, AsyncPipe],
+  imports: [RouterOutlet, RaceComponent, TyreChangeWindowComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  firestore: Firestore = inject(Firestore);
-  items$: Observable<any[]>;
-  raceManager: RaceManagerService = inject(RaceManagerService);
+  private readonly driverService: DriverService = inject(DriverService);
+
+  drivers$: Observable<Driver[]>;
 
   constructor() {
-    const aCollection = collection(this.firestore, 'items')
-    this.items$ = collectionData(aCollection);
+    this.drivers$ = this.driverService.getAll();
   }
 }
