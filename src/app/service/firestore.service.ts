@@ -13,7 +13,7 @@ export abstract class FirestoreService implements OnDestroy {
   protected abstract collectionPath: string;
   protected abstract collectionRef: any;
 
-  constructor() {
+  protected constructor() {
   }
 
   delete(id: string): Promise<void> {
