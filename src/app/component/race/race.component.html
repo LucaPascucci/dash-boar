@@ -1,14 +1,9 @@
-<div class="flex items-center justify-center h-20">
-  <div>
-    @if (!activeRace()) {
-      <button (click)="startRace()"
-              class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-        Start race
-      </button>
-    } @else {
-      <div class="text-4xl font-bold font-mono">
-        {{ countdown }}
-      </div>
-    }
+@if (!activeRace()) {
+  <button (click)="startRace()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+    Start race
+  </button>
+} @else {
+  <div class="text-4xl font-bold font-mono dark:text-white">
+    {{ countdown }}
   </div>
-</div>
+}
