@@ -1,16 +1,15 @@
-import { Component, inject, OnDestroy, OnInit, Signal, WritableSignal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, Signal } from '@angular/core';
 import { RaceService } from "../../service/race.service";
 import { RaceConfigService } from "../../service/race-config.service";
 import { Race } from "../../model/race";
 import { Timestamp } from "@firebase/firestore";
-import { DatePipe } from "@angular/common";
 import { calculateCountdownStringToDate, } from "../../util/date.util";
 import { addHours } from "date-fns";
 
 @Component({
   selector: 'app-race',
   standalone: true,
-  imports: [DatePipe],
+  imports: [],
   templateUrl: './race.component.html',
   styleUrl: './race.component.css'
 })

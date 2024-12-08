@@ -1,9 +1,4 @@
-import {
-  Component,
-  computed,
-  inject,
-  OnDestroy
-} from '@angular/core';
+import { Component, computed, inject, OnDestroy } from '@angular/core';
 import { RaceConfigService } from "../../service/race-config.service";
 import { RaceService } from "../../service/race.service";
 import { DatePipe, NgClass } from "@angular/common";

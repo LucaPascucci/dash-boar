@@ -1,8 +1,5 @@
 import { inject, Injectable, Signal } from '@angular/core';
-import {
-  collection,
-  collectionData, query, where
-} from "@angular/fire/firestore";
+import { collection, collectionData } from "@angular/fire/firestore";
 import { map, Observable, takeUntil } from "rxjs";
 import { Stint } from "../model/stint";
 import { FirestoreService } from "./firestore.service";
