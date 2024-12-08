@@ -1,5 +1,5 @@
 <div
-    class="bg-white shadow-md rounded-lg p-4 max-w-md mx-auto border hover:shadow-2xl hover:cursor-pointer"
+    class="bg-white shadow-md rounded-lg p-4 w-auto mx-auto border hover:shadow-xl hover:cursor-pointer"
     (click)="isOpen = !isOpen">
 
   <div [ngClass]="{'mb-2':isOpen}" class="flex justify-between items-center">
@@ -33,7 +33,7 @@
   </div>
 
   @if (isOpen) {
-    <div class="flex justify-between">
+    <div class="flex justify-between mb-2">
       <div>
         <div class="text-gray-600">Opening time</div>
         <div class="text-black font-mono">
@@ -46,7 +46,7 @@
       </div>
 
       <div>
-        <div class="text-gray-600">Closing time</div>
+        <div class="text-gray-600 text-right">Closing time</div>
         <div class="text-black font-mono text-right">
           @if (closingTime()) {
             {{ closingTime() | date:'HH:mm:ss' }}
@@ -66,7 +66,7 @@
       </div>
 
       <div>
-        <div class="text-gray-600">Closing in</div>
+        <div class="text-gray-600 text-right">Closing in</div>
         <div class="text-black font-mono text-right">
           {{ countdownClosingTime }}
         </div>
