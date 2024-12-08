@@ -4,6 +4,7 @@ import { Race } from "../model/race";
 import { RaceConfigService } from "./race-config.service";
 import { map, Observable, takeUntil } from "rxjs";
 import { FirestoreService } from "./firestore.service";
+import { addHours } from 'date-fns';
 
 @Injectable({
   providedIn: 'root'
@@ -55,8 +56,7 @@ export class RaceService extends FirestoreService {
   private getActiveRace(races: Race[]): Race | undefined {
     const now = new Date();
     for (const race of races) {
-      const finishDate = race.start.toDate()
-      finishDate.setHours(finishDate.getHours() + this.raceConfigService.get().durationHour);
+      const finishDate = addHours(race.start.toDate(), this.raceConfigService.get().durationHour);
       if (finishDate > now) {
         return race;
       }
