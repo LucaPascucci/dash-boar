@@ -7,17 +7,27 @@
     <div class="flex items-center">
 
       @if (remainingTyreChange > 0) {
-        <div class="bg-yellow-500 px-2 py-1 rounded-lg text-white font-medium mr-1 hover:cursor-default">
+        <div
+            class="bg-yellow-500 px-2 py-1 rounded-lg text-white font-medium mr-1 hover:cursor-default">
           Remaining: {{ remainingTyreChange }}
         </div>
       } @else {
-        <div class="bg-green-500 px-2 py-1 rounded-lg text-white font-medium mr-1 hover:cursor-default">Completed!</div>
+        <div
+            class="bg-green-500 px-2 py-1 rounded-lg text-white font-medium mr-1 hover:cursor-default">
+          Completed!
+        </div>
       }
 
       @if (isTyreChangeWindowOpen) {
-        <div [ngClass]="{'animate-bounce': remainingTyreChange > 0}" class="bg-green-500 px-2 py-1 rounded-lg text-white font-medium mr-1 hover:cursor-default">Window open</div>
+        <div [ngClass]="{'animate-bounce': remainingTyreChange > 0}"
+             class="bg-green-500 px-2 py-1 rounded-lg text-white font-medium mr-1 hover:cursor-default">
+          Window open
+        </div>
       } @else {
-        <div class="bg-red-500 px-2 py-1 rounded-lg text-white font-medium mr-1 hover:cursor-default">Window close</div>
+        <div
+            class="bg-red-500 px-2 py-1 rounded-lg text-white font-medium mr-1 hover:cursor-default">
+          Window close
+        </div>
       }
     </div>
   </div>
@@ -58,7 +68,7 @@
       <div>
         <div class="text-gray-600">Closing in</div>
         <div class="text-black font-mono text-right">
-            {{ countdownClosingTime }}
+          {{ countdownClosingTime }}
         </div>
       </div>
     </div>
