@@ -30,10 +30,10 @@ export class PitService extends FirestoreService {
     .pipe(
         takeUntil(this.destroy$),
         map(({pits, activeRace}) => {
-          if (!activeRace) {
-            return [];
+          if (activeRace) {
+            return (pits as Pit[]).filter(pit => !pit.deleted && pit.raceId === activeRace.id);
           }
-          return (pits as Pit[]).filter(pit => !pit.deleted && pit.raceId === activeRace.id);
+          return []
         })
     );
   }
