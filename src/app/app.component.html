@@ -1,18 +1,21 @@
-<div class="container mx-auto">
-  <div class="container px-4 py-2 flex items-center justify-between">
-
+<div class="w-full h-screen dark:bg-black">
+  <div class="p-4 grid grid-cols-3 gap-3">
     <div class="flex items-center">
       <!--<img src="assets/wild_boar_racing_round.jpg" alt="Descrizione immagine" class="h-12 w-12 object-cover mr-4">-->
-      <span class="text-3xl font-semibold">🏎️ dash-boar 🐗</span>
+      <span class="text-3xl dark:text-white font-semibold">🏎️ dash-boar 🐗</span>
     </div>
-
-    <div>
+    <div class="text-center">
       <app-race></app-race>
     </div>
   </div>
 
-  <app-tyre-change-window></app-tyre-change-window>
-
+  <div class="mx-4 grid grid-cols-3 gap-3">
+    <app-tyre-change-window></app-tyre-change-window>
+    <app-fuel></app-fuel>
+    <div>Placeholder</div>
+    <div>Placeholder 2</div>
+  </div>
 </div>
 
 <router-outlet/>
+
