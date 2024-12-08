@@ -1,0 +1,65 @@
+<div
+    class="bg-white shadow-md rounded-lg p-4 w-auto mx-auto border hover:shadow-xl hover:cursor-pointer"
+    (click)="isOpen = !isOpen">
+
+  <div [ngClass]="{'mb-2':isOpen}" class="flex justify-between items-center">
+    <div class="text-xl font-bold">⛽️ Fuel</div>
+    <div
+        [ngClass]="{'animate-bounce': warning }"
+        class="flex items-center">
+      <div
+          [ngClass]="remainingColor"
+          class="px-2 py-1 w-40 rounded-lg text-left text-white font-medium mr-1 hover:cursor-default">
+        Empty in: {{ emptyCountdown }}
+      </div>
+      <app-battery [charge]="fuelPercentage"></app-battery>
+    </div>
+  </div>
+
+  @if (isOpen) {
+    <div class="flex justify-between mb-2">
+      <div>
+        <div class="text-gray-600">Last refuel time</div>
+        <div class="text-black font-mono">
+          @if (lastRefuelTime) {
+            {{ lastRefuelTime | date:'HH:mm:ss' }}
+          } @else {
+            --:--:--
+          }
+        </div>
+      </div>
+
+      <div>
+        <div class="text-gray-600 text-right">Empty time</div>
+        <div class="text-black font-mono text-right">
+          @if (emptyTime) {
+            {{ emptyTime | date:'HH:mm:ss' }}
+          } @else {
+            --:--:--
+          }
+        </div>
+      </div>
+
+    </div>
+    <div class="flex justify-between mb-2">
+      <div>
+        <div class="text-gray-600">Since last refuel</div>
+        <div class="text-black font-mono">
+          {{ sinceLastRefuel }}
+        </div>
+      </div>
+
+      <div>
+        <div class="text-gray-600 text-right">Empty in</div>
+        <div class="text-black font-mono text-right">
+          {{ emptyCountdown }}
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-center">
+      <!-- TODO: FORM PER CAMBIO DURATA SERBATOIO IN MINUTI -->
+      FORM PER CAMBIO DURATA SERBATOIO IN MINUTI
+    </div>
+  }
+</div>
