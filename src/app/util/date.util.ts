@@ -1,10 +1,23 @@
-import { intervalToDuration } from "date-fns";
+import { Duration, intervalToDuration } from "date-fns";
 
-export function calculateCountdownStringToDate(futureDate: Date): string {
+export function getElapsedTime(start: Date, end: Date): string {
+  const duration = intervalToDuration({
+    end: end,
+    start: start
+  });
+  return formatDuration(duration);
+}
+
+export function getTimeUntilFutureDate(futureDate: Date): string {
   const duration = intervalToDuration({
     end: futureDate,
     start: new Date()
   });
+  return formatDuration(duration);
+}
+
+
+function formatDuration(duration: Duration): string {
   if (duration.hours && duration.hours < 0) {
     return '00:00:00';
   }
