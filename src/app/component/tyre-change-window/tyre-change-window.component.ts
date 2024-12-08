@@ -2,19 +2,17 @@ import {
   Component,
   computed,
   inject,
-  OnDestroy,
-  Signal,
+  OnDestroy
 } from '@angular/core';
 import { RaceConfigService } from "../../service/race-config.service";
-import { Race } from "../../model/race";
 import { RaceService } from "../../service/race.service";
 import { DatePipe, NgClass } from "@angular/common";
-import { Subject } from "rxjs";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { PitService } from "../../service/pit.service";
+import { calculateCountdownStringToDate } from "../../util/date.util";
 
 @Component({
-  selector: 'app-tyre-window',
+  selector: 'app-tyre-change-window',
   standalone: true,
   imports: [DatePipe, NgClass],
   templateUrl: './tyre-change-window.component.html',
@@ -53,12 +51,23 @@ export class TyreChangeWindowComponent implements OnDestroy {
     return undefined;
   })
 
+  countdownOpeningTime: string = '--:--:--';
+  countdownClosingTime: string = '--:--:--';
+
   constructor() {
 
     this.intervalId = setInterval(() => {
-      const now = new Date();
+      const now = new Date()
       const opening = this.openingTime();
       const closing = this.closingTime();
+
+      if (opening) {
+        this.countdownOpeningTime = calculateCountdownStringToDate(opening);
+      }
+
+      if (closing) {
+        this.countdownClosingTime = calculateCountdownStringToDate(closing);
+      }
 
       if (opening && closing) {
         this.isTyreChangeWindowOpen = now >= opening && now <= closing;

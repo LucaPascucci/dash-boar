@@ -1,5 +1,5 @@
 <div
-    class="bg-white shadow-md rounded-lg p-4 max-w-sm mx-auto border hover:shadow-2xl hover:cursor-pointer"
+    class="bg-white shadow-md rounded-lg p-4 max-w-md mx-auto border hover:shadow-2xl hover:cursor-pointer"
     (click)="isOpen = !isOpen">
 
   <div [ngClass]="{'mb-2':isOpen}" class="flex justify-between items-center">
@@ -15,17 +15,17 @@
       }
 
       @if (isTyreChangeWindowOpen) {
-        <div [ngClass]="{'animate-bounce': remainingTyreChange > 0}" class="bg-green-500 px-2 py-1 rounded-lg text-white font-medium mr-1 hover:cursor-default">Open</div>
+        <div [ngClass]="{'animate-bounce': remainingTyreChange > 0}" class="bg-green-500 px-2 py-1 rounded-lg text-white font-medium mr-1 hover:cursor-default">Window open</div>
       } @else {
-        <div class="bg-red-500 px-2 py-1 rounded-lg text-white font-medium mr-1 hover:cursor-default">Close</div>
+        <div class="bg-red-500 px-2 py-1 rounded-lg text-white font-medium mr-1 hover:cursor-default">Window close</div>
       }
     </div>
   </div>
+
   @if (isOpen) {
     <div class="flex justify-between">
-
       <div>
-        <div class="text-gray-600">Window opening</div>
+        <div class="text-gray-600">Opening time</div>
         <div class="text-black font-mono">
           @if (openingTime()) {
             {{ openingTime() | date:'HH:mm:ss' }}
@@ -36,13 +36,29 @@
       </div>
 
       <div>
-        <div class="text-gray-600">Window closing</div>
+        <div class="text-gray-600">Closing time</div>
         <div class="text-black font-mono text-right">
           @if (closingTime()) {
             {{ closingTime() | date:'HH:mm:ss' }}
           } @else {
             --:--:--
           }
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-between">
+      <div>
+        <div class="text-gray-600">Opening in</div>
+        <div class="text-black font-mono">
+          {{ countdownOpeningTime }}
+        </div>
+      </div>
+
+      <div>
+        <div class="text-gray-600">Closing in</div>
+        <div class="text-black font-mono text-right">
+            {{ countdownClosingTime }}
         </div>
       </div>
     </div>
