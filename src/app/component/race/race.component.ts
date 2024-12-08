@@ -1,8 +1,10 @@
-import { Component, inject, OnDestroy, OnInit, Signal, WritableSignal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, Signal } from '@angular/core';
 import { RaceService } from "../../service/race.service";
 import { RaceConfigService } from "../../service/race-config.service";
 import { Race } from "../../model/race";
 import { Timestamp } from "@firebase/firestore";
+import { calculateCountdownStringToDate, } from "../../util/date.util";
+import { addHours } from "date-fns";
 
 @Component({
   selector: 'app-race',
@@ -19,7 +21,7 @@ export class RaceComponent implements OnInit, OnDestroy {
   private intervalId: any;
 
   activeRace: Signal<Race | undefined> = this.raceService.activeRace;
-  timeLeft: string = '';
+  countdown: string = '--:--:--';
 
   constructor() {
   }
@@ -28,9 +30,8 @@ export class RaceComponent implements OnInit, OnDestroy {
     this.intervalId = setInterval(() => {
       const race = this.activeRace();
       if (race) {
-        this.timeLeft = this.calculateLeftTime(race.start.toDate());
-      } else {
-        this.timeLeft = '';
+        const targetDate = addHours(race.start.toDate(), this.durationHour);
+        this.countdown = calculateCountdownStringToDate(targetDate);
       }
     }, 1000);
   }
@@ -47,31 +48,5 @@ export class RaceComponent implements OnInit, OnDestroy {
       start: Timestamp.now(),
       deleted: false
     })
-  }
-
-  private calculateLeftTime(start: Date): string {
-    const now = new Date().getTime();
-    const targetTime = start.getTime() + this.durationHour * 60 * 60 * 1000;
-    const distance = targetTime - now;
-
-    if (distance < 0) {
-      return "00:00:00";
-    } else {
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-      // const milliseconds = Math.floor((distance % 1000));
-
-      // return `${this.pad(hours)}:${this.pad(minutes)}:${this.pad(seconds)}:${this.pad(milliseconds, 3)}`;
-      return `${this.pad(hours)}:${this.pad(minutes)}:${this.pad(seconds)}`;
-    }
-  }
-
-  private pad(num: number, size: number = 2): string {
-    let s = num.toString();
-    while (s.length < size) {
-      s = "0" + s;
-    }
-    return s;
   }
 }

@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.7.0
+
+**Added**
+---------
+- Introduced a new Tyre Change Window component with countdown functionality.
+- Added date-fns library for date manipulation.
+
+**Changed**
+---------
+- Updated race component to use a new countdown calculation method.
+- Improved pit service logic for filtering race pits.
+
+---
+
 ## v0.6.0
 
 **Added**

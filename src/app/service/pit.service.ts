@@ -1,6 +1,6 @@
-import { computed, inject, Injectable, Signal } from '@angular/core';
+import { inject, Injectable, Signal } from '@angular/core';
 import { collection, collectionData } from "@angular/fire/firestore";
-import { combineLatest, forkJoin, map, Observable, takeUntil, tap } from "rxjs";
+import { combineLatest, map, Observable, takeUntil } from "rxjs";
 import { Pit } from "../model/pit";
 import { FirestoreService } from "./firestore.service";
 import { Race } from "../model/race";
@@ -30,10 +30,10 @@ export class PitService extends FirestoreService {
     .pipe(
         takeUntil(this.destroy$),
         map(({pits, activeRace}) => {
-          if (!activeRace) {
-            return [];
+          if (activeRace) {
+            return (pits as Pit[]).filter(pit => !pit.deleted && pit.raceId === activeRace.id);
           }
-          return (pits as Pit[]).filter(pit => !pit.deleted && pit.raceId === activeRace.id);
+          return []
         })
     );
   }
