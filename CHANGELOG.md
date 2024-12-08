@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.8.0
+
+**Added**
+---------
+- Introduced a new Battery component with dynamic charge level indicator
+- Introduced a new Fuel component with dynamic consumption tracking
+
+**Changed**
+---------
+- Improved app layout with dark theme and grid system
+- Improve Tyre Change Window  and Race component with reactive interval
+
+---
+
 ## v0.7.0
 
 **Added**
