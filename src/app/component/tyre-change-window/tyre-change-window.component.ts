@@ -52,23 +52,12 @@ export class TyreChangeWindowComponent implements OnDestroy {
   constructor() {
 
     this.intervalId = setInterval(() => {
-      const now = new Date()
       const opening = this.openingTime();
       const closing = this.closingTime();
 
-      if (opening) {
-        this.countdownOpeningTime = calculateCountdownStringToDate(opening);
-      }
-
-      if (closing) {
-        this.countdownClosingTime = calculateCountdownStringToDate(closing);
-      }
-
-      if (opening && closing) {
-        this.isTyreChangeWindowOpen = now >= opening && now <= closing;
-      } else {
-        this.isTyreChangeWindowOpen = false;
-      }
+      this.updateCountdownOpeningTime(opening);
+      this.updateCountdownClosingTime(closing);
+      this.updateTyreChangeWindowOpen(opening, closing);
     }, 1000);
 
     this.pitService.getRacePits()
@@ -82,6 +71,31 @@ export class TyreChangeWindowComponent implements OnDestroy {
   ngOnDestroy() {
     if (this.intervalId) {
       clearInterval(this.intervalId);
+    }
+  }
+
+  private updateCountdownOpeningTime(date: Date | undefined) {
+    if (date) {
+      this.countdownOpeningTime = calculateCountdownStringToDate(date);
+    } else {
+      this.countdownOpeningTime = '--:--:--';
+    }
+  }
+
+  private updateCountdownClosingTime(date: Date | undefined) {
+    if (date) {
+      this.countdownClosingTime = calculateCountdownStringToDate(date);
+    } else {
+      this.countdownClosingTime = '--:--:--';
+    }
+  }
+
+  private updateTyreChangeWindowOpen(openingDate: Date | undefined, closingDate: Date | undefined) {
+    if (openingDate && closingDate) {
+      const now = new Date();
+      this.isTyreChangeWindowOpen = now >= openingDate && now <= closingDate;
+    } else {
+      this.isTyreChangeWindowOpen = false;
     }
   }
 }
