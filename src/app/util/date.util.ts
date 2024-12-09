@@ -1,6 +1,9 @@
 import { Duration, intervalToDuration } from "date-fns";
 
-export function getElapsedTime(start: Date, end: Date): string {
+export function getElapsedTime(start: Date | undefined, end: Date | undefined): string {
+  if (!start || !end) {
+    return '--:--:--';
+  }
   const duration = intervalToDuration({
     end: end,
     start: start
@@ -8,7 +11,10 @@ export function getElapsedTime(start: Date, end: Date): string {
   return formatDuration(duration);
 }
 
-export function getTimeUntilFutureDate(futureDate: Date): string {
+export function getTimeUntilFutureDate(futureDate: Date | undefined): string {
+  if (!futureDate) {
+    return '--:--:--';
+  }
   const duration = intervalToDuration({
     end: futureDate,
     start: new Date()
