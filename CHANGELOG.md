@@ -6,6 +6,7 @@ Added
 ---------
 - Introduced a form to change fuel duration in minutes.
 - Added calculation for remaining laps based on fuel.
+- Implemented RaceLogicService for calculating average stint times.
 
 Changed
 ---------
