@@ -1,31 +1,31 @@
 <div
-    class="bg-white shadow-md rounded-lg p-4 w-auto mx-auto border hover:shadow-xl hover:cursor-pointer"
+    class="bg-white shadow-md rounded-lg p-2 md:p-3 lg:p-4 w-auto mx-auto border hover:shadow-xl hover:cursor-pointer"
     (click)="isOpen = !isOpen">
 
   <div [ngClass]="{'mb-2':isOpen}" class="flex justify-between items-center">
-    <div class="text-xl font-bold">🛞 Tyre change</div>
+    <div class="text-lg lg:text-xl font-bold">🛞 Tyre change</div>
     <div class="flex items-center">
 
       @if (remainingTyreChange > 0) {
         <div
-            class="bg-yellow-500 px-2 py-1 rounded-lg text-white font-medium mr-1 hover:cursor-default">
+            class="bg-yellow-500 px-2 py-1 rounded-lg text-white text-center font-medium mr-1 hover:cursor-default">
           Remaining: {{ remainingTyreChange }}
         </div>
       } @else {
         <div
-            class="bg-green-500 px-2 py-1 rounded-lg text-white font-medium mr-1 hover:cursor-default">
+            class="bg-green-500 px-2 py-1 rounded-lg text-white text-center font-medium mr-1 hover:cursor-default">
           Completed!
         </div>
       }
 
       @if (isTyreChangeWindowOpen) {
         <div [ngClass]="{'animate-bounce': remainingTyreChange > 0}"
-             class="bg-green-500 px-2 py-1 rounded-lg text-white font-medium mr-1 hover:cursor-default">
+             class="bg-green-500 px-2 py-1 rounded-lg text-white text-center font-medium mr-1 hover:cursor-default">
           Window open
         </div>
       } @else {
         <div
-            class="bg-red-500 px-2 py-1 rounded-lg text-white font-medium mr-1 hover:cursor-default">
+            class="bg-red-500 px-2 py-1 rounded-lg text-white text-center font-medium mr-1 hover:cursor-default">
           Window close
         </div>
       }
