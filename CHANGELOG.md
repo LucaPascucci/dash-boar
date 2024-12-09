@@ -1,13 +1,28 @@
 # Changelog
 
+## v0.9.0
+
+Added
+---------
+- Introduced a form to change fuel duration in minutes.
+- Added calculation for remaining laps based on fuel.
+- Implemented RaceLogicService for calculating average stint times.
+
+Changed
+---------
+- Improved fuel component to handle undefined dates gracefully.
+- Updated UI elements for better user interaction and display.
+
+---
+
 ## v0.8.0
 
-**Added**
+Added
 ---------
 - Introduced a new Battery component with dynamic charge level indicator
 - Introduced a new Fuel component with dynamic consumption tracking
 
-**Changed**
+Changed
 ---------
 - Improved app layout with dark theme and grid system
 - Improve Tyre Change Window  and Race component with reactive interval
