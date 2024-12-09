@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  Input,
-  OnChanges,
-  SimpleChanges
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { NgClass } from "@angular/common";
 
 @Component({
@@ -18,7 +11,7 @@ import { NgClass } from "@angular/common";
   styleUrl: './battery.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BatteryComponent implements OnChanges{
+export class BatteryComponent implements OnChanges {
   @Input() charge: number = 100;
 
   batteryColor = 'bg-green-500'

@@ -5,15 +5,8 @@ import { RaceConfigService } from "../../service/race-config.service";
 import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
 import { PitService } from "../../service/pit.service";
 import { combineLatest, interval, map } from "rxjs";
-import {
-  addMinutes,
-  differenceInMilliseconds,
-  differenceInMinutes,
-} from "date-fns";
-import {
-  getTimeUntilFutureDate,
-  getElapsedTime
-} from "../../util/date.util";
+import { addMinutes, differenceInMilliseconds, differenceInMinutes, } from "date-fns";
+import { getElapsedTime, getTimeUntilFutureDate } from "../../util/date.util";
 import { Pit } from "../../model/pit";
 import { BatteryComponent } from "../battery/battery.component";
 import { FormsModule } from "@angular/forms";
@@ -53,10 +46,10 @@ export class FuelComponent {
         takeUntilDestroyed(),
         map(([activeRace, pits]) => {
           const recentRefuelPit = this.getRecentRefuelPit(pits);
-          return { activeRace, recentRefuelPit };
+          return {activeRace, recentRefuelPit};
         })
     )
-    .subscribe(({ activeRace, recentRefuelPit }) => {
+    .subscribe(({activeRace, recentRefuelPit}) => {
       let date: Date | undefined = undefined;
 
       if (recentRefuelPit) {

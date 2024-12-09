@@ -9,17 +9,21 @@ import { addHours, differenceInMinutes } from "date-fns";
 })
 export class RaceLogicService {
 
-  constructor() { }
+  constructor() {
+  }
 
   /* TODO:
        - creare modello output
   */
-  nextStintsAvgTime(stints: Stint[], race: Race, raceConfig: RaceConfig): { avgStintTime: number | null, avgIfChangedNow: number | null } {
+  nextStintsAvgTime(stints: Stint[], race: Race, raceConfig: RaceConfig): {
+    avgStintTime: number | null,
+    avgIfChangedNow: number | null
+  } {
     const currentTime = new Date();
     const raceEndTime = addHours(race.start.toDate(), raceConfig.durationHour);
 
     if (currentTime >= raceEndTime) {
-      return { avgStintTime: null, avgIfChangedNow: null };
+      return {avgStintTime: null, avgIfChangedNow: null};
     }
 
     // Calculate the remaining race time in minutes
@@ -35,7 +39,7 @@ export class RaceLogicService {
 
     if (remainingDriverChanges === 0) {
       console.info('Hai già fatto tutti i cambi pilota richiesti.');
-      return { avgStintTime: null, avgIfChangedNow: null };
+      return {avgStintTime: null, avgIfChangedNow: null};
     }
 
     // Determine the time remaining at the last driver change
@@ -48,6 +52,6 @@ export class RaceLogicService {
     // Case 2: Calculate avgIfChangedNow if a driver change happens now
     const avgIfChangedNow = timeRemaining / remainingDriverChanges;
 
-    return { avgStintTime: avgStintTime || null, avgIfChangedNow: avgIfChangedNow || null };
+    return {avgStintTime: avgStintTime || null, avgIfChangedNow: avgIfChangedNow || null};
   }
 }
