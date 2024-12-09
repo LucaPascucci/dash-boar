@@ -1,16 +1,19 @@
-<div
-    class="bg-white shadow-md rounded-lg p-2 md:p-3 lg:p-4 w-auto mx-auto border hover:shadow-xl hover:cursor-pointer"
-    (click)="isOpen = !isOpen">
+<div class="bg-white shadow-md rounded-lg p-2 md:p-3 lg:p-4 w-auto mx-auto border hover:shadow-xl">
 
-  <div [ngClass]="{'mb-2':isOpen}" class="flex justify-between items-center">
+  <div [ngClass]="{'mb-2':isOpen}" (click)="isOpen = !isOpen" class="flex justify-between items-center hover:cursor-pointer">
     <div class="text-lg lg:text-xl font-bold">⛽️ Fuel</div>
     <div
         [ngClass]="{'animate-bounce': warning }"
         class="flex items-center">
       <div
           [ngClass]="remainingColor"
-          class="px-2 py-1 w-40 rounded-lg text-left text-white font-medium mr-1 hover:cursor-default">
-        Empty in: {{ emptyCountdown }}
+          class="px-2 py-1 rounded-lg text-center text-white font-medium mr-1 hover:cursor-default">
+        Laps: {{ remainingLap }}
+      </div>
+      <div
+          [ngClass]="remainingColor"
+          class="px-2 py-1 w-36 rounded-lg text-left text-white font-medium mr-1 hover:cursor-default">
+        Empty: {{ emptyCountdown }}
       </div>
       <app-battery [charge]="fuelPercentage"></app-battery>
     </div>
@@ -57,9 +60,27 @@
       </div>
     </div>
 
-    <div class="flex justify-center">
-      <!-- TODO: FORM PER CAMBIO DURATA SERBATOIO IN MINUTI -->
-      FORM PER CAMBIO DURATA SERBATOIO IN MINUTI
+    <div class="flex justify-between">
+      <div>
+        <div class="text-gray-600">Remaining laps</div>
+        <div class="text-black font-mono">
+          {{ remainingLap }}
+        </div>
+      </div>
+      <div>
+        <div class="text-gray-600 text-right">Fuel Duration (min):</div>
+        <form (ngSubmit)="onSubmit()" class="text-right">
+          <input
+              type="number"
+              id="fuelDuration"
+              [(ngModel)]="fuelDurationMinute"
+              name="fuelDuration"
+              class="border rounded-lg px-2 py-1 w-24 text-right"
+              required
+              min="1"
+          />
+        </form>
+      </div>
     </div>
   }
 </div>
