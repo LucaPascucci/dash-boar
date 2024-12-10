@@ -5,6 +5,7 @@ import { RaceConfigService } from "./race-config.service";
 import { map, Observable, takeUntil } from "rxjs";
 import { FirestoreService } from "./firestore.service";
 import { addHours } from 'date-fns';
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Injectable({
   providedIn: 'root'
@@ -19,15 +20,14 @@ export class RaceService extends FirestoreService {
 
   constructor() {
     super();
-    this.getAll().pipe(
-        takeUntil(this.destroy$)
-    ).subscribe(races => {
+    this.getAll()
+    .pipe(takeUntilDestroyed())
+    .subscribe(races => {
       const activeRace = this.getActiveRace(races);
       this.activeRace.set(activeRace);
     });
   }
 
-  // NOTE: emette due valori uguali
   getAll(): Observable<Race[]> {
     return collectionData(this.collectionRef).pipe(
         takeUntil(this.destroy$),
@@ -55,9 +55,11 @@ export class RaceService extends FirestoreService {
 
   private getActiveRace(races: Race[]): Race | undefined {
     const now = new Date();
-    for (const race of races) {
+    const sortedRaces = races.sort((a, b) => b.start.toDate().getTime() - a.start.toDate().getTime());
+
+    for (const race of sortedRaces) {
       const finishDate = addHours(race.start.toDate(), this.raceConfigService.get().durationHour);
-      if (finishDate > now) {
+      if (finishDate >= now) {
         return race;
       }
     }

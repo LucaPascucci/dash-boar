@@ -22,7 +22,7 @@ export class FuelComponent {
   private readonly raceService = inject(RaceService);
   private readonly pitService = inject(PitService);
   private readonly raceConfigService = inject(RaceConfigService);
-  private referenceLapTimeMillisecond = signal(44789); // TODO: collegare vero valore
+  private referenceLapTimeMillisecond = signal(64567); // TODO: collegare vero valore
   private activeRace = this.raceService.activeRace;
 
   fuelDurationMinute = this.raceConfigService.get().fuelDurationMinute;
@@ -52,7 +52,7 @@ export class FuelComponent {
     .subscribe(({activeRace, recentRefuelPit}) => {
       let date: Date | undefined = undefined;
 
-      if (recentRefuelPit) {
+      if (recentRefuelPit && recentRefuelPit.exitTime) {
         date = recentRefuelPit.exitTime.toDate()
       } else if (activeRace) {
         date = activeRace.start.toDate();
@@ -63,6 +63,14 @@ export class FuelComponent {
 
   onSubmit() {
     console.log('New fuel duration minute:', this.fuelDurationMinute);
+  }
+
+  increaseFuelDuration() {
+    this.fuelDurationMinute++;
+  }
+
+  decreaseFuelDuration() {
+    this.fuelDurationMinute--;
   }
 
   private updateInfoFromDate(date: Date | undefined) {
@@ -78,8 +86,13 @@ export class FuelComponent {
 
   private getRecentRefuelPit(pits: Pit[]): Pit | undefined {
     const sortedRefuelPits = pits
-    .filter(pit => pit.refuel)
-    .sort((a, b) => b.exitTime.toDate().getTime() - a.exitTime.toDate().getTime())
+    .filter(pit => pit.refuel && pit.exitTime !== undefined)
+    .sort((a, b) => {
+      const exitTimeA = a.exitTime ? a.exitTime.toDate().getTime() : 0;
+      const exitTimeB = b.exitTime ? b.exitTime.toDate().getTime() : 0;
+      return exitTimeB - exitTimeA;
+    });
+
     if (sortedRefuelPits.length > 0) {
       return sortedRefuelPits[0];
     }

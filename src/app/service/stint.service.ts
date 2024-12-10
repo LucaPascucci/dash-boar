@@ -1,10 +1,13 @@
-import { inject, Injectable, Signal } from '@angular/core';
+import { inject, Injectable, signal, Signal, WritableSignal } from '@angular/core';
 import { collection, collectionData } from "@angular/fire/firestore";
-import { map, Observable, takeUntil } from "rxjs";
+import { combineLatest, map, Observable, takeUntil } from "rxjs";
 import { Stint } from "../model/stint";
 import { FirestoreService } from "./firestore.service";
 import { RaceService } from "./race.service";
 import { Race } from "../model/race";
+import { addHours } from "date-fns";
+import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
+import { Pit } from "../model/pit";
 
 @Injectable({
   providedIn: 'root'
@@ -13,24 +16,33 @@ export class StintService extends FirestoreService {
   private readonly raceService = inject(RaceService);
   protected collectionPath = '/stints';
   protected collectionRef = collection(this.firestore, this.collectionPath);
+  private readonly activeRace: Signal<Race | undefined> = this.raceService.activeRace;
 
-  private readonly activeRace: Signal<Race | undefined>;
+  readonly activeStint: WritableSignal<Stint | undefined> = signal(undefined);
 
   constructor() {
     super();
-    this.activeRace = this.raceService.activeRace;
+    this.getRaceStints()
+    .pipe(takeUntilDestroyed())
+    .subscribe(stints => {
+      const activeStint = this.getActiveStint(stints);
+      this.activeStint.set(activeStint);
+    });
   }
 
-  getStintsForActiveRace(): Observable<Stint[]> {
-    return collectionData(this.collectionRef).pipe(
+  getRaceStints(): Observable<Stint[]> {
+    return combineLatest({
+      stints: collectionData(this.collectionRef),
+      activeRace: toObservable(this.activeRace)
+    })
+    .pipe(
         takeUntil(this.destroy$),
-        map((stints: Stint[]) => stints.filter(stint => {
-          const activeRace = this.activeRace();
+        map(({stints, activeRace}) => {
           if (activeRace) {
-            return stint.raceId === activeRace.id && !stint.deleted;
+            return (stints as Stint[]).filter(stints => !stints.deleted && stints.raceId === activeRace.id);
           }
-          return false
-        }))
+          return []
+        })
     );
   }
 
@@ -45,5 +57,15 @@ export class StintService extends FirestoreService {
 
   getById(id: string): Promise<Stint | undefined> {
     return this.getDataById(id);
+  }
+
+  private getActiveStint(stints: Stint[]): Stint | undefined {
+    const sortedStints = stints.sort((a, b) => b.startDate.toDate().getTime() - a.startDate.toDate().getTime());
+    for (const stint of sortedStints) {
+      if (!stint.endDate) {
+        return stint;
+      }
+    }
+    return undefined;
   }
 }
