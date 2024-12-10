@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.10.0
+
+Added
+---------
+- Introduced LapService for managing lap data.
+- Added functionality to track active stints and pits.
+- Implemented fuel duration adjustment in the fuel component.
+
+Changed
+---------
+- Updated RaceLogicService to calculate average stint times using pit data.
+- Modified data models to allow undefined timestamps for exit times.
+
+---
+
 ## v0.9.0
 
 Added
