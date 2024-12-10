@@ -1,25 +1,33 @@
-import { inject, Injectable, Signal } from '@angular/core';
+import { inject, Injectable, signal, Signal, WritableSignal } from '@angular/core';
 import { collection, collectionData } from "@angular/fire/firestore";
 import { combineLatest, map, Observable, takeUntil } from "rxjs";
 import { Pit } from "../model/pit";
 import { FirestoreService } from "./firestore.service";
 import { Race } from "../model/race";
 import { RaceService } from "./race.service";
-import { toObservable } from "@angular/core/rxjs-interop";
+import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PitService extends FirestoreService {
-  private readonly raceService = inject(RaceService);
   protected collectionPath = '/pits';
   protected collectionRef = collection(this.firestore, this.collectionPath);
 
-  private readonly activeRace: Signal<Race | undefined>;
+  private readonly raceService = inject(RaceService);
+  private readonly activeRace: Signal<Race | undefined> = this.raceService.activeRace;
+
+  readonly activePit: WritableSignal<Pit | undefined> = signal(undefined);
+
 
   constructor() {
     super();
-    this.activeRace = this.raceService.activeRace;
+    this.getRacePits()
+    .pipe(takeUntilDestroyed())
+    .subscribe(pits => {
+      const activePit = this.getActivePit(pits);
+      this.activePit.set(activePit);
+    });
   }
 
   getRacePits(): Observable<Pit[]> {
@@ -49,5 +57,15 @@ export class PitService extends FirestoreService {
 
   getById(id: string): Promise<Pit | undefined> {
     return this.getDataById(id);
+  }
+
+  getActivePit(pits: Pit[]): Pit | undefined {
+    const sortedPits = pits.sort((a, b) => b.entryTime.toDate().getTime() - a.entryTime.toDate().getTime());
+    for (const pit of sortedPits) {
+      if (!pit.exitTime) {
+        return pit;
+      }
+    }
+    return undefined;
   }
 }
