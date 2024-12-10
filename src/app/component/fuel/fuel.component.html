@@ -70,17 +70,21 @@
       </div>
       <div>
         <div class="text-gray-600 text-right">Fuel Duration (min):</div>
-        <form (ngSubmit)="onSubmit()" class="text-right">
-          <input
-              type="number"
-              id="fuelDuration"
-              [(ngModel)]="fuelDurationMinute"
-              name="fuelDuration"
-              class="border rounded-lg px-2 py-1 w-24 text-right"
-              required
-              min="1"
-          />
-        </form>
+        <div class="flex justify-end">
+          <button (click)="increaseFuelDuration()" class="bg-gray-200 hover:bg-gray-300 active:bg-gray-400 text-black px-4 mr-1 rounded">+</button>
+          <form (ngSubmit)="onSubmit()" class="text-right">
+            <input
+                type="number"
+                id="fuelDuration"
+                [(ngModel)]="fuelDurationMinute"
+                name="fuelDuration"
+                class="border rounded-lg px-2 py-1 w-20 text-right"
+                required
+                min="1"
+            />
+          </form>
+          <button (click)="decreaseFuelDuration()" class="bg-gray-200 hover:bg-gray-300 active:bg-gray-400 text-black px-4 ml-1 rounded">-</button>
+        </div>
       </div>
     </div>
   }
