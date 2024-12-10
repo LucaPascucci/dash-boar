@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { RaceComponent } from "./component/race/race.component";
 import {
   TyreChangeWindowComponent
 } from "./component/tyre-change-window/tyre-change-window.component";
 import { FuelComponent } from "./component/fuel/fuel.component";
+import { RaceLogicService } from "./service/race-logic.service";
 
 @Component({
   selector: 'app-root',
@@ -14,4 +15,5 @@ import { FuelComponent } from "./component/fuel/fuel.component";
   styleUrl: './app.component.css'
 })
 export class AppComponent {
+  private readonly raceLogicService = inject(RaceLogicService);
 }
