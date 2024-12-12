@@ -14,7 +14,6 @@ import { RaceLogic } from "../model/race-logic";
 })
 export class RaceLogicService {
   private readonly raceService = inject(RaceService);
-  private readonly activeRace: Signal<Race | undefined> = this.raceService.activeRace;
   private readonly pitService = inject(PitService);
 
   private readonly raceConfigService = inject(RaceConfigService);
@@ -24,8 +23,8 @@ export class RaceLogicService {
 
   constructor() {
     combineLatest({
-      pits: this.pitService.getRacePits(),
-      activeRace: toObservable(this.activeRace),
+      pits: toObservable(this.pitService.pits),
+      activeRace: toObservable(this.raceService.activeRace),
       ping: interval(1000)
     })
     .pipe(takeUntilDestroyed())
