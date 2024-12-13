@@ -1,4 +1,4 @@
-import { inject, Injectable, Signal } from '@angular/core';
+import { inject, Injectable, signal, Signal } from '@angular/core';
 import { collection, collectionData, } from "@angular/fire/firestore";
 import { combineLatest, map, Observable, takeUntil } from "rxjs";
 import { FirestoreService } from "./firestore.service";
@@ -17,6 +17,9 @@ export class LapService extends FirestoreService {
 
   private readonly raceService = inject(RaceService);
   private readonly activeRace: Signal<Race | undefined> = this.raceService.activeRace;
+
+  readonly referenceLapTimeMillisecond = signal(64567); // TODO: calcolare vero valore
+
 
   constructor() {
     super();
