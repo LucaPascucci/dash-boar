@@ -6,10 +6,10 @@
     <div class="text-lg lg:text-xl font-bold">🛞 Tyre change</div>
     <div class="flex items-center">
 
-      @if (remainingTyreChange > 0) {
+      @if (remainingTyreChange() > 0) {
         <div
             class="bg-yellow-500 px-2 py-1 rounded-lg text-white text-center font-medium mr-1 hover:cursor-default">
-          Remaining: {{ remainingTyreChange }}
+          Remaining: {{ remainingTyreChange() }}
         </div>
       } @else {
         <div
@@ -18,8 +18,8 @@
         </div>
       }
 
-      @if (isTyreChangeWindowOpen) {
-        <div [ngClass]="{'animate-bounce': remainingTyreChange > 0}"
+      @if (tyreChangeWindowOpen()) {
+        <div [ngClass]="{'animate-bounce': remainingTyreChange() > 0}"
              class="bg-green-500 px-2 py-1 rounded-lg text-white text-center font-medium mr-1 hover:cursor-default">
           Window open
         </div>
@@ -61,14 +61,14 @@
       <div>
         <div class="text-gray-600">Opening in</div>
         <div class="text-black font-mono">
-          {{ countdownOpeningTime }}
+          {{ countdownOpeningTime() }}
         </div>
       </div>
 
       <div>
         <div class="text-gray-600 text-right">Closing in</div>
         <div class="text-black font-mono text-right">
-          {{ countdownClosingTime }}
+          {{ countdownClosingTime() }}
         </div>
       </div>
     </div>
