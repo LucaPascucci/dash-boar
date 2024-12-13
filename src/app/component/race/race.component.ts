@@ -1,12 +1,9 @@
 import { Component, inject, Signal } from '@angular/core';
 import { RaceService } from "../../service/race.service";
-import { RaceConfigService } from "../../service/race-config.service";
-import { Race } from "../../model/race";
 import { Timestamp } from "@firebase/firestore";
 import { getTimeUntilFutureDate, } from "../../util/date.util";
-import { addHours } from "date-fns";
-import { interval } from "rxjs";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { combineLatest, interval } from "rxjs";
+import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-race',
@@ -17,20 +14,20 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 })
 export class RaceComponent {
   private readonly raceService = inject(RaceService);
-  private readonly raceConfigService = inject(RaceConfigService);
-  private readonly durationHour = this.raceConfigService.get().durationHour;
 
-  activeRace: Signal<Race | undefined> = this.raceService.activeRace;
-  countdown: string = '--:--:--';
+  endRaceDate: Signal<Date | undefined> = this.raceService.endRaceDate;
+
+  endRaceCountdown: string = '--:--:--';
 
   constructor() {
-    interval(1000).pipe(takeUntilDestroyed())
-    .subscribe(() => {
-      const race = this.activeRace();
-      if (race) {
-        const targetDate = addHours(race.start.toDate(), this.durationHour);
-        this.countdown = getTimeUntilFutureDate(targetDate);
-      }
+
+    combineLatest({
+      endRaceDate: toObservable(this.endRaceDate),
+      ping: interval(1000)
+    })
+    .pipe(takeUntilDestroyed())
+    .subscribe(result => {
+      this.endRaceCountdown = getTimeUntilFutureDate(result.endRaceDate);
     });
   }
 

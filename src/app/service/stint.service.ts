@@ -5,9 +5,7 @@ import { Stint } from "../model/stint";
 import { FirestoreService } from "./firestore.service";
 import { RaceService } from "./race.service";
 import { Race } from "../model/race";
-import { addHours } from "date-fns";
 import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
-import { Pit } from "../model/pit";
 
 @Injectable({
   providedIn: 'root'
