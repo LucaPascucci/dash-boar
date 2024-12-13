@@ -39,7 +39,7 @@ export class FuelService {
            ping
         }) => {
       if (activeRace && raceConfig) {
-        let date: Date = (lastRefuelPit && lastRefuelPit.exitTime) ? lastRefuelPit.exitTime.toDate() : activeRace.start.toDate();
+        let date: Date = lastRefuelPit && lastRefuelPit.exitTime ? lastRefuelPit.exitTime.toDate() : activeRace.start.toDate();
 
         this.lastRefuelTime.set(date);
         this.emptyFuelTime.set(addMinutes(date, raceConfig.fuelDurationMinute));

@@ -4,7 +4,6 @@ import { FirestoreService } from "./firestore.service";
 import { collection, collectionData } from "@angular/fire/firestore";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { map, Observable, takeUntil } from "rxjs";
-import { Race } from "../model/race";
 
 @Injectable({
   providedIn: 'root'
@@ -41,21 +40,4 @@ export class RaceConfigService extends FirestoreService {
     }
     return Promise.resolve();
   }
-
-  // TODO: rimuovere
-  get(): RaceConfig {
-    return {
-      id: '1',
-      durationHour: 24,
-      endTyreChangeWindowHour: 14,
-      fuelDurationMinute: 120,
-      minDriverChange: 30,
-      minStintMinute: 5,
-      minTyreChange: 1,
-      startTyreChangeWindowHour: 10,
-      deleted: false
-    }
-  }
-
-
 }

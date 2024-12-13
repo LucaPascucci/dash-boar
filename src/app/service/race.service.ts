@@ -2,11 +2,10 @@ import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { collection, collectionData } from "@angular/fire/firestore";
 import { Race } from "../model/race";
 import { RaceConfigService } from "./race-config.service";
-import { combineLatest, interval, map, Observable, takeUntil } from "rxjs";
+import { combineLatest, map, Observable, takeUntil } from "rxjs";
 import { FirestoreService } from "./firestore.service";
 import { addHours } from 'date-fns';
 import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
-import { Lap } from "../model/lap";
 import { RaceConfig } from "../model/race-config";
 
 @Injectable({
