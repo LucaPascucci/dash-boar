@@ -4,19 +4,19 @@
        class="flex justify-between items-center hover:cursor-pointer">
     <div class="text-lg lg:text-xl font-bold">⛽️ Fuel</div>
     <div
-        [ngClass]="{'animate-bounce': warning }"
+        [ngClass]="{'animate-bounce': warning() }"
         class="flex items-center">
       <div
-          [ngClass]="remainingColor"
+          [ngClass]="remainingColor()"
           class="px-2 py-1 rounded-lg text-center text-white font-medium mr-1 hover:cursor-default">
-        Laps: {{ remainingLap }}
+        Laps: {{ remainingFuelLap() }}
       </div>
       <div
-          [ngClass]="remainingColor"
+          [ngClass]="remainingColor()"
           class="px-2 py-1 w-36 rounded-lg text-left text-white font-medium mr-1 hover:cursor-default">
-        Empty: {{ emptyCountdown }}
+        Empty: {{ emptyFuelCountdown() }}
       </div>
-      <app-battery [charge]="fuelPercentage"></app-battery>
+      <app-battery [charge]="remainingFuelPercentage()"></app-battery>
     </div>
   </div>
 
@@ -25,8 +25,8 @@
       <div>
         <div class="text-gray-600">Last refuel time</div>
         <div class="text-black font-mono">
-          @if (lastRefuelTime) {
-            {{ lastRefuelTime | date:'HH:mm:ss' }}
+          @if (lastRefuelTime()) {
+            {{ lastRefuelTime() | date:'HH:mm:ss' }}
           } @else {
             --:--:--
           }
@@ -36,8 +36,8 @@
       <div>
         <div class="text-gray-600 text-right">Empty time</div>
         <div class="text-black font-mono text-right">
-          @if (emptyTime) {
-            {{ emptyTime | date:'HH:mm:ss' }}
+          @if (emptyFuelTime()) {
+            {{ emptyFuelTime() | date:'HH:mm:ss' }}
           } @else {
             --:--:--
           }
@@ -49,14 +49,14 @@
       <div>
         <div class="text-gray-600">Since last refuel</div>
         <div class="text-black font-mono">
-          {{ sinceLastRefuel }}
+          {{ sinceLastRefuel() }}
         </div>
       </div>
 
       <div>
         <div class="text-gray-600 text-right">Empty in</div>
         <div class="text-black font-mono text-right">
-          {{ emptyCountdown }}
+          {{ emptyFuelCountdown() }}
         </div>
       </div>
     </div>
@@ -65,7 +65,7 @@
       <div>
         <div class="text-gray-600">Remaining laps</div>
         <div class="text-black font-mono">
-          {{ remainingLap }}
+          {{ remainingFuelLap() }}
         </div>
       </div>
       <div>
