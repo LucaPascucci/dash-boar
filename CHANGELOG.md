@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.11.0
+
+Added
+---------
+- Introduced FuelService for managing fuel data.
+- Introduced TyreService for managing tyre data.
+- 
+
+Changed
+---------
+- Migrated RaceConfigService to use firestore
+- Improved data handling to signal
+
+---
+
 ## v0.10.0
 
 Added
