@@ -2,7 +2,7 @@ import { Component, computed, inject } from '@angular/core';
 import { RaceConfigService } from "../../service/race-config.service";
 import { RaceService } from "../../service/race.service";
 import { DatePipe, NgClass } from "@angular/common";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
 import { PitService } from "../../service/pit.service";
 import { getTimeUntilFutureDate } from "../../util/date.util";
 import { interval } from "rxjs";
@@ -59,7 +59,7 @@ export class TyreChangeWindowComponent {
       this.updateTyreChangeWindowOpen(opening, closing);
     });
 
-    this.pitService.getRacePits()
+    toObservable(this.pitService.pits)
     .pipe(takeUntilDestroyed())
     .subscribe(pits => {
       const tyreChangesDone = pits.filter(pit => pit.tyreChange).length;
