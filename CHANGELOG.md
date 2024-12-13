@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.12.0
+
+Added
+---------
+- Introduced a new Race Logic component to display average stint times and laps.
+- Added utility functions for time conversion in the date utility module.
+
+Changed
+---------
+- Refactored race logic calculations to improve accuracy and performance.
+- Updated the app layout to include the new Race Logic component.
+
+---
+
 ## v0.11.0
 
 Added

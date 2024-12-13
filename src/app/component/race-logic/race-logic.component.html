@@ -1,0 +1,43 @@
+<div
+    class="bg-white shadow-md rounded-lg p-2 md:p-3 lg:p-4 w-auto mx-auto border hover:shadow-xl">
+
+  <div [ngClass]="{'mb-2':isOpen}" (click)="isOpen = !isOpen" class="flex justify-between items-center hover:cursor-pointer">
+    <div class="text-lg lg:text-xl font-bold">🧠 Race logic</div>
+  </div>
+
+  @if (isOpen) {
+    <div class="flex justify-between mb-2">
+      <div>
+        <div class="text-gray-600">AVG Stint time</div>
+        <div class="text-black font-mono">
+          {{ AVGStintTime() }}
+        </div>
+      </div>
+
+      <div>
+        <div class="text-gray-600 text-right">Laps</div>
+        <div class="text-black font-mono text-right">
+          {{ laps() }}
+        </div>
+      </div>
+    </div>
+
+    <hr class="mb-2">
+
+    <div class="flex justify-between">
+      <div>
+        <div class="text-gray-600">AVG stint time if driver change now</div>
+        <div class="text-black font-mono">
+          {{ AVGStintTimeIfDriverChangeNow() }}
+        </div>
+      </div>
+
+      <div>
+        <div class="text-gray-600 text-right">Laps</div>
+        <div class="text-black font-mono text-right">
+          {{ lapsIfDriverChangeNow() }}
+        </div>
+      </div>
+    </div>
+  }
+</div>

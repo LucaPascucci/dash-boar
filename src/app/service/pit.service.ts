@@ -18,6 +18,8 @@ export class PitService extends FirestoreService {
   readonly activePit: WritableSignal<Pit | undefined> = signal(undefined);
   readonly lastRefuelPit: WritableSignal<Pit | undefined> = signal(undefined);
   readonly pits: WritableSignal<Pit[]> = signal([]);
+  readonly completedDriverChanges: WritableSignal<number> = signal(0);
+  readonly lastDriverChangePit: WritableSignal<Pit | undefined> = signal(undefined);
 
   constructor() {
     super();
@@ -27,6 +29,8 @@ export class PitService extends FirestoreService {
       this.pits.set(pits);
       this.activePit.set(this.getActivePit(pits));
       this.lastRefuelPit.set(this.getLastRefuelPit(pits));
+      this.lastDriverChangePit.set(this.getLastDriverChangePit(pits));
+      this.completedDriverChanges.set(this.calculateCompletedDriverChanges(pits));
     });
   }
 
@@ -79,5 +83,27 @@ export class PitService extends FirestoreService {
     });
 
     return sortedRefuelPits.at(0);
+  }
+
+  private getLastDriverChangePit(pits: Pit[]): Pit | undefined {
+    if (pits.length === 0) {
+      return undefined;
+    }
+
+    // Sort the stints by startDate in descending order
+    const sortedPits = pits.sort((a, b) => b.entryTime.toMillis() - a.entryTime.toMillis());
+
+    for (const pit of sortedPits) {
+      if (pit.entryDriverId !== pit.exitDriverId) {
+        return pit
+      }
+    }
+    return undefined;
+  }
+
+  private calculateCompletedDriverChanges(pits: Pit[]) {
+    return pits.reduce((count, pit) => {
+      return count + (pit.entryDriverId !== pit.exitDriverId ? 1 : 0);
+    }, 0);
   }
 }

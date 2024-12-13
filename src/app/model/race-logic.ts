@@ -1,4 +1,6 @@
 export interface RaceLogic {
-  avgStintTime: number | undefined;
-  avgIfChangedNow: number | undefined;
+  avgStintMillisecondsTime: number | undefined;
+  laps: number;
+  avgStintMillisecondsIfDriverChangedNow: number | undefined;
+  lapsIfDriverChangeNow: number;
 }

@@ -1,6 +1,11 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { Race } from "../model/race";
-import { addHours, differenceInMinutes } from "date-fns";
+import {
+  addHours,
+  differenceInMilliseconds,
+  differenceInSeconds,
+  millisecondsToSeconds
+} from "date-fns";
 import { RaceConfigService } from "./race-config.service";
 import { Pit } from "../model/pit";
 import { RaceService } from "./race.service";
@@ -9,6 +14,7 @@ import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
 import { PitService } from "./pit.service";
 import { RaceLogic } from "../model/race-logic";
 import { RaceConfig } from "../model/race-config";
+import { LapService } from "./lap.service";
 
 @Injectable({
   providedIn: 'root'
@@ -16,80 +22,87 @@ import { RaceConfig } from "../model/race-config";
 export class RaceLogicService {
   private readonly raceService = inject(RaceService);
   private readonly pitService = inject(PitService);
-
+  private readonly lapService = inject(LapService);
   private readonly raceConfigService = inject(RaceConfigService);
+
+  readonly activeRaceLogic: WritableSignal<RaceLogic | undefined> = signal(undefined);
 
 
   constructor() {
     combineLatest({
-      pits: toObservable(this.pitService.pits),
       activeRace: toObservable(this.raceService.activeRace),
       activeRaceConfig: toObservable(this.raceConfigService.activeRaceConfig),
+      completedDriverChanges: toObservable(this.pitService.completedDriverChanges),
+      lastDriverChangePit: toObservable(this.pitService.lastDriverChangePit),
+      referenceLapTimeMilliseconds: toObservable(this.lapService.referenceLapTimeMillisecond),
       ping: interval(1000)
     })
     .pipe(takeUntilDestroyed())
-    .subscribe(({pits, activeRace, activeRaceConfig}) => {
+    .subscribe(({activeRace, activeRaceConfig, completedDriverChanges, lastDriverChangePit, referenceLapTimeMilliseconds}) => {
       if (activeRace && activeRaceConfig) {
-        this.nextStintsAvgTime(pits, activeRace, activeRaceConfig, 0);
+        this.activeRaceLogic.set(
+            this.calculateRaceLogic(
+                activeRace,
+                activeRaceConfig,
+                completedDriverChanges,
+                lastDriverChangePit,
+                referenceLapTimeMilliseconds));
+      } else {
+        this.activeRaceLogic.set(undefined);
       }
     });
   }
 
-  nextStintsAvgTime(pits: Pit[], race: Race, activeRaceConfig: RaceConfig, referenceLapTimeMilliseconds: number): RaceLogic {
+  calculateRaceLogic(
+      race: Race,
+      activeRaceConfig: RaceConfig,
+      completedDriverChanges: number,
+      lastDriverChangePit: Pit | undefined,
+      referenceLapTimeMilliseconds: number
+  ): RaceLogic {
+
     const currentTime = new Date();
     const raceEndTime = addHours(race.start.toDate(), activeRaceConfig.durationHour);
 
     if (currentTime >= raceEndTime) {
-      return { avgStintTime: undefined, avgIfChangedNow: undefined };
+      return {
+        avgStintMillisecondsTime: undefined,
+        laps: 0,
+        avgStintMillisecondsIfDriverChangedNow: undefined,
+        lapsIfDriverChangeNow: 0
+      };
     }
 
-    // Calculate the remaining race time in minutes
-    const minutesRemaining = differenceInMinutes(raceEndTime, currentTime)
-
-    // Calculate the number of completed driver changes from pits array
-    const completedDriverChanges = pits.reduce((count, pit) => {
-      return count + (pit.entryDriverId !== pit.exitDriverId ? 1 : 0);
-    }, 0);
+    // Calculate the remaining race time in seconds
+    const timeRemaining = differenceInMilliseconds(raceEndTime, currentTime)
 
     // Calculate the number of remaining driver changes
     const remainingDriverChanges = Math.max(0, activeRaceConfig.minDriverChange - completedDriverChanges);
 
     if (remainingDriverChanges === 0) {
-      console.info('Hai già fatto tutti i cambi pilota richiesti.');
-      return { avgStintTime: undefined, avgIfChangedNow: undefined};
+      return {
+        avgStintMillisecondsTime: undefined,
+        laps: 0,
+        avgStintMillisecondsIfDriverChangedNow: undefined,
+        lapsIfDriverChangeNow: 0
+      };
     }
 
     // Determine the time remaining at the last driver change
-    const lastPitWithDriverChange = this.getLastPitWithDriverChange(pits);
-    const lastDriverChange = lastPitWithDriverChange ? lastPitWithDriverChange.entryTime.toDate() : race.start.toDate();
-    const timeRemainingFromLastDriverChange = differenceInMinutes(raceEndTime, lastDriverChange)
+    const lastDriverChange = lastDriverChangePit ? lastDriverChangePit.entryTime.toDate() : race.start.toDate();
+    const timeRemainingFromLastDriverChange = differenceInMilliseconds(raceEndTime, lastDriverChange)
 
     // Case 1: Calculate avgStintTime considering the time at the last driver change
     const avgStintTime = timeRemainingFromLastDriverChange / remainingDriverChanges;
 
     // Case 2: Calculate avgIfChangedNow if a driver change happens now
-    const avgIfChangedNow = minutesRemaining / remainingDriverChanges;
+    const avgIfChangedNow = timeRemaining / remainingDriverChanges;
 
-    return { avgStintTime: avgStintTime || undefined, avgIfChangedNow: avgIfChangedNow || undefined };
-  }
-
-  
-  private getLastPitWithDriverChange(pits: Pit[]): Pit | undefined {
-    if (pits.length === 0) {
-      return undefined;
-    }
-    if (pits.length < 2) {
-      return undefined;
-    }
-
-    // Sort the stints by startDate in descending order
-    const sortedPits = pits.sort((a, b) => b.entryTime.toMillis() - a.entryTime.toMillis());
-
-    for (const pit of sortedPits) {
-      if (pit.entryDriverId !== pit.exitDriverId) {
-        return pit
-      }
-    }
-    return undefined;
+    return {
+      avgStintMillisecondsTime: avgStintTime || undefined,
+      laps: Math.floor(avgStintTime / referenceLapTimeMilliseconds),
+      avgStintMillisecondsIfDriverChangedNow: avgIfChangedNow || undefined,
+      lapsIfDriverChangeNow: Math.floor(avgIfChangedNow / referenceLapTimeMilliseconds)
+    };
   }
 }

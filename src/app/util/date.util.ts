@@ -22,6 +22,38 @@ export function getTimeUntilFutureDate(futureDate: Date | undefined): string {
   return formatDuration(duration);
 }
 
+export function secondsToTimeString(seconds: number | undefined): string {
+  if (!seconds || seconds < 0) {
+    return '--:--:--';
+  }
+
+  const roundedSeconds = Math.round(seconds);
+
+  const duration: Duration = {
+    hours: Math.floor(roundedSeconds / 3600),
+    minutes: Math.floor((roundedSeconds % 3600) / 60),
+    seconds: roundedSeconds % 60
+  };
+
+  return formatDuration(duration);
+}
+
+export function millisecondsToTimeString(milliseconds: number | undefined): string {
+  if (!milliseconds || milliseconds < 0) {
+    return '--:--:--';
+  }
+
+  const totalSeconds = Math.floor(milliseconds / 1000);
+
+  const duration: Duration = {
+    hours: Math.floor(totalSeconds / 3600),
+    minutes: Math.floor((totalSeconds % 3600) / 60),
+    seconds: totalSeconds % 60
+  };
+
+  return formatDuration(duration);
+}
+
 
 function formatDuration(duration: Duration): string {
   if (duration.hours && duration.hours < 0) {
