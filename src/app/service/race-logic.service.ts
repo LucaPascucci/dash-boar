@@ -1,4 +1,4 @@
-import { inject, Injectable, Signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Race } from "../model/race";
 import { addHours, differenceInMinutes } from "date-fns";
 import { RaceConfigService } from "./race-config.service";
@@ -8,6 +8,7 @@ import { combineLatest, interval } from "rxjs";
 import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
 import { PitService } from "./pit.service";
 import { RaceLogic } from "../model/race-logic";
+import { RaceConfig } from "../model/race-config";
 
 @Injectable({
   providedIn: 'root'
@@ -17,27 +18,26 @@ export class RaceLogicService {
   private readonly pitService = inject(PitService);
 
   private readonly raceConfigService = inject(RaceConfigService);
-  private readonly durationHour = this.raceConfigService.get().durationHour;
-  private readonly minDriverChange = this.raceConfigService.get().minDriverChange;
 
 
   constructor() {
     combineLatest({
       pits: toObservable(this.pitService.pits),
       activeRace: toObservable(this.raceService.activeRace),
+      activeRaceConfig: toObservable(this.raceConfigService.activeRaceConfig),
       ping: interval(1000)
     })
     .pipe(takeUntilDestroyed())
-    .subscribe(({pits, activeRace}) => {
-      if (activeRace) {
-        this.nextStintsAvgTime(pits, activeRace, 0);
+    .subscribe(({pits, activeRace, activeRaceConfig}) => {
+      if (activeRace && activeRaceConfig) {
+        this.nextStintsAvgTime(pits, activeRace, activeRaceConfig, 0);
       }
     });
   }
 
-  nextStintsAvgTime(pits: Pit[], race: Race, referenceLapTimeMilliseconds: number): RaceLogic {
+  nextStintsAvgTime(pits: Pit[], race: Race, activeRaceConfig: RaceConfig, referenceLapTimeMilliseconds: number): RaceLogic {
     const currentTime = new Date();
-    const raceEndTime = addHours(race.start.toDate(), this.durationHour);
+    const raceEndTime = addHours(race.start.toDate(), activeRaceConfig.durationHour);
 
     if (currentTime >= raceEndTime) {
       return { avgStintTime: undefined, avgIfChangedNow: undefined };
@@ -52,7 +52,7 @@ export class RaceLogicService {
     }, 0);
 
     // Calculate the number of remaining driver changes
-    const remainingDriverChanges = Math.max(0, this.minDriverChange - completedDriverChanges);
+    const remainingDriverChanges = Math.max(0, activeRaceConfig.minDriverChange - completedDriverChanges);
 
     if (remainingDriverChanges === 0) {
       console.info('Hai già fatto tutti i cambi pilota richiesti.');
