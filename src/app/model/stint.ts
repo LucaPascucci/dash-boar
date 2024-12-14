@@ -5,6 +5,6 @@ export interface Stint {
   raceId: string;
   driverId: string;
   startDate: Timestamp;
-  endDate: Timestamp | undefined;
+  endDate: Timestamp | null;
   deleted: boolean
 }
