@@ -36,7 +36,7 @@ export class StintService extends FirestoreService {
       activeRace: toObservable(this.activeRace)
     })
     .pipe(
-        takeUntil(this.destroy$),
+        takeUntil(this.destroyed),
         map(({stints, activeRace}) => {
           if (activeRace) {
             return (stints as Stint[]).filter(stints => !stints.deleted && stints.raceId === activeRace.id);
@@ -46,17 +46,15 @@ export class StintService extends FirestoreService {
     );
   }
 
-  async create(stint: Stint): Promise<void> {
+  async create(stint: Stint): Promise<Stint> {
     stint.id = await this.generateNextId();
-    return this.createData(stint.id, stint);
+    await this.createData(stint.id, stint);
+    return stint;
   }
 
-  update(stint: Stint): Promise<void> {
-    return this.updateData(stint.id, stint);
-  }
-
-  getById(id: string): Promise<Stint | undefined> {
-    return this.getDataById(id);
+  async update(stint: Stint): Promise<Stint> {
+    await this.updateData(stint.id, stint);
+    return stint;
   }
 
   private getActiveStint(stints: Stint[]): Stint | undefined {
