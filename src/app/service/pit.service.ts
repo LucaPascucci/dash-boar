@@ -1,10 +1,13 @@
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { collection, collectionData } from "@angular/fire/firestore";
-import { combineLatest, map, Observable, takeUntil } from "rxjs";
+import { combineLatest, interval, map, Observable, takeUntil } from "rxjs";
 import { Pit } from "../model/pit";
 import { FirestoreService } from "./firestore.service";
 import { RaceService } from "./race.service";
 import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
+import { RaceConfigService } from "./race-config.service";
+import { RaceConfig } from "../model/race-config";
+import { addSeconds } from "date-fns";
 
 @Injectable({
   providedIn: 'root'
@@ -14,29 +17,45 @@ export class PitService extends FirestoreService {
   protected collectionRef = collection(this.firestore, this.collectionPath);
 
   private readonly raceService = inject(RaceService);
+  private readonly raceConfigService = inject(RaceConfigService);
 
   readonly activePit: WritableSignal<Pit | undefined> = signal(undefined);
+  readonly activePitRemainingMilliseconds: WritableSignal<number | undefined> = signal(undefined);
   readonly lastRefuelPit: WritableSignal<Pit | undefined> = signal(undefined);
   readonly pits: WritableSignal<Pit[]> = signal([]);
   readonly completedDriverChanges: WritableSignal<number> = signal(0);
   readonly lastDriverChangePit: WritableSignal<Pit | undefined> = signal(undefined);
+  readonly remainingDriverChanges: WritableSignal<number> = signal(0);
 
   constructor() {
     super();
-    this.getRacePits()
+    combineLatest({
+      pits: this.getRacePits(),
+      activeRaceConfig: toObservable(this.raceConfigService.activeRaceConfig),
+      ping: interval(1000)
+    })
     .pipe(takeUntilDestroyed())
-    .subscribe(pits => {
+    .subscribe(({pits, activeRaceConfig}) => {
       this.pits.set(pits);
       this.activePit.set(this.getActivePit(pits));
+      this.activePitRemainingMilliseconds.set(this.calculateActivePitRemainingMilliseconds(pits, activeRaceConfig))
       this.lastRefuelPit.set(this.getLastRefuelPit(pits));
       this.lastDriverChangePit.set(this.getLastDriverChangePit(pits));
       this.completedDriverChanges.set(this.calculateCompletedDriverChanges(pits));
+      this.remainingDriverChanges.set(this.calculateRemainingDriverChanges(pits, activeRaceConfig));
+    });
+
+    this.getRacePits()
+    .pipe(takeUntilDestroyed())
+    .subscribe(pits => {
+
     });
   }
 
-  async create(pit: Pit): Promise<void> {
+  async create(pit: Pit): Promise<Pit> {
     pit.id = await this.generateNextId();
-    return this.createData(pit.id, pit);
+    await this.createData(pit.id, pit);
+    return pit;
   }
 
   update(pit: Pit): Promise<void> {
@@ -53,7 +72,7 @@ export class PitService extends FirestoreService {
       activeRace: toObservable(this.raceService.activeRace)
     })
     .pipe(
-        takeUntil(this.destroy$),
+        takeUntil(this.destroyed),
         map(({pits, activeRace}) => {
           if (activeRace) {
             return (pits as Pit[]).filter(pit => !pit.deleted && pit.raceId === activeRace.id);
@@ -71,6 +90,21 @@ export class PitService extends FirestoreService {
       }
     }
     return undefined;
+  }
+
+  private calculateActivePitRemainingMilliseconds(pits: Pit[], raceConfig: RaceConfig | undefined): number  {
+    if (!raceConfig) {
+      return 0;
+    }
+
+    const activePit = this.getActivePit(pits);
+    if (activePit) {
+      const now = new Date().getTime();
+      const endPitTime = addSeconds(activePit.entryTime.toDate(), raceConfig.minPitSeconds).getTime()
+      return endPitTime - now;
+    }
+
+    return 0;
   }
 
   private getLastRefuelPit(pits: Pit[]): Pit | undefined {
@@ -91,7 +125,9 @@ export class PitService extends FirestoreService {
     }
 
     // Sort the stints by startDate in descending order
-    const sortedPits = pits.sort((a, b) => b.entryTime.toMillis() - a.entryTime.toMillis());
+    const sortedPits = pits
+    .filter(pit => pit.exitTime)
+    .sort((a, b) => b.entryTime.toMillis() - a.entryTime.toMillis());
 
     for (const pit of sortedPits) {
       if (pit.entryDriverId !== pit.exitDriverId) {
@@ -102,8 +138,17 @@ export class PitService extends FirestoreService {
   }
 
   private calculateCompletedDriverChanges(pits: Pit[]) {
-    return pits.reduce((count, pit) => {
+    return pits
+    .filter(pit => pit.exitTime)
+    .reduce((count, pit) => {
       return count + (pit.entryDriverId !== pit.exitDriverId ? 1 : 0);
     }, 0);
+  }
+
+  private calculateRemainingDriverChanges(pits: Pit[], raceConfig: RaceConfig | undefined): number {
+    if (!raceConfig) {
+      return 0;
+    }
+    return Math.max(0, raceConfig.minDriverChange - this.calculateCompletedDriverChanges(pits));
   }
 }
