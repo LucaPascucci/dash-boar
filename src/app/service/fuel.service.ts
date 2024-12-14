@@ -31,8 +31,7 @@ export class FuelService {
         ({
            lastRefuelPit,
            activeRace,
-           raceConfig,
-           ping
+           raceConfig
         }) => {
       if (activeRace && raceConfig) {
         let date: Date = lastRefuelPit && lastRefuelPit.exitTime ? lastRefuelPit.exitTime.toDate() : activeRace.start.toDate();
