@@ -7,7 +7,10 @@ export interface RaceConfig {
   startTyreChangeWindowHour: number;
   endTyreChangeWindowHour: number;
   minTyreChange: number;
+  pitLaneCloseBeforeEndRaceMinute: number;
+  minDriverOnTrackHour: number;
+  maxDriverOnTrackHour: number;
   deleted: boolean;
-  // TODO: aggiungere minimo e massimo ore in pista che può fare un pilota (tra 1 e 7)
-  // TODO: pitlane chiusa 5 minuti prima della fine della gara
+  // TODO: minPitSeconds
+  // TODO: referenceLapTimeMilliseconds
 }

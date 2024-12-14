@@ -6,11 +6,12 @@ import {
 } from "./component/tyre-change-window/tyre-change-window.component";
 import { FuelComponent } from "./component/fuel/fuel.component";
 import { RaceLogicComponent } from "./component/race-logic/race-logic.component";
+import { DriverComponent } from "./component/driver/driver.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RaceComponent, TyreChangeWindowComponent, FuelComponent, RaceLogicComponent],
+  imports: [RouterOutlet, RaceComponent, TyreChangeWindowComponent, FuelComponent, RaceLogicComponent, DriverComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

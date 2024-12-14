@@ -38,6 +38,7 @@ export function secondsToTimeString(seconds: number | undefined): string {
   return formatDuration(duration);
 }
 
+// TODO: controllare approssimazione (forse sempre fatta in difetto)
 export function millisecondsToTimeString(milliseconds: number | undefined): string {
   if (!milliseconds || milliseconds < 0) {
     return '--:--:--';
@@ -52,6 +53,32 @@ export function millisecondsToTimeString(milliseconds: number | undefined): stri
   };
 
   return formatDuration(duration);
+}
+
+export function millisecondsToLapString(milliseconds: number | undefined): string {
+  if (!milliseconds || milliseconds < 0) {
+    return '--:--:---';
+  }
+
+  const totalSeconds = Math.floor(milliseconds / 1000);
+  const remainingMilliseconds = milliseconds % 1000;
+
+  const duration: Duration = {
+    minutes: Math.floor(totalSeconds / 60),
+    seconds: totalSeconds % 60
+  };
+
+  return formatDurationWithMilliseconds(duration, remainingMilliseconds);
+}
+
+function formatDurationWithMilliseconds(duration: Duration, milliseconds: number): string {
+  if (duration.minutes && duration.minutes < 0) {
+    return '00:00:000';
+  }
+  if (duration.seconds && duration.seconds < 0) {
+    return '00:00:000';
+  }
+  return [padTwo(duration.minutes), padTwo(duration.seconds), padThree(milliseconds)].join(":");
 }
 
 
@@ -73,6 +100,15 @@ function padTwo(num: number | undefined) {
     return num < 10 ? `0${num}` : `${num}`;
   }
   return '00';
+}
+
+function padThree(num: number): string {
+  if (num < 10) {
+    return `00${num}`;
+  } else if (num < 100) {
+    return `0${num}`;
+  }
+  return `${num}`;
 }
 
 

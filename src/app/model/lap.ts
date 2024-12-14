@@ -1,7 +1,7 @@
 export interface Lap {
   id: string;
   raceId: string;
-  driveId: string;
+  driverId: string;
   millisecondsTime: number;
   deleted: boolean
 }
