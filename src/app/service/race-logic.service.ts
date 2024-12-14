@@ -2,9 +2,7 @@ import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { Race } from "../model/race";
 import {
   addHours,
-  differenceInMilliseconds,
-  differenceInSeconds,
-  millisecondsToSeconds
+  differenceInMilliseconds
 } from "date-fns";
 import { RaceConfigService } from "./race-config.service";
 import { Pit } from "../model/pit";
@@ -73,27 +71,19 @@ export class RaceLogicService {
       };
     }
 
+    // TODO: va rimosso il tempo di ogni pit che si dovrà fare (numero di cambi pilota da effettuare per tempo minimo ai pit)
     // Calculate the remaining race time in seconds
     const timeRemaining = differenceInMilliseconds(raceEndTime, currentTime)
 
     // Calculate the number of remaining driver changes
     const remainingDriverChanges = Math.max(0, activeRaceConfig.minDriverChange - completedDriverChanges);
 
-    if (remainingDriverChanges === 0) {
-      return {
-        avgStintMillisecondsTime: undefined,
-        laps: 0,
-        avgStintMillisecondsIfDriverChangedNow: undefined,
-        lapsIfDriverChangeNow: 0
-      };
-    }
-
     // Determine the time remaining at the last driver change
     const lastDriverChange = lastDriverChangePit ? lastDriverChangePit.entryTime.toDate() : race.start.toDate();
     const timeRemainingFromLastDriverChange = differenceInMilliseconds(raceEndTime, lastDriverChange)
 
     // Case 1: Calculate avgStintTime considering the time at the last driver change
-    const avgStintTime = timeRemainingFromLastDriverChange / remainingDriverChanges;
+    const avgStintTime = timeRemainingFromLastDriverChange / (remainingDriverChanges + 1);
 
     // Case 2: Calculate avgIfChangedNow if a driver change happens now
     const avgIfChangedNow = timeRemaining / remainingDriverChanges;
