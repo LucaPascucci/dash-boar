@@ -38,12 +38,10 @@ export function secondsToTimeString(seconds: number | undefined): string {
   return formatDuration(duration);
 }
 
-// TODO: controllare approssimazione (forse sempre fatta in difetto)
 export function millisecondsToTimeString(milliseconds: number | undefined): string {
   if (!milliseconds || milliseconds < 0) {
     return '--:--:--';
   }
-
   const totalSeconds = Math.floor(milliseconds / 1000);
 
   const duration: Duration = {
