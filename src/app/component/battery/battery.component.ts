@@ -23,23 +23,23 @@ export class BatteryComponent implements OnChanges {
   }
 
   private getBackgroundColor(charge: number) {
-    if (this.charge <= 10) {
+    if (charge <= 10) {
       return 'bg-red-500';
     }
-    if (this.charge <= 25) {
+    if (charge <= 25) {
       return 'bg-orange-500';
     }
-    if (this.charge <= 50) {
+    if (charge <= 50) {
       return 'bg-yellow-500';
     }
     return 'bg-green-500';
   }
 
   private getBorderColor(charge: number) {
-    if (this.charge <= 10) {
+    if (charge <= 10) {
       return 'border-red-500';
     }
-    if (this.charge <= 25) {
+    if (charge <= 25) {
       return 'border-orange-500';
     }
     return 'border-gray-200';
