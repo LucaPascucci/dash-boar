@@ -53,6 +53,20 @@ export function millisecondsToTimeString(milliseconds: number | undefined): stri
   return formatDuration(duration);
 }
 
+export function millisecondsToPitString(milliseconds: number | undefined): string {
+  if (!milliseconds || milliseconds < 0) {
+    return '--:--:--';
+  }
+  const totalSeconds = Math.floor(milliseconds / 1000);
+
+  const duration: Duration = {
+    minutes: Math.floor((totalSeconds % 3600) / 60),
+    seconds: totalSeconds % 60
+  };
+
+  return formatDuration(duration);
+}
+
 export function millisecondsToLapString(milliseconds: number | undefined): string {
   if (!milliseconds || milliseconds < 0) {
     return '--:--:---';
