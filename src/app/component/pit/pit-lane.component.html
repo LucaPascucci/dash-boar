@@ -1,0 +1,112 @@
+<div
+    class="bg-white shadow-md rounded-lg p-2 md:p-3 lg:p-4 w-auto mx-auto border hover:shadow-xl">
+
+  <div [ngClass]="{'mb-4':isOpen}" (click)="isOpen = !isOpen" class="flex justify-between items-center hover:cursor-pointer">
+    <div class="text-lg lg:text-xl font-bold">🅿️ Pit Lane</div>
+    <div class="flex items-center">
+
+      @if (remainingDriverChanges() > 0) {
+        <div
+            class="bg-yellow-500 px-2 py-1 rounded-lg text-white text-center font-medium mr-1 hover:cursor-default">
+          Remaining driver changes: {{ remainingDriverChanges() }}
+        </div>
+      } @else {
+        <div
+            class="bg-green-500 px-2 py-1 rounded-lg text-white text-center font-medium mr-1 hover:cursor-default">
+          Driver changes completed!
+        </div>
+      }
+
+      @if (pitLaneOpen()) {
+        <div class="bg-green-500 px-2 py-1 rounded-lg text-white text-center font-medium mr-1 hover:cursor-default">
+          Open
+        </div>
+      } @else {
+        <div
+            class="bg-red-500 px-2 py-1 rounded-lg text-white text-center font-medium mr-1 hover:cursor-default">
+          Closed
+        </div>
+      }
+    </div>
+  </div>
+
+  @if (isOpen) {
+    <div class="flex justify-between mb-2">
+      <button
+          (click)="pitIn()"
+          [disabled]="!pitLaneOpen()"
+          class="bg-green-500 hover:bg-green-700 disabled:bg-green-200 text-white font-bold py-2 px-4 rounded">
+        Pit in
+      </button>
+      <div class="text-black font-mono py-2">
+        {{ activePitRemainingMilliseconds() }}
+      </div>
+      <button
+          (click)="pitOut()"
+          [disabled]="!activePit()"
+          class="bg-red-500 hover:bg-red-700 disabled:bg-red-200 text-white font-bold py-2 px-4 rounded">
+        Pit out
+      </button>
+    </div>
+
+    <div class="flex flex-col items-center mb-2">
+      <form>
+        <!-- Select for choosing the driver -->
+        <div class="mb-2">
+
+          <select id="driverSelect" [(ngModel)]="selectedDriver" name="driverSelect" class="border rounded p-1">
+            <option *ngFor="let driver of drivers()" [value]="driver.id">{{ driver.id }} - {{ driver.raceName }}</option>
+          </select>
+          <label for="driverSelect" class="ml-2">New driver</label>
+        </div>
+        <div class="flex flex-col items-center">
+          <div class="mb-2">
+            <input type="checkbox" id="refueling" [(ngModel)]="refueling" name="refueling">
+            <label for="refueling" class="ml-2">Refueling</label>
+          </div>
+
+          <!-- Checkbox for tire change -->
+          <div class="mb-2">
+            <input type="checkbox" id="tyreChange" [(ngModel)]="tyreChange" name="tyreChange">
+            <label for="tyreChange" class="ml-2">Tyre change</label>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <hr class="mb-2">
+
+    <div class="font-semibold">Driver changes</div>
+    <div class="flex justify-between mb-3">
+      <div>
+        <div class="text-gray-600">Completed</div>
+        <div class="text-black font-mono">
+          {{ completedDriverChanges() }}
+        </div>
+      </div>
+
+      <div>
+        <div class="text-gray-600 text-right">Remaining</div>
+        <div class="text-black font-mono text-right">
+          {{ remainingDriverChanges() }}
+        </div>
+      </div>
+    </div>
+
+    <hr class="mb-2">
+
+    <div class="flex justify-between">
+      <div>
+        <div class="text-gray-600">Open in</div>
+        <div class="text-black font-mono">
+          {{ pitLaneOpenInMilliseconds() }}
+        </div>
+      </div>
+
+      <div>
+        <div class="text-gray-600 text-right"></div>
+        <div class="text-black font-mono text-right"></div>
+      </div>
+    </div>
+  }
+</div>
