@@ -4,7 +4,7 @@ export interface Pit {
   id: string;
   raceId: string;
   entryTime: Timestamp;
-  exitTime: Timestamp | undefined;
+  exitTime: Timestamp | null;
   entryDriverId: string;
   exitDriverId: string;
   refuel: boolean;

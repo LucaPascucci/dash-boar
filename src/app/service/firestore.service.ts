@@ -1,29 +1,25 @@
-import { inject, Injectable, OnDestroy } from '@angular/core';
+import { DestroyRef, inject, Injectable } from '@angular/core';
 import { Subject } from "rxjs";
-import { deleteDoc, doc, Firestore, getDocs, query, setDoc, where } from "@angular/fire/firestore";
+import { doc, Firestore, getDocs, query, setDoc, where } from "@angular/fire/firestore";
 import { Entity } from "../model/entity";
 
 @Injectable({
   providedIn: 'root'
 })
-export abstract class FirestoreService implements OnDestroy {
+export abstract class FirestoreService {
+  private readonly destroyRef = inject(DestroyRef);
+
   protected readonly firestore = inject(Firestore);
-  protected readonly destroy$ = new Subject<void>();
+  protected readonly destroyed = new Subject<void>();
 
   protected abstract collectionPath: string;
   protected abstract collectionRef: any;
 
   protected constructor() {
-  }
-
-  delete(id: string): Promise<void> {
-    return deleteDoc(doc(this.collectionRef, id))
-  }
-
-  ngOnDestroy(): void {
-    // Emit a value to complete all subscriptions
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.destroyRef.onDestroy(() => {
+      this.destroyed.next();
+      this.destroyed.complete();
+    });
   }
 
   protected async generateNextId(): Promise<string> {

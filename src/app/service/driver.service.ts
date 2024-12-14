@@ -56,22 +56,10 @@ export class DriverService extends FirestoreService {
     })
   }
 
-  async create(driver: Driver): Promise<void> {
-    driver.id = await this.generateNextId();
-    return this.createData(driver.id, driver);
-  }
-
-  update(driver: Driver): Promise<void> {
-    return this.updateData(driver.id, driver);
-  }
-
-  getById(id: string): Promise<Driver | undefined> {
-    return this.getDataById(id);
-  }
-
   private getAll(): Observable<Driver[]> {
-    return collectionData(this.collectionRef).pipe(
-        takeUntil(this.destroy$),
+    return collectionData(this.collectionRef)
+    .pipe(
+        takeUntil(this.destroyed),
         map((drivers: Driver[]) => drivers.filter(driver => !driver.deleted))
     );
   }

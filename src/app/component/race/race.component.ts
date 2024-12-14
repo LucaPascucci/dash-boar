@@ -1,9 +1,9 @@
 import { Component, inject, Signal } from '@angular/core';
 import { RaceService } from "../../service/race.service";
-import { Timestamp } from "@firebase/firestore";
 import { getTimeUntilFutureDate, } from "../../util/date.util";
 import { combineLatest, interval } from "rxjs";
 import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
+import { RaceManagerService } from "../../service/race-manager.service";
 
 @Component({
   selector: 'app-race',
@@ -14,6 +14,7 @@ import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
 })
 export class RaceComponent {
   private readonly raceService = inject(RaceService);
+  private readonly raceManagerService = inject(RaceManagerService);
 
   endRaceDate: Signal<Date | undefined> = this.raceService.endRaceDate;
 
@@ -32,10 +33,6 @@ export class RaceComponent {
   }
 
   startRace(): void {
-    this.raceService.create({
-      id: '1',
-      start: Timestamp.now(),
-      deleted: false
-    })
+    this.raceManagerService.startRace('1');
   }
 }

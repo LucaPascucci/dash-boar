@@ -1,21 +1,36 @@
 # Changelog
 
+## v0.14.0
+
+Added
+-------
+- Introduced a new Pit Lane component with UI for managing pit stops, driver changes, and refueling.
+- Implemented RaceManagerService and PitLaneService for handling race and pit lane logic.
+
+
+Changed
+---------
+- Updated services to return created entities and refactored lifecycle management.
+- Enhanced driver and race components with new functionalities and UI improvements.
+
+----
+
 ## v0.13.0
 
 Added
----
+-------
 - Introduced a new Driver component to display drivers, reference lap and time on track.
 - Added lap time formatting with milliseconds precision.
 
 Changed
----
+---------
 - Improved layout with visual separators.
 - Improved race logic calculations by removing dependency on LapService and using race configuration for reference lap time.
 - Updated fuel service to use race configuration for reference lap time.
 - Minor text adjustment in fuel component UI.
 
 Fix
----
+------
 - Correct average stint time calculation for remaining driver changes.
 
 ---

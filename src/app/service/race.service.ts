@@ -43,14 +43,15 @@ export class RaceService extends FirestoreService {
     });
   }
 
-  async create(race: Race): Promise<void> {
+  async create(race: Race): Promise<Race | void> {
     if (this.activeRace() !== undefined) {
       console.warn('Race already active -> ' + this.activeRace());
       return Promise.resolve();
     }
 
     race.id = await this.generateNextId();
-    return this.createData(race.id, race);
+    await this.createData(race.id, race);
+    return race;
   }
 
   updateRace(race: Race): Promise<void> {
@@ -63,7 +64,7 @@ export class RaceService extends FirestoreService {
 
   private getAll(): Observable<Race[]> {
     return collectionData(this.collectionRef).pipe(
-        takeUntil(this.destroy$),
+        takeUntil(this.destroyed),
         map((races: Race[]) => races.filter(race => !race.deleted))
     );
   }

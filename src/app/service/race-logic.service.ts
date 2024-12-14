@@ -26,19 +26,19 @@ export class RaceLogicService {
       activeRace: toObservable(this.raceService.activeRace),
       endRaceDate: toObservable(this.raceService.endRaceDate),
       activeRaceConfig: toObservable(this.raceConfigService.activeRaceConfig),
-      completedDriverChanges: toObservable(this.pitService.completedDriverChanges),
+      remainingDriverChanges: toObservable(this.pitService.remainingDriverChanges),
       lastDriverChangePit: toObservable(this.pitService.lastDriverChangePit),
       ping: interval(1000)
     })
     .pipe(takeUntilDestroyed())
-    .subscribe(({activeRace, endRaceDate, activeRaceConfig, completedDriverChanges, lastDriverChangePit}) => {
+    .subscribe(({activeRace, endRaceDate, activeRaceConfig, remainingDriverChanges, lastDriverChangePit}) => {
       if (activeRace && endRaceDate && activeRaceConfig) {
         this.activeRaceLogic.set(
             this.calculateRaceLogic(
                 activeRace,
                 endRaceDate,
                 activeRaceConfig,
-                completedDriverChanges,
+                remainingDriverChanges,
                 lastDriverChangePit));
       } else {
         this.activeRaceLogic.set(undefined);
@@ -50,7 +50,7 @@ export class RaceLogicService {
       race: Race,
       endRaceDate: Date,
       raceConfig: RaceConfig,
-      completedDriverChanges: number,
+      remainingDriverChanges: number,
       lastDriverChangePit: Pit | undefined
   ): RaceLogic {
 
@@ -64,8 +64,6 @@ export class RaceLogicService {
         lapsIfDriverChangeNow: 0
       };
     }
-
-    const remainingDriverChanges = Math.max(0, raceConfig.minDriverChange - completedDriverChanges);
 
     const remainingPitTime = secondsToMilliseconds(raceConfig.minPitSeconds * remainingDriverChanges);
 

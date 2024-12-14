@@ -1,6 +1,6 @@
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { collection, collectionData, } from "@angular/fire/firestore";
-import { combineLatest, map, Observable } from "rxjs";
+import { combineLatest, map, Observable, takeUntil } from "rxjs";
 import { FirestoreService } from "./firestore.service";
 import { Lap } from "../model/lap";
 import { RaceService } from "./race.service";
@@ -33,7 +33,7 @@ export class LapService extends FirestoreService {
       activeRace: toObservable(this.raceService.activeRace)
     })
     .pipe(
-        takeUntilDestroyed(),
+        takeUntil(this.destroyed),
         map(({laps, activeRace}) => {
           if (activeRace) {
             return (laps as Lap[]).filter(lap => !lap.deleted && lap.raceId === activeRace.id);
@@ -43,17 +43,9 @@ export class LapService extends FirestoreService {
     );
   }
 
-  async create(lap: Lap): Promise<void> {
+  async create(lap: Lap): Promise<Lap> {
     lap.id = await this.generateNextId();
-    return this.createData(lap.id, lap);
+    await this.createData(lap.id, lap);
+    return lap;
   }
-
-  update(driver: Lap): Promise<void> {
-    return this.updateData(driver.id, driver);
-  }
-
-  getById(id: string): Promise<Lap | undefined> {
-    return this.getDataById(id);
-  }
-
 }
