@@ -27,7 +27,7 @@ export class RaceConfigService extends FirestoreService {
 
   private getAll(): Observable<RaceConfig[]> {
     return collectionData(this.collectionRef).pipe(
-        takeUntil(this.destroy$),
+        takeUntil(this.destroyed),
         map((raceConfigs: RaceConfig[]) => raceConfigs.filter(raceConfig => !raceConfig.deleted))
     );
   }
