@@ -1,4 +1,4 @@
-import { inject, Injectable, signal, Signal } from '@angular/core';
+import { inject, Injectable, signal, Signal, WritableSignal } from '@angular/core';
 import { collection, collectionData, } from "@angular/fire/firestore";
 import { combineLatest, map, Observable } from "rxjs";
 import { FirestoreService } from "./firestore.service";
@@ -15,19 +15,25 @@ export class LapService extends FirestoreService {
   protected collectionRef = collection(this.firestore, this.collectionPath);
 
   private readonly raceService = inject(RaceService);
-  private readonly activeRace: Signal<Race | undefined> = this.raceService.activeRace;
 
+  readonly laps: WritableSignal<Lap[]> = signal([]);
   readonly referenceLapTimeMillisecond = signal(64567); // TODO: calcolare vero valore
 
 
   constructor() {
     super();
+    combineLatest({
+      laps: this.getRaceLaps(),
+      activeRace: toObservable(this.raceService.activeRace)
+    })
+    .pipe(takeUntilDestroyed())
+    .subscribe(result => this.laps.set(result.laps))
   }
 
-  getRaceLaps(): Observable<Lap[]> {
+  private getRaceLaps(): Observable<Lap[]> {
     return combineLatest({
       laps: collectionData(this.collectionRef),
-      activeRace: toObservable(this.activeRace)
+      activeRace: toObservable(this.raceService.activeRace)
     })
     .pipe(
         takeUntilDestroyed(),
