@@ -16,8 +16,6 @@ export class LapService extends FirestoreService {
   private readonly raceService = inject(RaceService);
 
   readonly laps: WritableSignal<Lap[]> = signal([]);
-  readonly referenceLapTimeMillisecond = signal(64567); // TODO: calcolare vero valore
-
 
   constructor() {
     super();

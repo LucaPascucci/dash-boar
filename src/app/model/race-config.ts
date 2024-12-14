@@ -10,7 +10,7 @@ export interface RaceConfig {
   pitLaneCloseBeforeEndRaceMinute: number;
   minDriverOnTrackHour: number;
   maxDriverOnTrackHour: number;
+  referenceLapTimeMillisecond: number;
+  minPitSeconds: number;
   deleted: boolean;
-  // TODO: minPitSeconds
-  // TODO: referenceLapTimeMilliseconds
 }
