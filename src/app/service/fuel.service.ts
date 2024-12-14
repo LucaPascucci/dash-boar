@@ -26,7 +26,6 @@ export class FuelService {
       lastRefuelPit: toObservable(this.pitService.lastRefuelPit),
       activeRace: toObservable(this.raceService.activeRace),
       raceConfig: toObservable(this.raceConfigService.activeRaceConfig),
-      referenceLapTimeMillisecond: toObservable(this.lapService.referenceLapTimeMillisecond),
       ping: interval(1000)
     })
     .pipe(takeUntilDestroyed())
@@ -35,7 +34,6 @@ export class FuelService {
            lastRefuelPit,
            activeRace,
            raceConfig,
-           referenceLapTimeMillisecond,
            ping
         }) => {
       if (activeRace && raceConfig) {
@@ -44,7 +42,7 @@ export class FuelService {
         this.lastRefuelTime.set(date);
         this.emptyFuelTime.set(addMinutes(date, raceConfig.fuelDurationMinute));
         this.remainingFuelPercentage.set(this.calculateRemainingFuelPercentage(this.emptyFuelTime(), raceConfig.fuelDurationMinute));
-        this.remainingFuelLap.set(this.calculateRemainingFuelLaps(this.emptyFuelTime(), referenceLapTimeMillisecond));
+        this.remainingFuelLap.set(this.calculateRemainingFuelLaps(this.emptyFuelTime(), raceConfig.referenceLapTimeMillisecond));
       } else {
         this.lastRefuelTime.set(undefined);
         this.emptyFuelTime.set(undefined);
