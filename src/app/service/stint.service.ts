@@ -16,6 +16,7 @@ export class StintService extends FirestoreService {
   protected collectionRef = collection(this.firestore, this.collectionPath);
   private readonly activeRace: Signal<Race | undefined> = this.raceService.activeRace;
 
+  readonly stints: WritableSignal<Stint[]> = signal([]);
   readonly activeStint: WritableSignal<Stint | undefined> = signal(undefined);
 
   constructor() {
@@ -23,6 +24,7 @@ export class StintService extends FirestoreService {
     this.getRaceStints()
     .pipe(takeUntilDestroyed())
     .subscribe(stints => {
+      this.stints.set(stints);
       const activeStint = this.getActiveStint(stints);
       this.activeStint.set(activeStint);
     });
