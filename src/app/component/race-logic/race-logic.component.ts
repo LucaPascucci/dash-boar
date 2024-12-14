@@ -2,7 +2,7 @@ import { Component, computed, inject, Signal } from '@angular/core';
 import { NgClass } from "@angular/common";
 import { RaceLogicService } from "../../service/race-logic.service";
 import { RaceLogic } from "../../model/race-logic";
-import { millisecondsToTimeString, secondsToTimeString } from "../../util/date.util";
+import { millisecondsToTimeString } from "../../util/date.util";
 
 @Component({
   selector: 'app-race-logic',

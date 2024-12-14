@@ -1,9 +1,6 @@
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { Race } from "../model/race";
-import {
-  addHours,
-  differenceInMilliseconds
-} from "date-fns";
+import { addHours, differenceInMilliseconds } from "date-fns";
 import { RaceConfigService } from "./race-config.service";
 import { Pit } from "../model/pit";
 import { RaceService } from "./race.service";

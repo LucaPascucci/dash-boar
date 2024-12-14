@@ -1,9 +1,8 @@
-import { inject, Injectable, signal, Signal, WritableSignal } from '@angular/core';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { collection, collectionData, } from "@angular/fire/firestore";
 import { combineLatest, map, Observable } from "rxjs";
 import { FirestoreService } from "./firestore.service";
 import { Lap } from "../model/lap";
-import { Race } from "../model/race";
 import { RaceService } from "./race.service";
 import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
 
