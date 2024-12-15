@@ -20,7 +20,7 @@ export class PitService extends FirestoreService {
   private readonly raceConfigService = inject(RaceConfigService);
 
   readonly activePit: WritableSignal<Pit | undefined> = signal(undefined);
-  readonly activePitRemainingMilliseconds: WritableSignal<number | undefined> = signal(undefined);
+  readonly activePitRemainingMilliseconds: WritableSignal<number> = signal(0);
   readonly lastRefuelPit: WritableSignal<Pit | undefined> = signal(undefined);
   readonly pits: WritableSignal<Pit[]> = signal([]);
   readonly completedDriverChanges: WritableSignal<number> = signal(0);

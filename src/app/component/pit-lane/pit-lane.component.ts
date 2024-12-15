@@ -8,6 +8,7 @@ import { DriverService } from "../../service/driver.service";
 import { Pit } from "../../model/pit";
 import { millisecondsToPitString, millisecondsToTimeString } from "../../util/date.util";
 import { RaceManagerService } from "../../service/race-manager.service";
+import { TyreService } from "../../service/tyre.service";
 
 @Component({
   selector: 'app-pit-lane',
@@ -25,21 +26,24 @@ export class PitLaneComponent {
   private readonly pitService = inject(PitService);
   private readonly driverService = inject(DriverService);
   private readonly raceManagerService = inject(RaceManagerService);
+  private readonly tyreService = inject(TyreService);
 
   readonly pitLaneOpen: Signal<boolean> = this.pitLaneService.open;
+  readonly pitLaneOpenInMilliseconds: Signal<number> = this.pitLaneService.openInMilliseconds
+  readonly pitLaneOpenInMillisecondsString = computed(() => {
+    return millisecondsToTimeString(this.pitLaneService.openInMilliseconds());
+  });
 
   readonly activePit: Signal<Pit | undefined> = this.pitService.activePit
-  readonly remainingDriverChanges: Signal<number> = this.pitService.remainingDriverChanges;
-  readonly completedDriverChanges: Signal<number> = this.pitService.completedDriverChanges;
-  readonly drivers: Signal<Driver[]> = this.driverService.drivers;
-
-  readonly activePitRemainingMilliseconds = computed(() => {
+  readonly activePitRemainingMilliseconds: Signal<number> = this.pitService.activePitRemainingMilliseconds
+  readonly activePitRemainingMillisecondsString = computed(() => {
     return millisecondsToPitString(this.pitService.activePitRemainingMilliseconds());
   })
 
-  readonly pitLaneOpenInMilliseconds = computed(() => {
-    return millisecondsToTimeString(this.pitLaneService.openInMilliseconds());
-  });
+  readonly drivers: Signal<Driver[]> = this.driverService.drivers;
+
+  readonly remainingTyreChange: Signal<number> = this.tyreService.remainingTyreChange
+  readonly tyreChangeWindowOpen: Signal<boolean> = this.tyreService.tyreChangeWindowOpen;
 
   isOpen = true;
   refueling = false;

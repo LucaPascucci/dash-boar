@@ -21,7 +21,7 @@ export class TyreChangeWindowComponent {
   countdownOpeningTime = computed(() => getTimeUntilFutureDate(this.tyreService.openingTime()))
   countdownClosingTime= computed(() => getTimeUntilFutureDate(this.tyreService.closingTime()))
 
-  isOpen = true;
+  isOpen = false;
 
   constructor() { }
 }

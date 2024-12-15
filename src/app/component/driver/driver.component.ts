@@ -29,6 +29,24 @@ export class DriverComponent {
     return undefined;
   });
 
+  readonly totalStints = computed(() => {
+    const stintCountMap = this.driverService.driversStintCountMap();
+    let totalStints = 0;
+    stintCountMap.forEach(count => {
+      totalStints += count;
+    });
+    return totalStints;
+  })
+
+  readonly totalTimeOnTrack = computed(() => {
+    const timeOnTrackMap = this.driverService.driversTimeOnTrackMap();
+    let totalTime = 0;
+    timeOnTrackMap.forEach(time => {
+      totalTime += time;
+    });
+    return millisecondsToTimeString(totalTime);
+  })
+
 
   isOpen = true;
 
@@ -42,5 +60,9 @@ export class DriverComponent {
 
   getDriverTimeOnTrackWarning(driverId: string): boolean {
     return this.driverService.driversTimeOnTrackWarningMap().get(driverId) || false;
+  }
+
+  getDriverStintCount(driverId: string): number {
+    return this.driverService.driversStintCountMap().get(driverId) || 0;
   }
 }
