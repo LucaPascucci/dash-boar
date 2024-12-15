@@ -11,11 +11,13 @@ import { PitLaneComponent } from "./component/pit-lane/pit-lane.component";
 import { DriverChangeComponent } from "./component/driver-change/driver-change.component";
 import { ActiveStintComponent } from "./component/active-stint/active-stint.component";
 import { StintComponent } from "./component/stint/stint.component";
+import { LapComponent } from "./component/lap/lap.component";
+import { PitComponent } from "./component/pit/pit.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RaceComponent, TyreChangeWindowComponent, FuelComponent, StintOptimizerComponent, DriverComponent, PitLaneComponent, DriverChangeComponent, ActiveStintComponent, StintComponent],
+  imports: [RouterOutlet, RaceComponent, TyreChangeWindowComponent, FuelComponent, StintOptimizerComponent, DriverComponent, PitLaneComponent, DriverChangeComponent, ActiveStintComponent, StintComponent, LapComponent, PitComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
