@@ -5,14 +5,15 @@ import {
   TyreChangeWindowComponent
 } from "./component/tyre-change-window/tyre-change-window.component";
 import { FuelComponent } from "./component/fuel/fuel.component";
-import { RaceLogicComponent } from "./component/race-logic/race-logic.component";
+import { StintOptimizerComponent } from "./component/stint-optimizer/stint-optimizer.component";
 import { DriverComponent } from "./component/driver/driver.component";
-import { PitLaneComponent } from "./component/pit/pit-lane.component";
+import { PitLaneComponent } from "./component/pit-lane/pit-lane.component";
+import { DriverChangeComponent } from "./component/driver-change/driver-change.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RaceComponent, TyreChangeWindowComponent, FuelComponent, RaceLogicComponent, DriverComponent, PitLaneComponent],
+  imports: [RouterOutlet, RaceComponent, TyreChangeWindowComponent, FuelComponent, StintOptimizerComponent, DriverComponent, PitLaneComponent, DriverChangeComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
