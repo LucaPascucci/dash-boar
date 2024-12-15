@@ -1,5 +1,4 @@
-<div
-    class="bg-white shadow-md rounded-lg p-2 md:p-3 lg:p-4 w-auto mx-auto border hover:shadow-xl">
+<div class="bg-white shadow-md rounded-lg p-2 md:p-3 lg:p-4 w-auto mx-auto border hover:shadow-xl">
 
   <div [ngClass]="{'mb-2':isOpen}" (click)="isOpen = !isOpen" class="flex justify-between items-center hover:cursor-pointer">
     <div class="text-lg lg:text-xl font-bold">🔄 Driver change</div>
@@ -7,12 +6,12 @@
 
       @if (remainingDriverChanges() > 0) {
         <div
-            class="bg-yellow-500 px-2 py-1 rounded-lg text-white text-center font-medium mr-1 hover:cursor-default">
+            class="bg-yellow-500 px-2 py-1 rounded-lg text-white text-center font-medium hover:cursor-default">
           Remaining: {{ remainingDriverChanges() }}
         </div>
       } @else {
         <div
-            class="bg-green-500 px-2 py-1 rounded-lg text-white text-center font-medium mr-1 hover:cursor-default">
+            class="bg-green-500 px-2 py-1 rounded-lg text-white text-center font-medium hover:cursor-default">
           Completed!
         </div>
       }
@@ -20,7 +19,7 @@
   </div>
 
   @if (isOpen) {
-    <div class="flex justify-between mb-2">
+    <div class="flex justify-between">
       <div>
         <div class="text-gray-600">Competed</div>
         <div class="text-black font-mono">
