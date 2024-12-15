@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.15.0
+
+Added
+-------
+- Introduced a new Pit Lane component with enhanced functionalities for managing pit stops.
+- Added a Stint Optimizer component to optimize race strategies.
+- Implemented a Driver Change component to monitor driver changes.
+
+Changed
+---------
+- Updated the Race component to allow selection of the starting driver.
+- Enhanced the Driver component to display the number of stints completed by each driver.
+
+----
+
 ## v0.14.0
 
 Added
