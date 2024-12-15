@@ -1,9 +1,6 @@
 <div class="w-full h-full min-h-full dark:bg-black">
   <div class="p-4 grid grid-cols-2 lg:grid-cols-3 gap-3">
-    <div class="flex items-center">
-      <!--<img src="assets/wild_boar_racing_round.jpg" alt="Descrizione immagine" class="h-12 w-12 object-cover mr-4">-->
-      <div class="text-xl md:text-3xl dark:text-white font-semibold">🏎️ dash-boar 🐗</div>
-    </div>
+    <div class="text-xl md:text-3xl dark:text-white font-semibold">🏎️ dash-boar 🐗</div>
     <div class="text-right lg:text-center">
       <app-race></app-race>
     </div>
@@ -12,10 +9,13 @@
   <div class="mx-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
     <div class="flex-col md:h-fit">
       <div class="mb-3 lg:mb-4">
-        <app-tyre-change-window></app-tyre-change-window>
+        <app-pit-lane></app-pit-lane>
       </div>
       <div class="lg:mb-4">
-        <app-driver></app-driver>
+        <app-driver-change></app-driver-change>
+      </div>
+      <div class="lg:mb-4">
+        <app-tyre-change-window></app-tyre-change-window>
       </div>
     </div>
     <div class="flex-col">
@@ -23,29 +23,27 @@
         <app-fuel></app-fuel>
       </div>
       <div class="lg:mb-4">
-        <app-pit-lane></app-pit-lane>
+        <app-driver></app-driver>
+
       </div>
     </div>
     <div class="flex-col">
       <div class="mb-3 lg:mb-4">
+        <app-active-stint></app-active-stint>
+      </div>
+      <div class="lg:mb-4">
         <app-stint-optimizer></app-stint-optimizer>
       </div>
       <div class="lg:mb-4">
-        <app-driver-change></app-driver-change>
+        <app-stint></app-stint>
       </div>
-      <div class="lg:mb-4">
+      <div class="lg:mb-4 dark:text-white">
         <strong>TODO:</strong><br>
-        - Fuel: calcolo giri rimanenti anche quando non è avviata la gara<br>
-        - ✅ Pit lane: animare pit out quando si avvicina il la possibilità di uscire dai box<br>
-        - Pit lane: Sincronizzare setup pit tra dispositivi<br>
-        - ✅ Pit lane: spostare setup pit sopra i tasti<br>
-        - ✅ Pit lane: disabilitare tyre change se -> già fatti oppure se fuori dalla finestra temporale di cambio gomme<br>
-        - ✅ Drivers: Aggiungere numero di stint fatti per ogni pilota<br>
+        - ✅ Fuel: calcolo giri rimanenti anche quando non è avviata la gara<br>
+        - Stint: aggiustare calcolo time on track totale<br>
+        - Stint: mettere altezza massima della tabella con scroll verticale<br>
+        - Componente per visualizzazione storico pits<br>
         - Componente per gestione reference lap time<br>
-        - ✅ Race: gestione pilota di partenza<br>
-        - Componente per visualizzazione stint corrente e storico<br>
-        - Componente per visualizzazione storico pit<br>
-        - ✅ Componente driver changes per monitorare rimanenze/completati<br>
       </div>
     </div>
 

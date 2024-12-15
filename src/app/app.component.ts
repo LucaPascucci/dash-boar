@@ -9,11 +9,13 @@ import { StintOptimizerComponent } from "./component/stint-optimizer/stint-optim
 import { DriverComponent } from "./component/driver/driver.component";
 import { PitLaneComponent } from "./component/pit-lane/pit-lane.component";
 import { DriverChangeComponent } from "./component/driver-change/driver-change.component";
+import { ActiveStintComponent } from "./component/active-stint/active-stint.component";
+import { StintComponent } from "./component/stint/stint.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RaceComponent, TyreChangeWindowComponent, FuelComponent, StintOptimizerComponent, DriverComponent, PitLaneComponent, DriverChangeComponent],
+  imports: [RouterOutlet, RaceComponent, TyreChangeWindowComponent, FuelComponent, StintOptimizerComponent, DriverComponent, PitLaneComponent, DriverChangeComponent, ActiveStintComponent, StintComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
