@@ -7,19 +7,18 @@
 
       @if (driversTimeOnTrackWarningCount() > 0) {
         <div
-            class="bg-yellow-500 px-2 py-1 rounded-lg text-white text-center font-medium mr-1 hover:cursor-default">
+            class="bg-yellow-500 px-2 py-1 rounded-lg text-white text-center font-medium hover:cursor-default">
           Time on track warning: {{ driversTimeOnTrackWarningCount() }}
         </div>
       } @else {
         <div
-            class="bg-green-500 px-2 py-1 rounded-lg text-white text-center font-medium mr-1 hover:cursor-default">
+            class="bg-green-500 px-2 py-1 rounded-lg text-white text-center font-medium hover:cursor-default">
           Time on track warning: Completed!
         </div>
       }
     </div>
   </div>
 
-  <!-- TODO: aggiungere numero di stint fatti da ogni pilota -->
   @if (isOpen) {
     <table class="min-w-full bg-white">
       <thead>
@@ -37,21 +36,13 @@
         <td class="py-2 px-3 border-b border-gray-200 text-black">{{ driver.id }}</td>
         <td class="py-2 px-3 border-b border-gray-200 text-black">{{ driver.raceName }}</td>
         <td class="py-2 px-3 border-b border-gray-200 text-black font-mono">{{ getDriverReferenceLapTime(driver.id) }}</td>
-        <th class="py-2 px-3 border-b border-gray-200 text-black text-left font-mono"> {{ getDriverStintCount(driver.id) }}</th>
+        <td class="py-2 px-3 border-b border-gray-200 text-black text-left font-mono"> {{ getDriverStintCount(driver.id) }}</td>
         <td class="py-2 px-3 border-b border-gray-200 text-black font-mono">
           <div
               [ngClass]="{'bg-yellow-500 text-white': getDriverTimeOnTrackWarning(driver.id)}"
               class="p-1 w-24 text-center rounded">
             {{ getDriverTimeOnTrack(driver.id) }}
           </div>
-        </td>
-      </tr>
-      <!-- Totals row -->
-      <tr class="bg-gray-100 font-bold">
-        <td class="py-2 px-3 border-b border-gray-200 text-black" colspan="3">Totals</td>
-        <td class="py-2 px-3 border-b border-gray-200 text-black text-left font-mono">{{ totalStints() }}</td>
-        <td class="py-2 px-3 border-b border-gray-200 text-black font-mono">
-          <div class="p-1 w-24 text-center rounded">{{ totalTimeOnTrack() }}</div>
         </td>
       </tr>
       </tbody>

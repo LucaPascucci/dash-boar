@@ -20,12 +20,12 @@
 
       @if (tyreChangeWindowOpen()) {
         <div [ngClass]="{'animate-bounce': remainingTyreChange() > 0}"
-             class="bg-green-500 px-2 py-1 rounded-lg text-white text-center font-medium mr-1 hover:cursor-default">
+             class="bg-green-500 px-2 py-1 rounded-lg text-white text-center font-medium hover:cursor-default">
           Window open
         </div>
       } @else {
         <div
-            class="bg-red-500 px-2 py-1 rounded-lg text-white text-center font-medium mr-1 hover:cursor-default">
+            class="bg-red-500 px-2 py-1 rounded-lg text-white text-center font-medium hover:cursor-default">
           Window closed
         </div>
       }

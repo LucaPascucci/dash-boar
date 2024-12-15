@@ -12,5 +12,9 @@ export interface RaceConfig {
   maxDriverOnTrackHour: number;
   referenceLapTimeMillisecond: number;
   minPitSeconds: number;
+  startRaceDriverId: string;
+  nextPitDriverId: string;
+  nextPitRefueling: boolean;
+  nextPitTyreChange: boolean;
   deleted: boolean;
 }

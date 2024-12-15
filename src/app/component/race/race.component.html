@@ -6,6 +6,7 @@
         <select
             id="driverSelect"
             [(ngModel)]="selectedDriver"
+            (change)="updateDriverId()"
             name="driverSelect"
             class="border rounded p-1">
           <option *ngFor="let driver of drivers()"

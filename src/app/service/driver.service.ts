@@ -27,6 +27,7 @@ export class DriverService extends FirestoreService {
   readonly driversTimeOnTrackMap: WritableSignal<Map<string, number>> = signal(new Map<string, number>());
   readonly driversTimeOnTrackWarningMap: WritableSignal<Map<string, boolean>> = signal(new Map<string, boolean>());
   readonly driversStintCountMap: WritableSignal<Map<string, number>> = signal(new Map<string, number>());
+  readonly driverWithLessTimeOnTrack: WritableSignal<Driver | undefined> = signal(undefined);
 
   readonly driversTimeOnTrackWarningCount = computed(() => {
     const warningMap = this.driversTimeOnTrackWarningMap();
@@ -55,6 +56,7 @@ export class DriverService extends FirestoreService {
       this.driversTimeOnTrackMap.set(this.createDriverTrackTimeMap(stints, drivers));
       this.driversTimeOnTrackWarningMap.set(this.createDriversTimeOnTrackWarningMap(this.driversTimeOnTrackMap(), activeRaceConfig))
       this.driversStintCountMap.set(this.createDriverStintCountMap(stints, drivers));
+      this.driverWithLessTimeOnTrack.set(this.getDriverWithLessTimeOnTrack(stints, drivers));
     })
   }
 
@@ -153,6 +155,31 @@ export class DriverService extends FirestoreService {
     });
 
     return result;
+  }
+
+  private getDriverWithLessTimeOnTrack(stints: Stint[], drivers: Driver[]): Driver | undefined {
+    if (drivers.length === 0) {
+      return undefined;
+    }
+
+    const driversTimeOnTrackMap = this.createDriverTrackTimeMap(stints, drivers);
+
+    // Find the driver currently on track
+    const currentDriverId = stints.find(stint => stint.endDate === null)?.driverId;
+
+    // Find the driver with the least time on track, excluding the current driver
+    const driverMap = new Map(drivers.map(driver => [driver.id, driver]));
+    let minTime = Infinity;
+    let driverWithLeastTime: Driver | undefined = undefined;
+
+    driversTimeOnTrackMap.forEach((timeOnTrack, driverId) => {
+      if (driverId !== currentDriverId && timeOnTrack < minTime) {
+        minTime = timeOnTrack;
+        driverWithLeastTime = driverMap.get(driverId);
+      }
+    });
+
+    return driverWithLeastTime;
   }
 
 }
