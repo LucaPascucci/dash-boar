@@ -26,6 +26,7 @@ export class DriverService extends FirestoreService {
   readonly driversReferenceLapTimeMap: WritableSignal<Map<string, number>> = signal(new Map<string, number>());
   readonly driversTimeOnTrackMap: WritableSignal<Map<string, number>> = signal(new Map<string, number>());
   readonly driversTimeOnTrackWarningMap: WritableSignal<Map<string, boolean>> = signal(new Map<string, boolean>());
+  readonly driversStintCountMap: WritableSignal<Map<string, number>> = signal(new Map<string, number>());
 
   readonly driversTimeOnTrackWarningCount = computed(() => {
     const warningMap = this.driversTimeOnTrackWarningMap();
@@ -53,6 +54,7 @@ export class DriverService extends FirestoreService {
       this.driversReferenceLapTimeMap.set(this.createDriverReferenceLapTimeMap(laps, drivers));
       this.driversTimeOnTrackMap.set(this.createDriverTrackTimeMap(stints, drivers));
       this.driversTimeOnTrackWarningMap.set(this.createDriversTimeOnTrackWarningMap(this.driversTimeOnTrackMap(), activeRaceConfig))
+      this.driversStintCountMap.set(this.createDriverStintCountMap(stints, drivers));
     })
   }
 
@@ -65,10 +67,10 @@ export class DriverService extends FirestoreService {
   }
 
   private createDriverReferenceLapTimeMap(laps: Lap[], drivers: Driver[]): Map<string, number> {
-    // Create a map with driver ID as key and average lap time as value
-    const driverLapTimesMap = new Map<string, number>();
+    const result = new Map<string, number>();
+
     drivers.forEach(driver => {
-      driverLapTimesMap.set(driver.id, 0);
+      result.set(driver.id, 0);
     });
 
     // Group laps by driver ID and calculate average lap time
@@ -83,16 +85,16 @@ export class DriverService extends FirestoreService {
     for (const driverId in lapsGroupedByDriver) {
       const times = lapsGroupedByDriver[driverId];
       const averageTime = times.reduce((sum, time) => sum + time, 0) / times.length;
-      driverLapTimesMap.set(driverId, averageTime);
+      result.set(driverId, averageTime);
     }
-    return driverLapTimesMap;
+    return result;
   }
 
   private createDriverTrackTimeMap(stints: Stint[], drivers: Driver[]): Map<string, number> {
-    const driverTrackTimeMap = new Map<string, number>();
+    const result = new Map<string, number>();
 
     drivers.forEach(driver => {
-      driverTrackTimeMap.set(driver.id, 0);
+      result.set(driver.id, 0);
     });
 
     stints.forEach(stint => {
@@ -103,14 +105,14 @@ export class DriverService extends FirestoreService {
         // STINT CORRENTE
         timeSpent = new Date().getTime() - stint.startDate.toDate().getTime();
       }
-      if (driverTrackTimeMap.has(stint.driverId)) {
-        driverTrackTimeMap.set(stint.driverId, driverTrackTimeMap.get(stint.driverId)! + timeSpent);
+      if (result.has(stint.driverId)) {
+        result.set(stint.driverId, result.get(stint.driverId)! + timeSpent);
       } else {
-        driverTrackTimeMap.set(stint.driverId, timeSpent);
+        result.set(stint.driverId, timeSpent);
       }
     });
 
-    return driverTrackTimeMap;
+    return result;
   }
 
   private createDriversTimeOnTrackWarningMap(
@@ -130,6 +132,25 @@ export class DriverService extends FirestoreService {
         result.set(driverId, isBelowMin || isNearMax);
       });
     }
+
+    return result;
+  }
+
+  private createDriverStintCountMap(stints: Stint[], drivers: Driver[]): Map<string, number> {
+    const result = new Map<string, number>();
+
+    drivers.forEach(driver => {
+      result.set(driver.id, 0);
+    });
+
+    // Count the number of stints for each driver
+    stints.forEach(stint => {
+      if (result.has(stint.driverId)) {
+        result.set(stint.driverId, result.get(stint.driverId)! + 1);
+      } else {
+        result.set(stint.driverId, 1);
+      }
+    });
 
     return result;
   }
