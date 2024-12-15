@@ -1,7 +1,6 @@
-import { Component, computed, inject, Signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { NgClass } from "@angular/common";
-import { RaceLogicService } from "../../service/race-logic.service";
-import { RaceLogic } from "../../model/race-logic";
+import { StintOptimizerService } from "../../service/stint-optimizer.service";
 import { millisecondsToTimeString } from "../../util/date.util";
 
 @Component({
@@ -12,36 +11,36 @@ import { millisecondsToTimeString } from "../../util/date.util";
   styleUrl: './stint-optimizer.component.css'
 })
 export class StintOptimizerComponent {
-  private readonly raceLogicService = inject(RaceLogicService);
+  private readonly stintOptimizerService = inject(StintOptimizerService);
 
   AVGStintTime = computed(() => {
-    const activeRaceLogic = this.raceLogicService.activeRaceLogic();
-    if (activeRaceLogic) {
-      return millisecondsToTimeString(activeRaceLogic.avgStintMillisecondsTime);
+    const optimizedStint = this.stintOptimizerService.optimizedStint();
+    if (optimizedStint) {
+      return millisecondsToTimeString(optimizedStint.avgStintMillisecondsTime);
     }
     return '--:--:--'
   });
 
   laps = computed(() => {
-    const activeRaceLogic = this.raceLogicService.activeRaceLogic();
-    if (activeRaceLogic) {
-      return activeRaceLogic.laps;
+    const optimizedStint = this.stintOptimizerService.optimizedStint();
+    if (optimizedStint) {
+      return optimizedStint.laps;
     }
     return 0;
   });
 
   AVGStintTimeIfDriverChangeNow = computed(() => {
-    const activeRaceLogic = this.raceLogicService.activeRaceLogic();
-    if (activeRaceLogic) {
-      return millisecondsToTimeString(activeRaceLogic.avgStintMillisecondsIfDriverChangedNow);
+    const optimizedStint = this.stintOptimizerService.optimizedStint();
+    if (optimizedStint) {
+      return millisecondsToTimeString(optimizedStint.avgStintMillisecondsIfDriverChangedNow);
     }
     return '--:--:--'
   });
 
   lapsIfDriverChangeNow = computed(() => {
-    const activeRaceLogic = this.raceLogicService.activeRaceLogic();
-    if (activeRaceLogic) {
-      return activeRaceLogic.lapsIfDriverChangeNow;
+    const optimizedStint = this.stintOptimizerService.optimizedStint();
+    if (optimizedStint) {
+      return optimizedStint.lapsIfDriverChangeNow;
     }
     return 0;
   });
