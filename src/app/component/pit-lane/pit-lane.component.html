@@ -1,0 +1,96 @@
+<div
+    class="bg-white shadow-md rounded-lg p-2 md:p-3 lg:p-4 w-auto mx-auto border hover:shadow-xl">
+
+  <div [ngClass]="{'mb-4':isOpen}" (click)="isOpen = !isOpen" class="flex justify-between items-center hover:cursor-pointer">
+    <div class="text-lg lg:text-xl font-bold">🅿️ Pit Lane</div>
+    @if (pitLaneOpenInMilliseconds() > 0) {
+      <div class="bg-green-500 px-2 py-1 rounded-lg text-white text-center font-medium mr-1 hover:cursor-default">
+        Open in: {{ pitLaneOpenInMillisecondsString() }}
+      </div>
+    }
+    <div class="flex items-center">
+      @if (pitLaneOpen()) {
+        <div class="bg-green-500 px-2 py-1 rounded-lg text-white text-center font-medium mr-1 hover:cursor-default">
+          Open
+        </div>
+      } @else {
+        <div
+            class="bg-red-500 px-2 py-1 rounded-lg text-white text-center font-medium mr-1 hover:cursor-default">
+          Closed
+        </div>
+      }
+    </div>
+  </div>
+
+  @if (isOpen) {
+    <div class="flex flex-col items-center mb-2">
+      @if (!activePit()) {
+      <div class="font-semibold mb-2">PIT SETTINGS</div>
+      <form>
+        <div class="mb-2">
+          <label for="driverSelect" class="mr-2">🐗 Driver</label>
+          <select
+              [disabled]="activePit() !== undefined"
+              id="driverSelect"
+              [(ngModel)]="selectedDriver"
+              name="driverSelect"
+              class="border rounded p-1">
+            <option *ngFor="let driver of drivers()"
+                    [value]="driver.id">
+              {{ driver.raceName }}
+            </option>
+          </select>
+
+        </div>
+          <div class="mb-2">
+            <label for="refueling" class="mr-2">⛽️ Refueling</label>
+            <input
+                [disabled]="activePit() !== undefined"
+                type="checkbox"
+                id="refueling"
+                [(ngModel)]="refueling"
+                name="refueling">
+          </div>
+
+          <div class="mb-2">
+            <label for="tyreChange" class="mr-2">🛞 Tyre change</label>
+            <input
+                [disabled]="activePit() !== undefined || !tyreChangeWindowOpen() || remainingTyreChange() <= 0"
+                type="checkbox"
+                id="tyreChange"
+                [(ngModel)]="tyreChange"
+                name="tyreChange">
+          </div>
+      </form>
+      } @else {
+        @if (activePitRemainingMilliseconds() > 0) {
+          <div
+              [ngClass]="{'animate-bounce': activePitRemainingMilliseconds() < 10000}"
+              class="bg-yellow-500 p-2 rounded-lg text-white text-center text-xl font-black hover:cursor-default">
+            Pit out enabled in: {{ activePitRemainingMillisecondsString() }}
+          </div>
+        } @else {
+          <div class="bg-green-500 p-2 rounded-lg text-white text-center text-xl font-black hover:cursor-default">
+            Pit out ready!
+          </div>
+        }
+      }
+    </div>
+
+    <div class="flex justify-between">
+      <button
+          (click)="pitIn()"
+          [disabled]="!pitLaneOpen()"
+          class="bg-green-500 hover:bg-green-700 disabled:bg-green-200 text-white font-bold py-2 px-4 rounded">
+        Pit in
+      </button>
+
+      <button
+          (click)="pitOut()"
+          [disabled]="!activePit() || (activePit() && activePitRemainingMilliseconds() > 0)"
+          class="bg-red-500 hover:bg-red-700 disabled:bg-red-200 text-white font-bold py-2 px-4 rounded">
+        Pit out
+      </button>
+    </div>
+  }
+</div>
