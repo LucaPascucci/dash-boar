@@ -17,7 +17,7 @@ export class PitLaneService {
   private readonly raceConfigService = inject(RaceConfigService);
 
   readonly open: WritableSignal<boolean> = signal(false);
-  readonly openInMilliseconds: WritableSignal<number | undefined> = signal(undefined);
+  readonly openInMilliseconds: WritableSignal<number> = signal(0);
 
   constructor() {
     combineLatest({
@@ -33,12 +33,12 @@ export class PitLaneService {
         this.openInMilliseconds.set(this.calculatePitLaneOpenInMilliseconds(activeStint, activeRaceConfig));
       } else {
         this.open.set(false);
-        this.openInMilliseconds.set(undefined);
+        this.openInMilliseconds.set(0);
       }
     })
   }
 
-  private calculatePitLaneOpenInMilliseconds(activeStint: Stint, activeRaceConfig: RaceConfig): number | undefined {
+  private calculatePitLaneOpenInMilliseconds(activeStint: Stint, activeRaceConfig: RaceConfig): number {
     const now = new Date().getTime();
     return addMinutes(activeStint.startDate.toDate(), activeRaceConfig.minStintMinute).getTime() - now;
   }
