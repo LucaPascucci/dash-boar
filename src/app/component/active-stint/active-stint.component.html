@@ -1,0 +1,84 @@
+<div
+    class="bg-white shadow-md rounded-lg p-2 md:p-3 lg:p-4 w-auto mx-auto border hover:shadow-xl">
+
+  <div [ngClass]="{'mb-2':isOpen}" (click)="isOpen = !isOpen" class="flex justify-between items-center hover:cursor-pointer">
+    <div class="text-lg lg:text-xl font-bold">🏎️ Active stint</div>
+    <div class="flex items-center">
+      @if (activeStint()) {
+      @if (activeStintRemainingTimeOnTrack() > 0) {
+        <div
+            class="bg-yellow-500 px-2 py-1 rounded-lg text-white text-center mr-1 font-medium hover:cursor-default">
+          Remaining: {{ activeStintRemainingTimeOnTrackString() }}
+        </div>
+        <div
+            class="bg-yellow-500 px-2 py-1 rounded-lg text-white text-center font-medium hover:cursor-default">
+          Laps: {{ activeStintRemainingLaps() }}
+        </div>
+      } @else {
+        <div
+            class="bg-green-500 px-2 py-1 rounded-lg text-white text-center mr-1 font-medium hover:cursor-default">
+          Gained: {{ activeStintGainedTimeOnTrackString() }}
+        </div>
+        <div
+            class="bg-green-500 px-2 py-1 rounded-lg text-white text-center font-medium hover:cursor-default">
+          Laps: {{ activeStintGainedLaps() }}
+        </div>
+      }
+      }
+    </div>
+  </div>
+
+  @if (isOpen) {
+    <div class="flex justify-between mb-2">
+      <div>
+        <div class="text-gray-600">Time on track</div>
+        <div class="text-black font-mono">
+          {{ activeStintTimeOnTrackString() }}
+        </div>
+      </div>
+
+      <div>
+        <div class="text-gray-600 text-right">Laps</div>
+        <div class="text-black font-mono text-right">
+          {{ activeStintLaps() }}
+        </div>
+      </div>
+    </div>
+
+    <hr class="mb-2">
+
+    <div class="flex justify-between mb-2">
+      <div>
+        <div class="text-gray-600">Remaining time on track</div>
+        <div class="text-black font-mono">
+          {{ activeStintRemainingTimeOnTrackString() }}
+        </div>
+      </div>
+
+      <div>
+        <div class="text-gray-600 text-right">Remaining laps</div>
+        <div class="text-black font-mono text-right">
+          {{ activeStintRemainingLaps() }}
+        </div>
+      </div>
+    </div>
+
+    <hr class="mb-2">
+
+    <div class="flex justify-between">
+      <div>
+        <div class="text-gray-600">Gained time on track</div>
+        <div class="text-black font-mono">
+          {{ activeStintGainedTimeOnTrackString() }}
+        </div>
+      </div>
+
+      <div>
+        <div class="text-gray-600 text-right">Gained laps</div>
+        <div class="text-black font-mono text-right">
+          {{ activeStintGainedLaps() }}
+        </div>
+      </div>
+    </div>
+  }
+</div>
