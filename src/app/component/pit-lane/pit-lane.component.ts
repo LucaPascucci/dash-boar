@@ -1,4 +1,4 @@
-import { Component, computed, inject, Signal } from '@angular/core';
+import { Component, computed, effect, inject, Signal } from '@angular/core';
 import { NgClass, NgForOf } from "@angular/common";
 import { PitLaneService } from "../../service/pit-lane.service";
 import { PitService } from "../../service/pit.service";
@@ -9,6 +9,7 @@ import { Pit } from "../../model/pit";
 import { millisecondsToPitString, millisecondsToTimeString } from "../../util/date.util";
 import { RaceManagerService } from "../../service/race-manager.service";
 import { TyreService } from "../../service/tyre.service";
+import { RaceConfigService } from "../../service/race-config.service";
 
 @Component({
   selector: 'app-pit-lane',
@@ -27,6 +28,7 @@ export class PitLaneComponent {
   private readonly driverService = inject(DriverService);
   private readonly raceManagerService = inject(RaceManagerService);
   private readonly tyreService = inject(TyreService);
+  private readonly raceConfigService = inject(RaceConfigService);
 
   readonly pitLaneOpen: Signal<boolean> = this.pitLaneService.open;
   readonly pitLaneOpenInMilliseconds: Signal<number> = this.pitLaneService.openInMilliseconds
@@ -50,13 +52,42 @@ export class PitLaneComponent {
   tyreChange = false;
   selectedDriver: string = '1';
 
-  pitIn() {
-    this.raceManagerService.pitIn(this.selectedDriver, this.refueling, this.tyreChange);
+  constructor() {
+
+    effect(() => {
+      const activeRaceConfig = this.raceConfigService.activeRaceConfig()
+      if (activeRaceConfig) {
+        this.selectedDriver = activeRaceConfig.nextPitDriverId;
+        this.refueling = activeRaceConfig.nextPitRefueling;
+        this.tyreChange = activeRaceConfig.nextPitTyreChange;
+      }
+    });
   }
 
-  pitOut() {
-    this.raceManagerService.pitOut();
-    this.tyreChange = false;
-    this.refueling = false;
+  async pitIn() {
+    await this.raceManagerService.pitIn(this.selectedDriver, this.refueling, this.tyreChange);
+  }
+
+  async pitOut() {
+    await this.raceManagerService.pitOut();
+
+    this.raceConfigService.updateNextPitRefueling(false);
+    this.raceConfigService.updateNextPitTyreChange(false);
+    const nextDriverId: Driver | undefined = this.driverService.driverWithLessTimeOnTrack();
+    if (nextDriverId) {
+      this.raceConfigService.updateNextPitDriverId(nextDriverId.id);
+    }
+  }
+
+  updateDriverId() {
+    this.raceConfigService.updateNextPitDriverId(this.selectedDriver);
+  }
+
+  updateTyreChange() {
+    this.raceConfigService.updateNextPitTyreChange(this.tyreChange);
+  }
+
+  updateRefueling() {
+    this.raceConfigService.updateNextPitRefueling(this.refueling);
   }
 }

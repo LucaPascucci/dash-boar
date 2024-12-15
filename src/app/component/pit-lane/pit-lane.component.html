@@ -10,12 +10,12 @@
     }
     <div class="flex items-center">
       @if (pitLaneOpen()) {
-        <div class="bg-green-500 px-2 py-1 rounded-lg text-white text-center font-medium mr-1 hover:cursor-default">
+        <div class="bg-green-500 px-2 py-1 rounded-lg text-white text-center font-medium hover:cursor-default">
           Open
         </div>
       } @else {
         <div
-            class="bg-red-500 px-2 py-1 rounded-lg text-white text-center font-medium mr-1 hover:cursor-default">
+            class="bg-red-500 px-2 py-1 rounded-lg text-white text-center font-medium hover:cursor-default">
           Closed
         </div>
       }
@@ -33,6 +33,7 @@
               [disabled]="activePit() !== undefined"
               id="driverSelect"
               [(ngModel)]="selectedDriver"
+              (change)="updateDriverId()"
               name="driverSelect"
               class="border rounded p-1">
             <option *ngFor="let driver of drivers()"
@@ -48,6 +49,7 @@
                 [disabled]="activePit() !== undefined"
                 type="checkbox"
                 id="refueling"
+                (change)="updateRefueling()"
                 [(ngModel)]="refueling"
                 name="refueling">
           </div>
@@ -59,6 +61,7 @@
                 type="checkbox"
                 id="tyreChange"
                 [(ngModel)]="tyreChange"
+                (change)="updateTyreChange()"
                 name="tyreChange">
           </div>
       </form>
