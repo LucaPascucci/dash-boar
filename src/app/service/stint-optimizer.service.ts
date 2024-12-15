@@ -7,18 +7,18 @@ import { RaceService } from "./race.service";
 import { combineLatest, interval } from "rxjs";
 import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
 import { PitService } from "./pit.service";
-import { RaceLogic } from "../model/race-logic";
+import { OptimizedStint } from "../model/optimized-stint";
 import { RaceConfig } from "../model/race-config";
 
 @Injectable({
   providedIn: 'root'
 })
-export class RaceLogicService {
+export class StintOptimizerService {
   private readonly raceService = inject(RaceService);
   private readonly pitService = inject(PitService);
   private readonly raceConfigService = inject(RaceConfigService);
 
-  readonly activeRaceLogic: WritableSignal<RaceLogic | undefined> = signal(undefined);
+  readonly optimizedStint: WritableSignal<OptimizedStint | undefined> = signal(undefined);
 
 
   constructor() {
@@ -33,36 +33,31 @@ export class RaceLogicService {
     .pipe(takeUntilDestroyed())
     .subscribe(({activeRace, endRaceDate, activeRaceConfig, remainingDriverChanges, lastDriverChangePit}) => {
       if (activeRace && endRaceDate && activeRaceConfig) {
-        this.activeRaceLogic.set(
-            this.calculateRaceLogic(
+        this.optimizedStint.set(
+            this.calculateOptimizedStint(
                 activeRace,
                 endRaceDate,
                 activeRaceConfig,
                 remainingDriverChanges,
                 lastDriverChangePit));
       } else {
-        this.activeRaceLogic.set(undefined);
+        this.optimizedStint.set(undefined);
       }
     });
   }
 
-  calculateRaceLogic(
+  calculateOptimizedStint(
       race: Race,
       endRaceDate: Date,
       raceConfig: RaceConfig,
       remainingDriverChanges: number,
       lastDriverChangePit: Pit | undefined
-  ): RaceLogic {
+  ): OptimizedStint | undefined {
 
     const currentDate = new Date();
 
     if (currentDate >= endRaceDate) {
-      return {
-        avgStintMillisecondsTime: undefined,
-        laps: 0,
-        avgStintMillisecondsIfDriverChangedNow: undefined,
-        lapsIfDriverChangeNow: 0
-      };
+      return undefined;
     }
 
     const remainingPitTime = secondsToMilliseconds(raceConfig.minPitSeconds * remainingDriverChanges);
@@ -80,9 +75,9 @@ export class RaceLogicService {
     const avgIfChangedNow = timeRemaining / remainingDriverChanges;
 
     return {
-      avgStintMillisecondsTime: avgStintTime || undefined,
+      avgStintMillisecondsTime: avgStintTime,
       laps: Math.floor(avgStintTime / raceConfig.referenceLapTimeMillisecond),
-      avgStintMillisecondsIfDriverChangedNow: avgIfChangedNow || undefined,
+      avgStintMillisecondsIfDriverChangedNow: avgIfChangedNow,
       lapsIfDriverChangeNow: Math.floor(avgIfChangedNow / raceConfig.referenceLapTimeMillisecond)
     };
   }

@@ -25,13 +25,6 @@ export class RaceConfigService extends FirestoreService {
     });
   }
 
-  private getAll(): Observable<RaceConfig[]> {
-    return collectionData(this.collectionRef).pipe(
-        takeUntil(this.destroyed),
-        map((raceConfigs: RaceConfig[]) => raceConfigs.filter(raceConfig => !raceConfig.deleted))
-    );
-  }
-
   updateFuelDurationMinute(fuelDurationMinute: number): Promise<void> {
     const activeRaceConfig = this.activeRaceConfig();
     if (activeRaceConfig) {
@@ -39,5 +32,48 @@ export class RaceConfigService extends FirestoreService {
       return this.updateData(activeRaceConfig.id, activeRaceConfig)
     }
     return Promise.resolve();
+  }
+
+  updateStartRaceDriverId(driverId: string): Promise<void> {
+    const activeRaceConfig = this.activeRaceConfig();
+    if (activeRaceConfig) {
+      activeRaceConfig.startRaceDriverId = driverId;
+      return this.updateData(activeRaceConfig.id, activeRaceConfig)
+    }
+    return Promise.resolve();
+  }
+
+  updateNextPitDriverId(driverId: string): Promise<void> {
+    const activeRaceConfig = this.activeRaceConfig();
+    if (activeRaceConfig) {
+      activeRaceConfig.nextPitDriverId = driverId;
+      return this.updateData(activeRaceConfig.id, activeRaceConfig)
+    }
+    return Promise.resolve();
+  }
+
+  updateNextPitRefueling(refueling: boolean): Promise<void> {
+    const activeRaceConfig = this.activeRaceConfig();
+    if (activeRaceConfig) {
+      activeRaceConfig.nextPitRefueling = refueling;
+      return this.updateData(activeRaceConfig.id, activeRaceConfig)
+    }
+    return Promise.resolve();
+  }
+
+  updateNextPitTyreChange(tyreChange: boolean): Promise<void> {
+    const activeRaceConfig = this.activeRaceConfig();
+    if (activeRaceConfig) {
+      activeRaceConfig.nextPitTyreChange = tyreChange;
+      return this.updateData(activeRaceConfig.id, activeRaceConfig)
+    }
+    return Promise.resolve();
+  }
+
+  private getAll(): Observable<RaceConfig[]> {
+    return collectionData(this.collectionRef).pipe(
+        takeUntil(this.destroyed),
+        map((raceConfigs: RaceConfig[]) => raceConfigs.filter(raceConfig => !raceConfig.deleted))
+    );
   }
 }

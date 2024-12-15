@@ -54,14 +54,6 @@ export class RaceService extends FirestoreService {
     return race;
   }
 
-  updateRace(race: Race): Promise<void> {
-    return this.updateData(race.id, race)
-  }
-
-  getById(id: string): Promise<Race | undefined> {
-    return this.getDataById(id);
-  }
-
   private getAll(): Observable<Race[]> {
     return collectionData(this.collectionRef).pipe(
         takeUntil(this.destroyed),

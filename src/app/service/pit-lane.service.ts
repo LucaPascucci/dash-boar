@@ -50,7 +50,7 @@ export class PitLaneService {
     const pitLaneCloseTime = subMinutes(endRaceDate, activeRaceConfig.pitLaneCloseBeforeEndRaceMinute);
     const isBeforePitLaneClose = isBefore(now, pitLaneCloseTime);
 
-    // Check if at least X minutes have passed since the start of the active stint
+    // Check if at least X minutes have passed since the start of the active active-stint
     const minStintTime = addMinutes(activeStint.startDate.toDate(), activeRaceConfig.minStintMinute);
     const isAfterMinStintTime = isAfter(now, minStintTime)
 
