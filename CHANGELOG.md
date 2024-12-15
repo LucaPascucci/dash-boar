@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.16.0
+
+Added
+-------
+- Introduced StintOptimizerService for optimized stint calculations.
+- Added new components for active stint and stint management.
+- Implemented new functionalities for managing race configurations and pit operations.
+
+Changed
+---------
+- Refactored existing services and components to improve race and stint management.
+- Updated UI layout and component interactions for better user experience.
+
+---
+
 ## v0.15.0
 
 Added
