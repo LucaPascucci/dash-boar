@@ -5,16 +5,14 @@ import { RaceLogic } from "../../model/race-logic";
 import { millisecondsToTimeString } from "../../util/date.util";
 
 @Component({
-  selector: 'app-race-logic',
+  selector: 'app-stint-optimizer',
   standalone: true,
   imports: [ NgClass ],
-  templateUrl: './race-logic.component.html',
-  styleUrl: './race-logic.component.css'
+  templateUrl: './stint-optimizer.component.html',
+  styleUrl: './stint-optimizer.component.css'
 })
-export class RaceLogicComponent {
+export class StintOptimizerComponent {
   private readonly raceLogicService = inject(RaceLogicService);
-
-  readonly activeRaceLogic: Signal<RaceLogic | undefined> = this.raceLogicService.activeRaceLogic;
 
   AVGStintTime = computed(() => {
     const activeRaceLogic = this.raceLogicService.activeRaceLogic();
