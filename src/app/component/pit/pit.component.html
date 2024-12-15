@@ -1,0 +1,15 @@
+<div class="bg-white shadow-md rounded-lg p-2 md:p-3 lg:p-4 w-auto mx-auto border hover:shadow-xl">
+
+  <div [ngClass]="{'mb-2':isOpen}" (click)="isOpen = !isOpen" class="flex justify-between items-center hover:cursor-pointer">
+    <div class="text-lg lg:text-xl font-bold">👨🏻‍🔧 Pit</div>
+    <div class="flex items-center">
+      <div
+          class="bg-blue-500 px-2 py-1 rounded-lg text-white text-center font-medium hover:cursor-default">
+        Total: {{ 0 }}
+      </div>
+    </div>
+  </div>
+
+  @if (isOpen) {
+  }
+</div>
