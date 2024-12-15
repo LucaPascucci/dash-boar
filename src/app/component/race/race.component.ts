@@ -4,24 +4,33 @@ import { getTimeUntilFutureDate, } from "../../util/date.util";
 import { combineLatest, interval } from "rxjs";
 import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
 import { RaceManagerService } from "../../service/race-manager.service";
+import { FormsModule } from "@angular/forms";
+import { NgForOf } from "@angular/common";
+import { DriverService } from "../../service/driver.service";
+import { Driver } from "../../model/driver";
 
 @Component({
   selector: 'app-race',
   standalone: true,
-  imports: [],
+  imports: [
+    FormsModule,
+    NgForOf
+  ],
   templateUrl: './race.component.html',
   styleUrl: './race.component.css'
 })
 export class RaceComponent {
   private readonly raceService = inject(RaceService);
   private readonly raceManagerService = inject(RaceManagerService);
+  private readonly driverService = inject(DriverService);
 
-  endRaceDate: Signal<Date | undefined> = this.raceService.endRaceDate;
+  readonly drivers: Signal<Driver[]> = this.driverService.drivers;
+  readonly endRaceDate: Signal<Date | undefined> = this.raceService.endRaceDate;
 
   endRaceCountdown: string = '--:--:--';
+  selectedDriver: string = '1';
 
   constructor() {
-
     combineLatest({
       endRaceDate: toObservable(this.endRaceDate),
       ping: interval(1000)
@@ -33,6 +42,6 @@ export class RaceComponent {
   }
 
   startRace(): void {
-    this.raceManagerService.startRace('1');
+    this.raceManagerService.startRace(this.selectedDriver);
   }
 }
