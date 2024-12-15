@@ -1,0 +1,48 @@
+<div class="bg-white shadow-md rounded-lg p-2 md:p-3 lg:p-4 w-auto mx-auto border hover:shadow-xl">
+
+  <div [ngClass]="{'mb-2':isOpen}" (click)="isOpen = !isOpen" class="flex justify-between items-center hover:cursor-pointer">
+    <div class="text-lg lg:text-xl font-bold"> Stint</div>
+    <div class="flex items-center">
+      <div
+          class="bg-blue-500 px-2 py-1 rounded-lg text-white text-center font-medium hover:cursor-default">
+        Total: {{ stints().length }}
+      </div>
+    </div>
+  </div>
+
+  @if (isOpen) {
+    <table class="min-w-full bg-white">
+      <thead>
+      <tr>
+        <th class="py-2 px-3 border-b border-gray-200 text-left text-md font-medium text-gray-700"></th>
+        <th class="py-2 px-3 border-b border-gray-200 text-left text-md font-medium text-gray-700">Driver</th>
+        <th class="py-2 px-3 border-b border-gray-200 text-left text-md font-medium text-gray-700">Start</th>
+        <th class="py-2 px-3 border-b border-gray-200 text-left text-md font-medium text-gray-700">End</th>
+        <th class="py-2 px-3 border-b border-gray-200 text-left text-md font-medium text-gray-700">Time on track</th>
+      </tr>
+      </thead>
+      <tbody >
+      <tr *ngFor="let stint of stints()"
+          [ngClass]="{'bg-green-100 font-semibold': stint.id === activeStintId(), 'hover:bg-gray-50': stint.id !== activeStintId()}">
+        <td class="py-2 px-3 border-b border-gray-200 text-black">{{ stint.id }}</td>
+        <td class="py-2 px-3 border-b border-gray-200 text-black">{{ getDriverRacingName(stint.driverId) }}</td>
+        <td class="py-2 px-3 border-b border-gray-200 text-black font-mono">{{ stint.startDate.toDate() | date:'HH:mm:ss' }}</td>
+        <td class="py-2 px-3 border-b border-gray-200 text-black font-mono">
+          @if (stint.endDate) {
+            {{ stint.endDate.toDate() | date:'HH:mm:ss' }}
+          } @else {
+            --:--:--
+          }
+          </td>
+        <td class="py-2 px-3 border-b border-gray-200 text-black font-mono"> {{ calculateTimeOnTrack(stint.startDate.toDate(), stint.endDate?.toDate()) }}</td>
+      </tr>
+      </tbody>
+      <tfoot>
+      <tr class="bg-gray-100 font-bold">
+        <td class="py-2 px-3 border-b border-gray-200 text-black" colspan="4">Totals</td>
+        <td class="py-2 px-3 border-b border-gray-200 text-black font-mono">{{ totalStintTimeOnTrack() }}</td>
+      </tr>
+      </tfoot>
+    </table>
+  }
+</div>
