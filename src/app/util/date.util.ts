@@ -22,22 +22,6 @@ export function getTimeUntilFutureDate(futureDate: Date | undefined): string {
   return formatDuration(duration);
 }
 
-export function secondsToTimeString(seconds: number | undefined): string {
-  if (!seconds || seconds < 0) {
-    return '--:--:--';
-  }
-
-  const roundedSeconds = Math.round(seconds);
-
-  const duration: Duration = {
-    hours: Math.floor(roundedSeconds / 3600),
-    minutes: Math.floor((roundedSeconds % 3600) / 60),
-    seconds: roundedSeconds % 60
-  };
-
-  return formatDuration(duration);
-}
-
 export function millisecondsToTimeString(milliseconds: number | undefined): string {
   if (!milliseconds || milliseconds < 0) {
     return '--:--:--';
@@ -107,7 +91,7 @@ function formatDuration(duration: Duration): string {
   return [padTwo(duration.hours), padTwo(duration.minutes), padTwo(duration.seconds)].join(":");
 }
 
-function padTwo(num: number | undefined) {
+function padTwo(num: number | undefined): string {
   if (num) {
     return num < 10 ? `0${num}` : `${num}`;
   }
