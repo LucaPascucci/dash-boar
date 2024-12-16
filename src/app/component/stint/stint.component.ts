@@ -29,20 +29,6 @@ export class StintComponent {
     return undefined;
   })
 
-  readonly totalStintTimeOnTrack = computed(() => {
-    const stints = this.stintService.stints();
-    let timeSpent = 0;
-    stints.forEach(stint => {
-      if (stint.endDate) {
-        timeSpent += stint.endDate.toDate().getTime() - stint.startDate.toDate().getTime();
-      } else {
-        // STINT CORRENTE
-        timeSpent += new Date().getTime() - stint.startDate.toDate().getTime();
-      }
-    })
-    return millisecondsToTimeString(timeSpent);
-  })
-
   isOpen = true;
 
   getDriverRacingName(driverId: string): string {
@@ -56,5 +42,19 @@ export class StintComponent {
       return getElapsedTime(start, end);
     }
     return getElapsedTime(start, new Date());
+  }
+
+  calculateTotalTimeOnTrack(): string {
+    const stints = this.stintService.stints();
+    let timeSpent = 0;
+    stints.forEach(stint => {
+      if (stint.endDate) {
+        timeSpent += stint.endDate.toDate().getTime() - stint.startDate.toDate().getTime();
+      } else {
+        // STINT CORRENTE
+        timeSpent += new Date().getTime() - stint.startDate.toDate().getTime();
+      }
+    })
+    return millisecondsToTimeString(timeSpent);
   }
 }
