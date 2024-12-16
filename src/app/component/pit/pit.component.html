@@ -5,11 +5,66 @@
     <div class="flex items-center">
       <div
           class="bg-blue-500 px-2 py-1 rounded-lg text-white text-center font-medium hover:cursor-default">
-        Total: {{ 0 }}
+        Total: {{ pits().length }}
       </div>
     </div>
   </div>
 
-  @if (isOpen) {
+  @if (isOpen && pits().length > 0) {
+    <div class="max-h-72 flex flex-col overflow-clip">
+      <table class="w-full bg-white table-fixed">
+        <thead class="sticky top-0">
+        <tr>
+          <th class="py-2 px-3 border-b border-gray-200 text-left text-sm xl:text-base font-medium text-gray-700"></th>
+          <th class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700">🐗 🔄</th>
+          <th class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700">⛽️</th>
+          <th class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700">🛞 🔄</th>
+          <th class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700" colspan="2">Time</th>
+        </tr>
+        </thead>
+      </table>
+      <div class="flex-1 overflow-y-auto">
+        <table class="w-full table-fixed">
+          <tbody>
+          <tr *ngFor="let pit of pits()"
+              [ngClass]="{'bg-green-100 font-semibold': pit.id === activePitId(), 'hover:bg-gray-50': pit.id !== activePitId()}">
+            <td class="py-2 px-3 border-b border-gray-200 text-sm xl:text-base text-black">{{ pit.id }}</td>
+            <td class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base text-black">
+              @if (pit.entryDriverId !== pit.exitDriverId) {
+                ✅
+              }
+            </td>
+            <td class="py-2 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono">
+              @if (pit.refuel) {
+                ✅
+              }
+            </td>
+            <td class="py-2 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono">
+              @if (pit.tyreChange) {
+                ✅
+              }
+            </td>
+            <td class="py-2 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono" colspan="2"> {{
+                calculatePitTime(pit.entryTime.toDate(), pit.exitTime?.toDate())
+              }}
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="flex">
+        <table class="w-full table-fixed">
+          <tfoot class="sticky bottom-0-0">
+          <tr class="bg-gray-100 font-bold">
+            <td class="py-2 px-3 border-b border-gray-200 text-sm xl:text-base text-black">Totals</td>
+            <td class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono">{{ completedDriverChanges() }}</td>
+            <td class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono">{{ calculateTotalRefueling() }}</td>
+            <td class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono">{{ calculateTotalTyreChanges() }}</td>
+            <td class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono" colspan="2">{{ calculateTotalPitTime() }}</td>
+          </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
   }
 </div>

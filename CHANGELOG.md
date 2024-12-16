@@ -2,6 +2,12 @@
 
 ## v0.17.0
 
+Added
+---------
+- Introduced a new UI component for displaying pit information, including tables for pit details and totals.
+- Implemented functions to calculate total pit time, refueling, and tyre changes.
+- Integrated PitService for managing pit data and state.
+
 Changed
 ---------
 - Improved table layout and scrolling for stint and driver components.
