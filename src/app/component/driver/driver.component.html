@@ -1,14 +1,15 @@
 <div
     class="bg-white shadow-md rounded-lg p-2 md:p-3 lg:p-4 w-auto mx-auto border hover:shadow-xl">
 
-  <div [ngClass]="{'mb-2':isOpen}" (click)="isOpen = !isOpen" class="flex justify-between items-center hover:cursor-pointer">
+  <div [ngClass]="{'mb-2':isOpen}" (click)="isOpen = !isOpen"
+       class="flex justify-between items-center hover:cursor-pointer">
     <div class="text-lg lg:text-xl font-bold">🐗 Driver</div>
     <div class="flex items-center">
 
       @if (driversTimeOnTrackWarningCount() > 0) {
         <div
             class="bg-yellow-500 px-2 py-1 rounded-lg text-white text-center font-medium hover:cursor-default">
-          Time on track warning: {{ driversTimeOnTrackWarningCount() }}
+          Warning: {{ driversTimeOnTrackWarningCount() }}
         </div>
       } @else {
         <div
@@ -20,32 +21,53 @@
   </div>
 
   @if (isOpen) {
-    <table class="min-w-full bg-white">
-      <thead>
-      <tr>
-        <th class="py-2 px-3 border-b border-gray-200 text-left text-md font-medium text-gray-700"></th>
-        <th class="py-2 px-3 border-b border-gray-200 text-left text-md font-medium text-gray-700">Name</th>
-        <th class="py-2 px-3 border-b border-gray-200 text-left text-md font-medium text-gray-700">Reference lap time</th>
-        <th class="py-2 px-3 border-b border-gray-200 text-left text-md font-medium text-gray-700">Stint</th>
-        <th class="py-2 px-3 border-b border-gray-200 text-left text-md font-medium text-gray-700">Time on track</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let driver of drivers()"
-          [ngClass]="{'bg-green-100 font-semibold': driver.id === activeStintDriverId(), 'hover:bg-gray-50': driver.id !== activeStintDriverId()}">
-        <td class="py-2 px-3 border-b border-gray-200 text-black">{{ driver.id }}</td>
-        <td class="py-2 px-3 border-b border-gray-200 text-black">{{ driver.raceName }}</td>
-        <td class="py-2 px-3 border-b border-gray-200 text-black font-mono">{{ getDriverReferenceLapTime(driver.id) }}</td>
-        <td class="py-2 px-3 border-b border-gray-200 text-black text-left font-mono"> {{ getDriverStintCount(driver.id) }}</td>
-        <td class="py-2 px-3 border-b border-gray-200 text-black font-mono">
-          <div
-              [ngClass]="{'bg-yellow-500 text-white': getDriverTimeOnTrackWarning(driver.id)}"
-              class="p-1 w-24 text-center rounded">
-            {{ getDriverTimeOnTrack(driver.id) }}
-          </div>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+    <div class="flex flex-col overflow-clip">
+      <table class="w-full bg-white table-fixed">
+        <thead class="sticky top-0">
+        <tr>
+          <th class="py-2 px-3 border-b border-gray-200 text-left text-sm xl:text-base font-medium text-gray-700"></th>
+          <th class="py-2 border-b border-gray-200 text-left text-sm xl:text-base font-medium text-gray-700">
+            Name
+          </th>
+          <th class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700" colspan="3">
+            Reference lap
+          </th>
+          <th class="py-2 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700">
+            Stint
+          </th>
+          <th class="py-2 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700" colspan="2">
+            On track
+          </th>
+        </tr>
+        </thead>
+      </table>
+      <div class="flex-1 overflow-y-auto">
+        <table class="w-full table-fixed">
+          <tbody>
+          <tr *ngFor="let driver of drivers()"
+              [ngClass]="{'bg-green-100 font-semibold': driver.id === activeStintDriverId(), 'hover:bg-gray-50': driver.id !== activeStintDriverId()}">
+            <td class="py-2 px-3 border-b border-gray-200 text-left text-sm xl:text-base text-black">{{ driver.id }}</td>
+            <td class="py-2 border-b border-gray-200 text-left text-sm xl:text-base text-black">{{ driver.raceName }}</td>
+            <td class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono" colspan="3">{{
+                getDriverReferenceLapTime(driver.id)
+              }}
+            </td>
+            <td class="py-2 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono"> {{
+                getDriverStintCount(driver.id)
+              }}
+            </td>
+            <td class="py-2 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono" colspan="2">
+              <div
+                  [ngClass]="{'bg-yellow-500 text-white': getDriverTimeOnTrackWarning(driver.id)}"
+                  class="p-1 text-center rounded">
+                {{ getDriverTimeOnTrack(driver.id) }}
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
   }
 </div>
