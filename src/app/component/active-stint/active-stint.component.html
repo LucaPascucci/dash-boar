@@ -51,14 +51,22 @@
       <div>
         <div class="text-gray-600">Remaining time on track</div>
         <div class="text-black font-mono">
-          {{ activeStintRemainingTimeOnTrackString() }}
+          @if (activeStint()) {
+            {{ activeStintRemainingTimeOnTrackString() }}
+          } @else {
+            --:--:--
+          }
         </div>
       </div>
 
       <div>
         <div class="text-gray-600 text-right">Remaining laps</div>
         <div class="text-black font-mono text-right">
-          {{ activeStintRemainingLaps() }}
+          @if (activeStint()) {
+            {{ activeStintRemainingLaps() }}
+          } @else {
+            --:--:--
+          }
         </div>
       </div>
     </div>

@@ -99,7 +99,9 @@ export class PitService extends FirestoreService {
   }
 
   private getLastRefuelPit(pits: Pit[]): Pit | undefined {
-    const filteredRefuelPits = pits.filter(pit => pit.refuel && pit.exitTime !== undefined);
+    const filteredRefuelPits = pits
+    .filter(pit => pit.refuel && pit.exitTime)
+    .sort((a, b) => b.entryTime.toDate().getTime() - a.entryTime.toDate().getTime());
     return filteredRefuelPits.at(0);
   }
 
@@ -108,7 +110,9 @@ export class PitService extends FirestoreService {
       return undefined;
     }
 
-    const filteredEndedPits = pits.filter(pit => pit.exitTime);
+    const filteredEndedPits = pits
+    .filter(pit => pit.exitTime)
+    .sort((a, b) => b.entryTime.toDate().getTime() - a.entryTime.toDate().getTime());
 
     for (const pit of filteredEndedPits) {
       if (pit.entryDriverId !== pit.exitDriverId) {

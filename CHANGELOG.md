@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.17.0
+
+Changed
+---------
+- Improved table layout and scrolling for stint and driver components.
+- Enhanced time calculation and warning logic for drivers.
+- Updated data sorting and configuration settings.
+
+---
+
 ## v0.16.0
 
 Added

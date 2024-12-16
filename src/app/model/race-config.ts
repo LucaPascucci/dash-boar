@@ -10,6 +10,7 @@ export interface RaceConfig {
   pitLaneCloseBeforeEndRaceMinute: number;
   minDriverOnTrackHour: number;
   maxDriverOnTrackHour: number;
+  warningDriverOnTrackThresholdMinute: number;
   referenceLapTimeMillisecond: number;
   minPitSeconds: number;
   startRaceDriverId: string;

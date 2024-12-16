@@ -29,7 +29,7 @@ export class DriverComponent {
     return undefined;
   });
 
-  isOpen = false;
+  isOpen = true;
 
   getDriverReferenceLapTime(driverId: string): string {
     return millisecondsToLapString(this.driverService.driversReferenceLapTimeMap().get(driverId));

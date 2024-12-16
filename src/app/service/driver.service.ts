@@ -10,6 +10,7 @@ import { StintService } from "./stint.service";
 import { Stint } from "../model/stint";
 import { RaceConfigService } from "./race-config.service";
 import { RaceConfig } from "../model/race-config";
+import { hoursToMilliseconds, minutesToMilliseconds } from "date-fns";
 
 @Injectable({
   providedIn: 'root'
@@ -124,9 +125,9 @@ export class DriverService extends FirestoreService {
     const result = new Map<string, boolean>();
 
     if (activeRaceConfig) {
-      const minDriverOnTrackMillis = activeRaceConfig.minDriverOnTrackHour * 60 * 60 * 1000;
-      const maxDriverOnTrackMillis = activeRaceConfig.maxDriverOnTrackHour * 60 * 60 * 1000;
-      const warningThresholdMillis = 20 * 60 * 1000; // 20 minutes in milliseconds
+      const minDriverOnTrackMillis = hoursToMilliseconds(activeRaceConfig.minDriverOnTrackHour);
+      const maxDriverOnTrackMillis = hoursToMilliseconds(activeRaceConfig.maxDriverOnTrackHour);
+      const warningThresholdMillis = minutesToMilliseconds(activeRaceConfig.warningDriverOnTrackThresholdMinute);
 
       driverTrackTimeMap.forEach((timeOnTrack, driverId) => {
         const isBelowMin = timeOnTrack < minDriverOnTrackMillis;
