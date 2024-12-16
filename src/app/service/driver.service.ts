@@ -126,7 +126,7 @@ export class DriverService extends FirestoreService {
     if (activeRaceConfig) {
       const minDriverOnTrackMillis = activeRaceConfig.minDriverOnTrackHour * 60 * 60 * 1000;
       const maxDriverOnTrackMillis = activeRaceConfig.maxDriverOnTrackHour * 60 * 60 * 1000;
-      const warningThresholdMillis = 20 * 60 * 1000; // 20 minutes in milliseconds
+      const warningThresholdMillis = 10 * 60 * 1000; // 20 minutes in milliseconds
 
       driverTrackTimeMap.forEach((timeOnTrack, driverId) => {
         const isBelowMin = timeOnTrack < minDriverOnTrackMillis;
