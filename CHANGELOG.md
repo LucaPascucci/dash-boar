@@ -4,12 +4,16 @@
 
 Added
 ---------
+- Introduced an "Optimum" column in the stint component to display optimized stint times.
+- Added functionality to calculate and display optimized stint times using the StintOptimizerService.
 - Added a new column to the driver table to show the time from the last stint.
 - Added a new component to manage the reference lap time.
 
 Changed
 ---------
 - Updated the driver table to remove the reference lap time column.
+- Updated table headers and data cells to use smaller text sizes for better readability.
+- Refactored race and pit services to improve stint management and calculation logic.
 
 ---
 
