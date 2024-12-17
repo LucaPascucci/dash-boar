@@ -58,12 +58,10 @@ export class PitComponent {
   }
 
   calculateTotalRefueling(): number {
-    const pits = this.pitService.pits();
-    return pits.filter(pit => pit.exitTime && pit.refuel).length;
+    return this.pitService.pits().filter(pit => pit.refuel).length;
   }
 
   calculateTotalTyreChanges(): number {
-    const pits = this.pitService.pits();
-    return pits.filter(pit => pit.exitTime && pit.tyreChange).length;
+    return this.pitService.pits().filter(pit => pit.tyreChange).length;
   }
 }
