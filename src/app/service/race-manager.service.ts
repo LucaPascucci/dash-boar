@@ -1,4 +1,4 @@
-import { inject, Injectable, Signal } from '@angular/core';
+import { computed, inject, Injectable, Signal } from '@angular/core';
 import { RaceService } from "./race.service";
 import { StintService } from "./stint.service";
 import { Race } from "../model/race";
@@ -6,6 +6,7 @@ import { Timestamp } from "@firebase/firestore";
 import { Stint } from "../model/stint";
 import { PitService } from "./pit.service";
 import { Pit } from "../model/pit";
+import { StintOptimizerService } from "./stint-optimizer.service";
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +15,18 @@ export class RaceManagerService {
   private readonly raceService = inject(RaceService);
   private readonly stintService = inject(StintService);
   private readonly pitService = inject(PitService);
+  private readonly stintOptimizerService = inject(StintOptimizerService)
 
   private readonly activeRace: Signal<Race | undefined> = this.raceService.activeRace;
   private readonly activeStint: Signal<Stint | undefined> = this.stintService.activeStint;
   private readonly activePit: Signal<Pit | undefined> = this.pitService.activePit;
+  private readonly optimizedStintMilliseconds = computed(() => {
+      const optimizedStint = this.stintOptimizerService.optimizedStint();
+      if (optimizedStint) {
+        return optimizedStint.avgStintMillisecondsTime;
+      }
+      return 0;
+  })
 
   async startRace(firstDriverId: string): Promise<void> {
     const race = this.createRace();
@@ -44,8 +53,8 @@ export class RaceManagerService {
 
     if (activeRace && activePit) {
         const now = Timestamp.now();
-        const createdStint = await this.startStint(activeRace.id, activePit.exitDriverId, now);
-        await this.closeActivePit(createdStint.startDate);
+        await this.closeActivePit(now);
+        await this.startStint(activeRace.id, activePit.exitDriverId, now);
     }
   }
 
@@ -85,6 +94,7 @@ export class RaceManagerService {
       deleted: false,
       driverId: driverId,
       endDate: null,
+      optimumMilliseconds: this.optimizedStintMilliseconds(),
       raceId: raceId,
       startDate: start
     };
