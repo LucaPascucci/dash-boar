@@ -31,10 +31,6 @@ export class DriverComponent {
 
   isOpen = true;
 
-  getDriverReferenceLapTime(driverId: string): string {
-    return millisecondsToLapString(this.driverService.driversReferenceLapTimeMap().get(driverId));
-  }
-
   getDriverTimeOnTrack(driverId: string): string {
     return millisecondsToTimeString(this.driverService.driversTimeOnTrackMap().get(driverId));
   }
@@ -44,6 +40,10 @@ export class DriverComponent {
   }
 
   getDriverStintCount(driverId: string): number {
-    return this.driverService.driversStintCountMap().get(driverId) || 0;
+    return this.driverService.driversStintCountMap().get(driverId) ?? 0;
+  }
+
+  getDriverTimeFromLastStint(driverId: string): string {
+    return millisecondsToTimeString(this.driverService.driversTimeFromLastStintMap().get(driverId));
   }
 }

@@ -29,14 +29,14 @@
           <th class="py-2 border-b border-gray-200 text-left text-sm xl:text-base font-medium text-gray-700">
             Name
           </th>
-          <th class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700" colspan="3">
-            Reference lap
-          </th>
           <th class="py-2 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700">
             Stint
           </th>
           <th class="py-2 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700" colspan="2">
             On track
+          </th>
+          <th class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700" colspan="2">
+            From last stint
           </th>
         </tr>
         </thead>
@@ -48,10 +48,6 @@
               [ngClass]="{'bg-green-100 font-semibold': driver.id === activeStintDriverId(), 'hover:bg-gray-50': driver.id !== activeStintDriverId()}">
             <td class="py-2 px-3 border-b border-gray-200 text-left text-sm xl:text-base text-black">{{ driver.id }}</td>
             <td class="py-2 border-b border-gray-200 text-left text-sm xl:text-base text-black">{{ driver.raceName }}</td>
-            <td class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono" colspan="3">{{
-                getDriverReferenceLapTime(driver.id)
-              }}
-            </td>
             <td class="py-2 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono"> {{
                 getDriverStintCount(driver.id)
               }}
@@ -62,6 +58,10 @@
                   class="p-1 text-center rounded">
                 {{ getDriverTimeOnTrack(driver.id) }}
               </div>
+            </td>
+            <td class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono" colspan="2">{{
+                getDriverTimeFromLastStint(driver.id)
+              }}
             </td>
           </tr>
           </tbody>

@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.19.0
+
+Added
+---------
+- Added a new column to the driver table to show the time from the last stint.
+- Added a new component to manage the reference lap time.
+
+Changed
+---------
+- Updated the driver table to remove the reference lap time column.
+
+---
+
 ## v0.18.0
 
 Added
@@ -11,6 +24,8 @@ Changed
 - Updated duration formatting to use '--:--:--' for negative values.
 - Simplified calculation logic for total refueling and tyre changes.
 - Modified active stint display to show '0' instead of '--:--:--' when inactive.
+
+---
 
 ## v0.17.0
 

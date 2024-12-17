@@ -29,6 +29,7 @@ export class DriverService extends FirestoreService {
   readonly driversTimeOnTrackWarningMap: WritableSignal<Map<string, boolean>> = signal(new Map<string, boolean>());
   readonly driversStintCountMap: WritableSignal<Map<string, number>> = signal(new Map<string, number>());
   readonly driverWithLessTimeOnTrack: WritableSignal<Driver | undefined> = signal(undefined);
+  readonly driversTimeFromLastStintMap: WritableSignal<Map<string, number>> = signal(new Map<string, number>());
 
   readonly driversTimeOnTrackWarningCount = computed(() => {
     const warningMap = this.driversTimeOnTrackWarningMap();
@@ -58,6 +59,8 @@ export class DriverService extends FirestoreService {
       this.driversTimeOnTrackWarningMap.set(this.createDriversTimeOnTrackWarningMap(this.driversTimeOnTrackMap(), activeRaceConfig))
       this.driversStintCountMap.set(this.createDriverStintCountMap(stints, drivers));
       this.driverWithLessTimeOnTrack.set(this.getDriverWithLessTimeOnTrack(stints, drivers));
+      this.driversTimeFromLastStintMap.set(this.createDriverTimeFromLastStintMap(stints, drivers));
+
     })
   }
 
@@ -181,6 +184,29 @@ export class DriverService extends FirestoreService {
     });
 
     return driverWithLeastTime;
+  }
+
+  private createDriverTimeFromLastStintMap(stints: Stint[], drivers: Driver[]): Map<string, number> {
+    const result = new Map<string, number>();
+
+    drivers.forEach(driver => {
+      const lastDriverStint = stints.filter(stint => stint.driverId === driver.id)
+      .sort((a, b) => b.startDate.toDate().getTime() - a.startDate.toDate().getTime())
+      .at(0);
+
+      if (lastDriverStint) {
+        if (lastDriverStint.endDate) {
+          result.set(driver.id, new Date().getTime() - lastDriverStint.endDate.toDate().getTime());
+        } else {
+          result.set(driver.id, 0);
+        }
+      } else {
+        result.set(driver.id, 0);
+      }
+    });
+
+    // prendere lo stint più recente di ogni driver e calcolare la sua distanza (millisecondi) da ora, impostare 0 se lo stint attivo (con endDate uguale a null)
+    return result;
   }
 
 }
