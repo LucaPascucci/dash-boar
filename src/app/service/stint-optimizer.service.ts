@@ -1,6 +1,6 @@
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { Race } from "../model/race";
-import { differenceInMilliseconds, secondsToMilliseconds } from "date-fns";
+import { addHours, addSeconds, differenceInMilliseconds, secondsToMilliseconds } from "date-fns";
 import { RaceConfigService } from "./race-config.service";
 import { Pit } from "../model/pit";
 import { RaceService } from "./race.service";
@@ -32,11 +32,11 @@ export class StintOptimizerService {
     })
     .pipe(takeUntilDestroyed())
     .subscribe(({activeRace, endRaceDate, activeRaceConfig, remainingDriverChanges, lastDriverChangePit}) => {
-      if (activeRace && endRaceDate && activeRaceConfig) {
+      if (activeRaceConfig) {
         this.optimizedStint.set(
             this.calculateOptimizedStint(
-                activeRace,
-                endRaceDate,
+                activeRace ? activeRace.start.toDate() : new Date(),
+                endRaceDate || addHours(new Date(), activeRaceConfig.durationHour),
                 activeRaceConfig,
                 remainingDriverChanges,
                 lastDriverChangePit));
@@ -47,7 +47,7 @@ export class StintOptimizerService {
   }
 
   calculateOptimizedStint(
-      race: Race,
+      startRaceDate: Date,
       endRaceDate: Date,
       raceConfig: RaceConfig,
       remainingDriverChanges: number,
@@ -65,7 +65,9 @@ export class StintOptimizerService {
     const timeRemaining = differenceInMilliseconds(endRaceDate, currentDate) - remainingPitTime;
 
     // Determine the time remaining at the last driver change
-    const lastDriverChange = lastDriverChangePit ? lastDriverChangePit.entryTime.toDate() : race.start.toDate();
+    const lastDriverChange = lastDriverChangePit ?
+        addSeconds(lastDriverChangePit.entryTime.toDate(), raceConfig.minPitSeconds) :
+        startRaceDate;
     const timeRemainingFromLastDriverChange = differenceInMilliseconds(endRaceDate, lastDriverChange) - remainingPitTime;
 
     // Case 1: Calculate avgStintTime considering the time at the last driver change
