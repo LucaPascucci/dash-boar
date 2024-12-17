@@ -10,6 +10,7 @@ import { millisecondsToPitString, millisecondsToTimeString } from "../../util/da
 import { RaceManagerService } from "../../service/race-manager.service";
 import { TyreService } from "../../service/tyre.service";
 import { RaceConfigService } from "../../service/race-config.service";
+import { AudioService } from "../../service/audio.service";
 
 @Component({
   selector: 'app-pit-lane',
@@ -29,6 +30,7 @@ export class PitLaneComponent {
   private readonly raceManagerService = inject(RaceManagerService);
   private readonly tyreService = inject(TyreService);
   private readonly raceConfigService = inject(RaceConfigService);
+  private readonly audioService = inject(AudioService);
 
   readonly pitLaneOpen: Signal<boolean> = this.pitLaneService.open;
   readonly pitLaneOpenInMilliseconds: Signal<number> = this.pitLaneService.openInMilliseconds
@@ -65,6 +67,7 @@ export class PitLaneComponent {
   }
 
   async pitIn() {
+    this.audioService.playFile('assets/box_box_box_box.mp3');
     await this.raceManagerService.pitIn(this.selectedDriver, this.refueling, this.tyreChange);
   }
 

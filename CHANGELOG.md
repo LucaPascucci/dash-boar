@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.18.0
+
+Added
+---------
+- Introduced AudioService for handling audio playback in the application.
+
+Changed
+---------
+- Updated duration formatting to use '--:--:--' for negative values.
+- Simplified calculation logic for total refueling and tyre changes.
+- Modified active stint display to show '0' instead of '--:--:--' when inactive.
+
 ## v0.17.0
 
 Added
