@@ -69,10 +69,10 @@ export function millisecondsToLapString(milliseconds: number | undefined): strin
 
 function formatDurationWithMilliseconds(duration: Duration, milliseconds: number): string {
   if (duration.minutes && duration.minutes < 0) {
-    return '00:00:000';
+    return '--:--:---';
   }
   if (duration.seconds && duration.seconds < 0) {
-    return '00:00:000';
+    return '--:--:---';
   }
   return [padTwo(duration.minutes), padTwo(duration.seconds), padThree(milliseconds)].join(":");
 }
@@ -80,13 +80,13 @@ function formatDurationWithMilliseconds(duration: Duration, milliseconds: number
 
 function formatDuration(duration: Duration): string {
   if (duration.hours && duration.hours < 0) {
-    return '00:00:00';
+    return '--:--:--';
   }
   if (duration.minutes && duration.minutes < 0) {
-    return '00:00:00';
+    return '--:--:--';
   }
   if (duration.seconds && duration.seconds < 0) {
-    return '00:00:00';
+    return '--:--:--';
   }
   return [padTwo(duration.hours), padTwo(duration.minutes), padTwo(duration.seconds)].join(":");
 }
