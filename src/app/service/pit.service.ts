@@ -110,9 +110,7 @@ export class PitService extends FirestoreService {
       return undefined;
     }
 
-    const filteredEndedPits = pits
-    .filter(pit => pit.exitTime)
-    .sort((a, b) => b.entryTime.toDate().getTime() - a.entryTime.toDate().getTime());
+    const filteredEndedPits = pits.sort((a, b) => b.entryTime.toDate().getTime() - a.entryTime.toDate().getTime());
 
     for (const pit of filteredEndedPits) {
       if (pit.entryDriverId !== pit.exitDriverId) {
@@ -124,7 +122,6 @@ export class PitService extends FirestoreService {
 
   private calculateCompletedDriverChanges(pits: Pit[]) {
     return pits
-    .filter(pit => pit.exitTime)
     .reduce((count, pit) => {
       return count + (pit.entryDriverId !== pit.exitDriverId ? 1 : 0);
     }, 0);
