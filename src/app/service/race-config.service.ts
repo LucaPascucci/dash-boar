@@ -70,6 +70,15 @@ export class RaceConfigService extends FirestoreService {
     return Promise.resolve();
   }
 
+  updateReferenceLapTime(lapTime: number): Promise<void> {
+    const activeRaceConfig = this.activeRaceConfig();
+    if (activeRaceConfig) {
+      activeRaceConfig.referenceLapTimeMillisecond = lapTime;
+      return this.updateData(activeRaceConfig.id, activeRaceConfig)
+    }
+    return Promise.resolve();
+  }
+
   private getAll(): Observable<RaceConfig[]> {
     return collectionData(this.collectionRef).pipe(
         takeUntil(this.destroyed),
