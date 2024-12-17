@@ -6,5 +6,6 @@ export interface Stint {
   driverId: string;
   startDate: Timestamp;
   endDate: Timestamp | null;
+  optimumMilliseconds: number
   deleted: boolean
 }
