@@ -37,7 +37,8 @@
             <td class="py-2 px-3 border-b border-gray-200 text-xs xl:text-base text-black">{{ deltaStint.id }}</td>
             <td class="py-2 border-b border-gray-200 text-center text-xs xl:text-base text-black font-mono" colspan="2">{{ getMillisecondsToTimeString(deltaStint.timeOnTrack)}}</td>
             <td class="py-2 border-b border-gray-200 text-center text-xs xl:text-base text-black font-mono" colspan="2">{{ getMillisecondsToTimeString(deltaStint.optimum) }}</td>
-            <td class="py-2 border-b border-gray-200 text-center text-xs xl:text-base font-mono" colspan="2"> <div
+            <td class="py-2 border-b border-gray-200 text-center text-xs xl:text-base font-mono" colspan="2">
+              <div
                 [ngClass]="{'bg-yellow-500': deltaStint.delta < 0, 'bg-green-500': deltaStint.delta >= 0}"
                 class="p-1 text-center text-white rounded">
               {{ getMillisecondsToTimeString(deltaStint.delta) }}
@@ -52,7 +53,13 @@
           <tfoot class="sticky bottom-0-0">
           <tr class="bg-gray-100 font-bold">
             <td class="py-2 px-3 border-b border-gray-200 text-xs xl:text-base text-black" colspan="5">Totals</td>
-            <td class="py-2 border-b border-gray-200 text-center text-xs xl:text-base text-black font-mono" colspan="2">{{ getMillisecondsToTimeString(totalDeltaMilliseconds()) }}</td>
+            <td class="py-2 border-b border-gray-200 text-center text-xs xl:text-base text-black font-mono" colspan="2">
+              <div
+                  [ngClass]="{'bg-yellow-500': totalDeltaMilliseconds() < 0, 'bg-green-500': totalDeltaMilliseconds() >= 0}"
+                  class="p-1 text-center text-white rounded">
+                {{ getMillisecondsToTimeString(totalDeltaMilliseconds()) }}
+              </div>
+            </td>
           </tr>
           </tfoot>
         </table>
