@@ -44,10 +44,6 @@ export class StintComponent {
     return getElapsedTime(start, new Date());
   }
 
-  getOptimumString(milliseconds: number): string {
-    return millisecondsToTimeString(milliseconds);
-  }
-
   calculateTotalTimeOnTrack(): string {
     const stints = this.stintService.stints();
     let timeSpent = 0;
