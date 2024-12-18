@@ -13,11 +13,12 @@ import { ActiveStintComponent } from "./component/active-stint/active-stint.comp
 import { StintComponent } from "./component/stint/stint.component";
 import { LapComponent } from "./component/lap/lap.component";
 import { PitComponent } from "./component/pit/pit.component";
+import { DeltaStintComponent } from "./component/delta-stint/delta-stint.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RaceComponent, TyreChangeWindowComponent, FuelComponent, StintOptimizerComponent, DriverComponent, PitLaneComponent, DriverChangeComponent, ActiveStintComponent, StintComponent, LapComponent, PitComponent],
+  imports: [RouterOutlet, RaceComponent, TyreChangeWindowComponent, FuelComponent, StintOptimizerComponent, DriverComponent, PitLaneComponent, DriverChangeComponent, ActiveStintComponent, StintComponent, LapComponent, PitComponent, DeltaStintComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
