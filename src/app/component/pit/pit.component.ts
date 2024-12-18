@@ -1,19 +1,14 @@
 import { Component, computed, inject, Signal } from '@angular/core';
-import { DatePipe, NgClass, NgForOf } from "@angular/common";
+import { NgClass, NgForOf } from "@angular/common";
 import { PitService } from "../../service/pit.service";
 import { Pit } from "../../model/pit";
-import {
-  getElapsedTime,
-  millisecondsToLapString,
-  millisecondsToTimeString
-} from "../../util/date.util";
+import { getElapsedTime, millisecondsToTimeString } from "../../util/date.util";
 
 @Component({
   selector: 'app-pit',
   standalone: true,
   imports: [
     NgClass,
-    DatePipe,
     NgForOf
   ],
   templateUrl: './pit.component.html',
