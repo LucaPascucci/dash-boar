@@ -2,7 +2,7 @@ import { Component, computed, inject, Signal } from '@angular/core';
 import { NgClass, NgForOf } from "@angular/common";
 import { DriverService } from "../../service/driver.service";
 import { Driver } from "../../model/driver";
-import { millisecondsToLapString, millisecondsToTimeString } from "../../util/date.util";
+import { millisecondsToTimeString } from "../../util/date.util";
 import { StintService } from "../../service/stint.service";
 
 @Component({

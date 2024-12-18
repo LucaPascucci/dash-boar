@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.20.0
+
+Added
+---------
+- Introduced DeltaStintComponent to display delta stints with time tracking.
+- Implemented DeltaStintService for managing delta stint calculations.
+
+Changed
+---------
+- Updated app layout to include DeltaStintComponent.
+- Removed unused imports and optimized existing components.
+
+---
+
+
 ## v0.19.0
 
 Added
