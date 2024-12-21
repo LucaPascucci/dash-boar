@@ -76,9 +76,9 @@ export class PitLaneComponent {
 
     this.raceConfigService.updateNextPitRefueling(false);
     this.raceConfigService.updateNextPitTyreChange(false);
-    const nextDriverId: Driver | undefined = this.driverService.driverWithLessTimeOnTrack();
-    if (nextDriverId) {
-      this.raceConfigService.updateNextPitDriverId(nextDriverId.id);
+    const nextDriver: Driver | undefined = this.driverService.driverWithMoreTimeFromLastStint();
+    if (nextDriver) {
+      this.raceConfigService.updateNextPitDriverId(nextDriver.id);
     }
   }
 

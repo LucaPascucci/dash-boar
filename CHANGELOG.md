@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.21.0
+
+Added
+---------
+- Introduced a new Timeline feature to visualize race events.
+- Implemented a Tooltip component for enhanced UI interaction.
+
+Changed
+---------
+- Updated driver selection logic for pit stops.
+
+---
+
 ## v0.20.0
 
 Added
@@ -13,7 +26,6 @@ Changed
 - Removed unused imports and optimized existing components.
 
 ---
-
 
 ## v0.19.0
 
