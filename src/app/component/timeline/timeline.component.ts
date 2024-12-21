@@ -35,7 +35,7 @@ export class TimelineComponent {
 
   getStintText(step: TimelineStep): string {
     if (step.status === 'ACTIVE') {
-      return '🏎️💨';
+      return '🏎️';
     }
     return '⏳';
   }
