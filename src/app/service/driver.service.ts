@@ -28,7 +28,7 @@ export class DriverService extends FirestoreService {
   readonly driversTimeOnTrackMap: WritableSignal<Map<string, number>> = signal(new Map<string, number>());
   readonly driversTimeOnTrackWarningMap: WritableSignal<Map<string, boolean>> = signal(new Map<string, boolean>());
   readonly driversStintCountMap: WritableSignal<Map<string, number>> = signal(new Map<string, number>());
-  readonly driverWithLessTimeOnTrack: WritableSignal<Driver | undefined> = signal(undefined);
+  readonly driverWithMoreTimeFromLastStint: WritableSignal<Driver | undefined> = signal(undefined);
   readonly driversTimeFromLastStintMap: WritableSignal<Map<string, number>> = signal(new Map<string, number>());
 
   readonly driversTimeOnTrackWarningCount = computed(() => {
@@ -58,8 +58,8 @@ export class DriverService extends FirestoreService {
       this.driversTimeOnTrackMap.set(this.createDriverTrackTimeMap(stints, drivers));
       this.driversTimeOnTrackWarningMap.set(this.createDriversTimeOnTrackWarningMap(this.driversTimeOnTrackMap(), activeRaceConfig))
       this.driversStintCountMap.set(this.createDriverStintCountMap(stints, drivers));
-      this.driverWithLessTimeOnTrack.set(this.getDriverWithLessTimeOnTrack(stints, drivers));
-      this.driversTimeFromLastStintMap.set(this.createDriverTimeFromLastStintMap(stints, drivers));
+      this.driverWithMoreTimeFromLastStint.set(this.getDriverWithMoreTimeFromLastStint(stints, drivers));
+      this.driversTimeFromLastStintMap.set(this.createDriversTimeFromLastStintMap(stints, drivers));
 
     })
   }
@@ -161,32 +161,32 @@ export class DriverService extends FirestoreService {
     return result;
   }
 
-  private getDriverWithLessTimeOnTrack(stints: Stint[], drivers: Driver[]): Driver | undefined {
+  private getDriverWithMoreTimeFromLastStint(stints: Stint[], drivers: Driver[]): Driver | undefined {
     if (drivers.length === 0) {
       return undefined;
     }
+    let result: Driver | undefined = undefined;
 
-    const driversTimeOnTrackMap = this.createDriverTrackTimeMap(stints, drivers);
+    const driversFromLastStintMap = this.createDriversTimeFromLastStintMap(stints, drivers);
 
     // Find the driver currently on track
     const currentDriverId = stints.find(stint => stint.endDate === null)?.driverId;
 
     // Find the driver with the least time on track, excluding the current driver
     const driverMap = new Map(drivers.map(driver => [driver.id, driver]));
-    let minTime = Infinity;
-    let driverWithLeastTime: Driver | undefined = undefined;
+    let maxTime = -1;
 
-    driversTimeOnTrackMap.forEach((timeOnTrack, driverId) => {
-      if (driverId !== currentDriverId && timeOnTrack < minTime) {
-        minTime = timeOnTrack;
-        driverWithLeastTime = driverMap.get(driverId);
+    driversFromLastStintMap.forEach((timeFormLastStint, driverId) => {
+      if (driverId !== currentDriverId && timeFormLastStint > maxTime) {
+        maxTime = timeFormLastStint;
+        result = driverMap.get(driverId);
       }
     });
 
-    return driverWithLeastTime;
+    return result;
   }
 
-  private createDriverTimeFromLastStintMap(stints: Stint[], drivers: Driver[]): Map<string, number> {
+  private createDriversTimeFromLastStintMap(stints: Stint[], drivers: Driver[]): Map<string, number> {
     const result = new Map<string, number>();
 
     drivers.forEach(driver => {
