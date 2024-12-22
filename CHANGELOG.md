@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.22.0
+
+Added
+---------
+- Introduced a responsive design feature to hide timeline components on smaller screens.
+- Enhanced driver selection logic to prioritize drivers with zero time from the last stint.
+
+Changed
+---------
+- Improved last driver change time calculation using pit exit time
+
+--- 
+
 ## v0.21.0
 
 Added
