@@ -63,10 +63,17 @@ export class StintOptimizerService {
 
     const timeRemaining = differenceInMilliseconds(endRaceDate, currentDate) - remainingPitTime;
 
+    let lastDriverChangeExitDate: Date | undefined = undefined;
+    if (lastDriverChangePit) {
+      if (lastDriverChangePit.exitTime) {
+        lastDriverChangeExitDate = lastDriverChangePit.exitTime.toDate();
+      } else {
+        lastDriverChangeExitDate = addSeconds(lastDriverChangePit.entryTime.toDate(), raceConfig.minPitSeconds);
+      }
+    }
+
     // Determine the time remaining at the last driver change
-    const lastDriverChange = lastDriverChangePit ?
-        addSeconds(lastDriverChangePit.entryTime.toDate(), raceConfig.minPitSeconds) :
-        startRaceDate;
+    const lastDriverChange = lastDriverChangeExitDate || startRaceDate;
     const timeRemainingFromLastDriverChange = differenceInMilliseconds(endRaceDate, lastDriverChange) - remainingPitTime;
 
     // Case 1: Calculate avgStintTime considering the time at the last driver change
