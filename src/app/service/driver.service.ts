@@ -175,11 +175,22 @@ export class DriverService extends FirestoreService {
     // Find the driver with the least time on track, excluding the current driver
     const driverMap = new Map(drivers.map(driver => [driver.id, driver]));
     let maxTime = -1;
+    let hasZeroTimeDriver = false;
 
-    driversFromLastStintMap.forEach((timeFormLastStint, driverId) => {
-      if (driverId !== currentDriverId && timeFormLastStint > maxTime) {
-        maxTime = timeFormLastStint;
-        result = driverMap.get(driverId);
+    driversFromLastStintMap.forEach((timeFromLastStint, driverId) => {
+      if (driverId !== currentDriverId) {
+        if (timeFromLastStint === 0) {
+          // Prioritize drivers with timeFromLastStint = 0
+          if (!hasZeroTimeDriver || (hasZeroTimeDriver && timeFromLastStint > maxTime)) {
+            maxTime = timeFromLastStint;
+            result = driverMap.get(driverId);
+            hasZeroTimeDriver = true;
+          }
+        } else if (!hasZeroTimeDriver && timeFromLastStint > maxTime) {
+          // Consider drivers with timeFromLastStint > 0 only if no zero-time driver has been found
+          maxTime = timeFromLastStint;
+          result = driverMap.get(driverId);
+        }
       }
     });
 
