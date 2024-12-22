@@ -22,6 +22,16 @@ export class TimelineComponent {
 
   readonly timelineSteps: Signal<TimelineStep[]> = this.timelineService.timelineSteps;
 
+  hide = false;
+
+  constructor() {
+    window.addEventListener('resize', this.onResize.bind(this));
+  }
+
+  private onResize() {
+    this.hide = window.innerWidth <= 1460;
+  }
+
   ////// STINT
 
   getStintColor(step: TimelineStep): string {
