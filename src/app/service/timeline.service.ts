@@ -11,6 +11,7 @@ import { OptimizedStint } from "../model/optimized-stint";
 import { RaceConfigService } from "./race-config.service";
 import { RaceConfig } from "../model/race-config";
 import { addMilliseconds, addSeconds, secondsToMilliseconds } from "date-fns";
+import { TyreService } from "./tyre.service";
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,7 @@ export class TimelineService {
   private readonly pitService = inject(PitService);
   private readonly stintOptimizerService = inject(StintOptimizerService);
   private readonly raceConfigService = inject(RaceConfigService);
+  private readonly tyreService = inject(TyreService);
 
   readonly timelineSteps: WritableSignal<TimelineStep[]> = signal([]);
 
@@ -30,17 +32,23 @@ export class TimelineService {
       remainingDriverChanges: toObservable(this.pitService.remainingDriverChanges),
       raceConfig: toObservable(this.raceConfigService.activeRaceConfig),
       optimizedStint: toObservable(this.stintOptimizerService.optimizedStint),
+      remainingTyreChange: toObservable(this.tyreService.remainingTyreChange),
       ping: interval(1000)
     })
     .pipe(takeUntilDestroyed())
-    .subscribe(({stints, pits, remainingDriverChanges, raceConfig, optimizedStint}) => {
+    .subscribe(({stints, pits, remainingDriverChanges, raceConfig, optimizedStint, remainingTyreChange}) => {
 
       let result: TimelineStep[] = this.createRealSteps(stints, pits);
 
       result = result.sort((a, b) => a.start.getTime() - b.start.getTime());
 
       if (remainingDriverChanges > 0 && optimizedStint && raceConfig) {
-        const futureSteps = this.createFutureSteps(result.at(result.length - 1), remainingDriverChanges, optimizedStint, raceConfig);
+        const futureSteps = this.createFutureSteps(
+            result.at(result.length - 1),
+            remainingDriverChanges,
+            optimizedStint,
+            raceConfig,
+            remainingTyreChange);
         result.push(...futureSteps);
       }
 
@@ -93,7 +101,9 @@ export class TimelineService {
       lastRealStep: TimelineStep | undefined,
       remainingDriverChanges: number,
       optimizedStint: OptimizedStint,
-      raceConfig: RaceConfig): TimelineStep[] {
+      raceConfig: RaceConfig,
+      remainingTyreChange: number
+  ): TimelineStep[] {
 
     const result: TimelineStep[] = [];
     let lastEndDate: Date = this.calculateLastEndDateFromRealStep(lastRealStep, optimizedStint, raceConfig);
@@ -104,9 +114,19 @@ export class TimelineService {
       lastEndDate = stintEndDate;
     }
 
+    const midPoint = Math.floor(remainingDriverChanges / 2);
+
     for (let i = 0; i < remainingDriverChanges; i++) {
-      const pitEndDate = addSeconds(lastEndDate, raceConfig.minPitSeconds);
-      result.push(this.createFuturePitStep(lastEndDate, pitEndDate, secondsToMilliseconds(raceConfig.minPitSeconds)));
+
+      let pitDuration = secondsToMilliseconds(raceConfig.minPitSeconds);
+
+      if (remainingTyreChange > 0 && i >= midPoint - Math.floor(remainingTyreChange / 2) && i < midPoint + Math.ceil(remainingTyreChange / 2)) {
+        pitDuration = secondsToMilliseconds(raceConfig.minPitWithTyreChangeSeconds);
+        remainingTyreChange--;
+      }
+
+      const pitEndDate = addMilliseconds(lastEndDate, pitDuration);
+      result.push(this.createFuturePitStep(lastEndDate, pitEndDate, pitDuration));
       const stintEndDate = addMilliseconds(pitEndDate, optimizedStint.avgStintMillisecondsTime);
       result.push(this.createFutureStintStep(pitEndDate, stintEndDate, optimizedStint.avgStintMillisecondsTime));
       lastEndDate = stintEndDate;
