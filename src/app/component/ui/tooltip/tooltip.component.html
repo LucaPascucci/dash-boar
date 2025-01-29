@@ -1,3 +1,23 @@
-<div class="fixed whitespace-pre-line	bg-black rounded p-1 text-white max-w-48 -translate-x-1/2 tooltip mt-1 " [style.left]="left + 'px'" [style.top]="top + 'px'">
-  {{ text }}
+<div class="fixed whitespace-pre-line bg-black rounded-lg shadow-md p-4 text-white max-w-48 -translate-x-1/2 tooltip"
+     [style.left]="left + 'px'"
+     [style.top]="top + 'px'">
+  <div class="font-bold text-lg mb-2">
+    {{ data?.title }}
+  </div>
+  @for (paragraph of data?.paragraphs; track paragraph; let last = $last) {
+    @if (paragraph !== ''){
+      <div class="mb-1">
+        {{ paragraph }}
+      </div>
+      @if (!last){
+        <hr class="mb-1">
+      }
+    }
+  }
+  @if (data?.footer !== '') {
+    <hr class="mb-1">
+    <div class="text-lg" >
+      {{ data?.footer }}
+    </div>
+  }
 </div>

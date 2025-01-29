@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Tooltip } from './tooltip';
 
 @Component({
     selector: 'tooltip',
@@ -6,8 +7,7 @@ import { Component, Input } from '@angular/core';
     styleUrl: './tooltip.component.css'
 })
 export class TooltipComponent {
-  @Input() text = '';
   @Input() left = 0;
   @Input() top = 0;
-
+  @Input() data: Tooltip | undefined
 }

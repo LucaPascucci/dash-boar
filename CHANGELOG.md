@@ -1,5 +1,24 @@
 # Changelog
 
+## v0.24.0
+
+Changed
+---------
+- Improved timeline component with enhanced tooltip functionality and additional driver information.
+- Updated stint and pit information display logic.
+- Enhanced pit service to track last pit more accurately.
+- Added support for tyre change time in race configuration.
+
+Fixed
+---------
+- Adjusted tooltip positioning to prevent overflow issues.
+
+Miscellaneous
+-------
+- Updated project version to 0.24.0.
+
+---
+
 ## v0.23.0
 
 Changed

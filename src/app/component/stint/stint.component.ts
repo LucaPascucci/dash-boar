@@ -4,6 +4,7 @@ import { StintService } from "../../service/stint.service";
 import { DriverService } from "../../service/driver.service";
 import { getElapsedTime, millisecondsToTimeString } from "../../util/date.util";
 import { Stint } from "../../model/stint";
+import { addMilliseconds, format } from "date-fns";
 
 @Component({
     selector: 'app-stint',
@@ -55,5 +56,14 @@ export class StintComponent {
       }
     })
     return millisecondsToTimeString(timeSpent);
+  }
+
+  getEndDate(stint: Stint): string {
+    if (stint.endDate) {
+      return format(stint.endDate.toDate(), 'HH:mm:ss');
+    }
+
+    const provisionedEnd = addMilliseconds(stint.startDate.toDate(), stint.optimumMilliseconds);
+    return '(' + format(provisionedEnd, 'HH:mm:ss') + ')';
   }
 }
