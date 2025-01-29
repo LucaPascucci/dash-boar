@@ -8,6 +8,7 @@ import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
 import { PitService } from "./pit.service";
 import { OptimizedStint } from "../model/optimized-stint";
 import { RaceConfig } from "../model/race-config";
+import { TyreService } from "./tyre.service";
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class StintOptimizerService {
   private readonly raceService = inject(RaceService);
   private readonly pitService = inject(PitService);
   private readonly raceConfigService = inject(RaceConfigService);
+  private readonly tyreService = inject(TyreService);
 
   readonly optimizedStint: WritableSignal<OptimizedStint | undefined> = signal(undefined);
 
@@ -26,11 +28,12 @@ export class StintOptimizerService {
       endRaceDate: toObservable(this.raceService.endRaceDate),
       activeRaceConfig: toObservable(this.raceConfigService.activeRaceConfig),
       remainingDriverChanges: toObservable(this.pitService.remainingDriverChanges),
-      lastDriverChangePit: toObservable(this.pitService.lastDriverChangePit),
+      remainingTyreChange: toObservable(this.tyreService.remainingTyreChange),
+      lastPit: toObservable(this.pitService.lastPit),
       ping: interval(1000)
     })
     .pipe(takeUntilDestroyed())
-    .subscribe(({activeRace, endRaceDate, activeRaceConfig, remainingDriverChanges, lastDriverChangePit}) => {
+    .subscribe(({activeRace, endRaceDate, activeRaceConfig, remainingDriverChanges, remainingTyreChange, lastPit}) => {
       if (activeRaceConfig) {
         this.optimizedStint.set(
             this.calculateOptimizedStint(
@@ -38,7 +41,8 @@ export class StintOptimizerService {
                 endRaceDate || addHours(new Date(), activeRaceConfig.durationHour),
                 activeRaceConfig,
                 remainingDriverChanges,
-                lastDriverChangePit));
+                remainingTyreChange,
+                lastPit));
       } else {
         this.optimizedStint.set(undefined);
       }
@@ -50,7 +54,8 @@ export class StintOptimizerService {
       endRaceDate: Date,
       raceConfig: RaceConfig,
       remainingDriverChanges: number,
-      lastDriverChangePit: Pit | undefined
+      remainingTyreChange: number,
+      lastPit: Pit | undefined
   ): OptimizedStint | undefined {
 
     const currentDate = new Date();
@@ -59,16 +64,16 @@ export class StintOptimizerService {
       return undefined;
     }
 
-    const remainingPitTime = secondsToMilliseconds(raceConfig.minPitSeconds * remainingDriverChanges);
+    const remainingPitTime = this.calculateRemainingPitTime(raceConfig, remainingDriverChanges, remainingTyreChange);
 
     const timeRemaining = differenceInMilliseconds(endRaceDate, currentDate) - remainingPitTime;
 
     let lastDriverChangeExitDate: Date | undefined = undefined;
-    if (lastDriverChangePit) {
-      if (lastDriverChangePit.exitTime) {
-        lastDriverChangeExitDate = lastDriverChangePit.exitTime.toDate();
+    if (lastPit) {
+      if (lastPit.exitTime) {
+        lastDriverChangeExitDate = lastPit.exitTime.toDate();
       } else {
-        lastDriverChangeExitDate = addSeconds(lastDriverChangePit.entryTime.toDate(), raceConfig.minPitSeconds);
+        lastDriverChangeExitDate = addSeconds(lastPit.entryTime.toDate(), raceConfig.minPitSeconds);
       }
     }
 
@@ -88,5 +93,17 @@ export class StintOptimizerService {
       avgStintMillisecondsIfDriverChangedNow: avgIfChangedNow,
       lapsIfDriverChangeNow: Math.floor(avgIfChangedNow / raceConfig.referenceLapTimeMillisecond)
     };
+  }
+
+  calculateRemainingPitTime(
+      raceConfig: RaceConfig,
+      remainingDriverChanges: number,
+      remainingTyreChange: number
+  ): number {
+    let normalDriverChanges = remainingDriverChanges - remainingTyreChange;
+
+    let remainingNormalPitTime = secondsToMilliseconds(raceConfig.minPitSeconds * normalDriverChanges);
+    let remainingTyreChangePitTime = secondsToMilliseconds(raceConfig.minPitWithTyreChangeSeconds * remainingTyreChange);
+    return remainingNormalPitTime + remainingTyreChangePitTime;
   }
 }
