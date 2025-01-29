@@ -13,6 +13,7 @@ export interface RaceConfig {
   warningDriverOnTrackThresholdMinute: number;
   referenceLapTimeMillisecond: number;
   minPitSeconds: number;
+  minPitWithTyreChangeSeconds: number;
   startRaceDriverId: string;
   nextPitDriverId: string;
   nextPitRefueling: boolean;
