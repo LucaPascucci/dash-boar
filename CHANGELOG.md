@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.23.0
+
+Changed
+---------
+- Upgraded Angular and related dependencies to version 19.x.
+- Updated service methods to use DocumentData for type safety.
+- Adjusted component decorators for improved formatting.
+- Removed unused imports and updated package version to 0.23.0.
+
+---
+
 ## v0.22.0
 
 Added
