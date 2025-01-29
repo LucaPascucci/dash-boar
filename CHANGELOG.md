@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.26.0
+
+Added
+---------
+- Introduced tyre change tracking in the timeline service.
+- Enhanced pit stop tooltips with detailed time and action information.
+
+Changed
+---------
+- Updated timeline component to use icons instead of text for stint and pit steps.
+
+---
+
 ## v0.25.0
 
 Added
