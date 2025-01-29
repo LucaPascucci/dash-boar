@@ -55,7 +55,7 @@ export class TimelineComponent {
     return 'bg-green-500';
   }
 
-  getStintText(step: TimelineStep): string {
+  getStintIcon(step: TimelineStep): string {
     if (step.status === 'ACTIVE') {
       return '🏎️';
     }
@@ -105,7 +105,7 @@ export class TimelineComponent {
     return 'bg-green-500';
   }
 
-  getPitText(step: TimelineStep): string {
+  getPitIcon(step: TimelineStep): string {
     if (step.status === 'ACTIVE') {
       return '🅿️';
     }
@@ -113,39 +113,51 @@ export class TimelineComponent {
   }
 
   getPitTooltipInfo(step: TimelineStep): Tooltip {
-    let startInfo = 'Enter: ' + format(step.start, 'HH:mm:ss');
-    let durationInfo = step.durationMills ? 'Time: ' + millisecondsToTimeString(step.durationMills) : '';
-    let endInfo = 'Exit: ' + (step.end ?  format(step.end, 'HH:mm:ss') : format(addMilliseconds(step.start, step.durationMills ?? 0), 'HH:mm:ss'));
-
-    let emojis = [];
-    if (step.pit) {
-      if (step.pit.entryDriverId !== step.pit.exitDriverId) {
-        emojis.push('🐗');
-      }
-      if (step.pit.refuel) {
-        emojis.push('⛽️');
-      }
-      if (step.pit.tyreChange) {
-        emojis.push('🛞️');
-      }
-    }
-
-    if (durationInfo.length > 0) {
-      startInfo += '\n';
-    }
-
-    if (endInfo.length > 0) {
-      durationInfo += '\n';
-    }
-
-    let timeParagraph = startInfo + durationInfo + endInfo;
-    let paragraphs = [timeParagraph, this.getDriverInfo(step)].filter(Boolean);
+    let paragraphs = [this.getPitTimeInfo(step), this.getDriverInfo(step)].filter(Boolean);
     return {
-      footer: emojis.join(' | '),
+      footer: this.getPitFooter(step),
       paragraphs: paragraphs,
       title: this.getTooltipTitle(step)
     }
   }
+
+  private getPitTimeInfo(step: TimelineStep): string {
+    let result: string[] = [];
+    result.push('Enter: ' + format(step.start, 'HH:mm:ss'));
+    switch (step.status) {
+      case 'ACTIVE':
+        result.push('Time: ' + getElapsedTime(step.start, new Date()));
+        break
+      case "DONE":
+        result.push('Time: ' + millisecondsToTimeString(step.durationMills));
+        result.push('Exit: ' + (step.end ? format(step.end, 'HH:mm:ss') : ''));
+        break;
+      case "FUTURE":
+        result.push('Time: ' + millisecondsToTimeString(step.durationMills));
+        result.push('Exit: ' + (step.end ? format(step.end, 'HH:mm:ss') : ''));
+        break;
+
+    }
+
+    return result.filter(Boolean).join('\n');
+  }
+
+  private getPitFooter(step: TimelineStep): string {
+    let result = [];
+    if (step.pit) {
+      if (step.pit.entryDriverId !== step.pit.exitDriverId) {
+        result.push('🐗');
+      }
+      if (step.pit.refuel) {
+        result.push('⛽️');
+      }
+      if (step.pit.tyreChange) {
+        result.push('🛞️');
+      }
+    }
+    return result.join(' | ');
+  }
+
 
   // GENERAL
   private getTooltipTitle(step: TimelineStep): string {
