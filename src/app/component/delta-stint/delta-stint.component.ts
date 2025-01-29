@@ -6,14 +6,13 @@ import { StintService } from "../../service/stint.service";
 import { millisecondsToTimeString } from "../../util/date.util";
 
 @Component({
-  selector: 'app-delta-stint',
-  standalone: true,
-  imports: [
-    NgForOf,
-    NgClass
-  ],
-  templateUrl: './delta-stint.component.html',
-  styleUrl: './delta-stint.component.css'
+    selector: 'app-delta-stint',
+    imports: [
+        NgForOf,
+        NgClass
+    ],
+    templateUrl: './delta-stint.component.html',
+    styleUrl: './delta-stint.component.css'
 })
 export class DeltaStintComponent {
   private readonly stintService = inject(StintService);

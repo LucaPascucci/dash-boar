@@ -6,15 +6,14 @@ import { getElapsedTime, millisecondsToTimeString } from "../../util/date.util";
 import { Stint } from "../../model/stint";
 
 @Component({
-  selector: 'app-stint',
-  standalone: true,
-  imports: [
-    NgClass,
-    NgForOf,
-    DatePipe
-  ],
-  templateUrl: './stint.component.html',
-  styleUrl: './stint.component.css'
+    selector: 'app-stint',
+    imports: [
+        NgClass,
+        NgForOf,
+        DatePipe
+    ],
+    templateUrl: './stint.component.html',
+    styleUrl: './stint.component.css'
 })
 export class StintComponent {
   private readonly stintService = inject(StintService);

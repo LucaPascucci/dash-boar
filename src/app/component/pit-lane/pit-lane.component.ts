@@ -13,15 +13,14 @@ import { RaceConfigService } from "../../service/race-config.service";
 import { AudioService } from "../../service/audio.service";
 
 @Component({
-  selector: 'app-pit-lane',
-  standalone: true,
-  imports: [
-    NgClass,
-    FormsModule,
-    NgForOf
-  ],
-  templateUrl: './pit-lane.component.html',
-  styleUrl: './pit-lane.component.css'
+    selector: 'app-pit-lane',
+    imports: [
+        NgClass,
+        FormsModule,
+        NgForOf
+    ],
+    templateUrl: './pit-lane.component.html',
+    styleUrl: './pit-lane.component.css'
 })
 export class PitLaneComponent {
   private readonly pitLaneService = inject(PitLaneService);

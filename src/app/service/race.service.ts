@@ -7,6 +7,8 @@ import { FirestoreService } from "./firestore.service";
 import { addHours } from 'date-fns';
 import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
 import { RaceConfig } from "../model/race-config";
+import { DocumentData } from "@angular/fire/compat/firestore";
+import { Driver } from "../model/driver";
 
 @Injectable({
   providedIn: 'root'
@@ -57,7 +59,9 @@ export class RaceService extends FirestoreService {
   private getAll(): Observable<Race[]> {
     return collectionData(this.collectionRef).pipe(
         takeUntil(this.destroyed),
-        map((races: Race[]) => races.filter(race => !race.deleted))
+        map((data: DocumentData[]) => data.map(doc => doc as Race).filter(race => !race.deleted))
+
+    //map((races: Race[]) => races.filter(race => !race.deleted))
     );
   }
 

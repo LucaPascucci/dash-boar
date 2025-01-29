@@ -4,6 +4,7 @@ import { FirestoreService } from "./firestore.service";
 import { collection, collectionData } from "@angular/fire/firestore";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { map, Observable, takeUntil } from "rxjs";
+import { DocumentData } from "@angular/fire/compat/firestore";
 
 @Injectable({
   providedIn: 'root'
@@ -82,7 +83,9 @@ export class RaceConfigService extends FirestoreService {
   private getAll(): Observable<RaceConfig[]> {
     return collectionData(this.collectionRef).pipe(
         takeUntil(this.destroyed),
-        map((raceConfigs: RaceConfig[]) => raceConfigs.filter(raceConfig => !raceConfig.deleted))
+        map((data: DocumentData[]) => data.map(doc => doc as RaceConfig).filter(raceConfig => !raceConfig.deleted))
+
+    // map((raceConfigs: RaceConfig[]) => raceConfigs.filter(raceConfig => !raceConfig.deleted))
     );
   }
 }

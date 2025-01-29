@@ -5,14 +5,13 @@ import { Pit } from "../../model/pit";
 import { getElapsedTime, millisecondsToTimeString } from "../../util/date.util";
 
 @Component({
-  selector: 'app-pit',
-  standalone: true,
-  imports: [
-    NgClass,
-    NgForOf
-  ],
-  templateUrl: './pit.component.html',
-  styleUrl: './pit.component.css'
+    selector: 'app-pit',
+    imports: [
+        NgClass,
+        NgForOf
+    ],
+    templateUrl: './pit.component.html',
+    styleUrl: './pit.component.css'
 })
 export class PitComponent {
   private readonly pitService = inject(PitService);

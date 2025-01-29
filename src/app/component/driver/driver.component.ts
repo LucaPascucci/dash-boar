@@ -6,14 +6,13 @@ import { millisecondsToTimeString } from "../../util/date.util";
 import { StintService } from "../../service/stint.service";
 
 @Component({
-  selector: 'app-driver',
-  standalone: true,
-  imports: [
-    NgClass,
-    NgForOf
-  ],
-  templateUrl: './driver.component.html',
-  styleUrl: './driver.component.css'
+    selector: 'app-driver',
+    imports: [
+        NgClass,
+        NgForOf
+    ],
+    templateUrl: './driver.component.html',
+    styleUrl: './driver.component.css'
 })
 export class DriverComponent {
   private readonly driverService = inject(DriverService);

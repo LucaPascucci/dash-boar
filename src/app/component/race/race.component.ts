@@ -11,14 +11,13 @@ import { Driver } from "../../model/driver";
 import { RaceConfigService } from "../../service/race-config.service";
 
 @Component({
-  selector: 'app-race',
-  standalone: true,
-  imports: [
-    FormsModule,
-    NgForOf
-  ],
-  templateUrl: './race.component.html',
-  styleUrl: './race.component.css'
+    selector: 'app-race',
+    imports: [
+        FormsModule,
+        NgForOf
+    ],
+    templateUrl: './race.component.html',
+    styleUrl: './race.component.css'
 })
 export class RaceComponent {
   private readonly raceService = inject(RaceService);

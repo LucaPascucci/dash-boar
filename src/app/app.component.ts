@@ -18,10 +18,9 @@ import { TimelineComponent } from "./component/timeline/timeline.component";
 
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, RaceComponent, TyreChangeWindowComponent, FuelComponent, StintOptimizerComponent, DriverComponent, PitLaneComponent, DriverChangeComponent, ActiveStintComponent, StintComponent, LapComponent, PitComponent, DeltaStintComponent, TimelineComponent],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+    selector: 'app-root',
+    imports: [RouterOutlet, RaceComponent, TyreChangeWindowComponent, FuelComponent, StintOptimizerComponent, DriverComponent, PitLaneComponent, DriverChangeComponent, ActiveStintComponent, StintComponent, LapComponent, PitComponent, DeltaStintComponent, TimelineComponent],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.css'
 })
 export class AppComponent { }
