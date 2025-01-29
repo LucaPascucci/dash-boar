@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.25.0
+
+Added
+---------
+- Introduced customizable tooltip positions with options for above, below, left, and right.
+- Enhanced tooltip styling to support new position options.
+
+---
+
 ## v0.24.0
 
 Changed

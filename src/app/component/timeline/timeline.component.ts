@@ -7,6 +7,7 @@ import { TooltipDirective } from "../ui/tooltip/tooltip.directive";
 import { getElapsedTime, millisecondsToTimeString } from "../../util/date.util";
 import { Tooltip } from "../ui/tooltip/tooltip";
 import { DriverService } from "../../service/driver.service";
+import { TooltipPosition } from "../ui/tooltip/tooltip.enums";
 
 @Component({
     selector: 'app-timeline',
@@ -32,6 +33,16 @@ export class TimelineComponent {
 
   private onResize() {
     this.hide = window.innerWidth <= 1460;
+  }
+
+  getTooltipPosition(stepIndex: number): TooltipPosition {
+    if (stepIndex < 5) {
+      return TooltipPosition.RIGHT;
+    }
+    if (stepIndex >= 56) {
+      return TooltipPosition.LEFT;
+    }
+    return TooltipPosition.BELOW;
   }
 
   ////// STINT

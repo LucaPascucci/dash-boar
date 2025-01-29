@@ -1,4 +1,10 @@
-<div class="fixed whitespace-pre-line bg-black rounded-lg shadow-md p-4 text-white max-w-48 -translate-x-1/2 tooltip"
+<div class="whitespace-pre-line fixed bg-black rounded-lg shadow-md p-4 text-white"
+     [ngClass]="{
+       'tooltip--above': position === TooltipPosition.ABOVE,
+       'tooltip--below': position === TooltipPosition.BELOW,
+       'tooltip--left': position === TooltipPosition.LEFT,
+       'tooltip--right': position === TooltipPosition.RIGHT
+     }"
      [style.left]="left + 'px'"
      [style.top]="top + 'px'">
   <div class="font-bold text-lg mb-2">

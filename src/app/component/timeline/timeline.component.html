@@ -1,16 +1,16 @@
 @if (!hide) {
   <div class="mb-3 flex justify-center items-center">
-    <ng-container *ngFor="let step of timelineSteps()">
+    <ng-container *ngFor="let step of timelineSteps(); let i = index">
       @if (step.type === 'STINT') {
         <div [ngClass]="getStintColor(step)"
              class="flex-1 flex px-1 py-3 justify-center items-center"
-             tooltip [tooltipData]="getStintTooltipInfo(step)">
+             tooltip [tooltipData]=getStintTooltipInfo(step) [tooltipPosition]=getTooltipPosition(i)>
           {{ getStintText(step) }}
         </div>
       } @else {
         <div [ngClass]="getPitColor(step)"
              class="flex-0 flex px-1 py-3 justify-center items-center"
-             tooltip [tooltipData]=getPitTooltipInfo(step)>
+             tooltip [tooltipData]=getPitTooltipInfo(step) [tooltipPosition]=getTooltipPosition(i)>
           {{ getPitText(step) }}
         </div>
       }
