@@ -7,6 +7,7 @@ import {
   Input, ViewContainerRef,
 } from '@angular/core';
 import { TooltipComponent } from "./tooltip.component";
+import { Tooltip } from "./tooltip";
 
 @Directive({
   selector: '[tooltip]',
@@ -17,11 +18,10 @@ export class TooltipDirective {
   private readonly viewContainerRef = inject(ViewContainerRef);
   private readonly document = inject(DOCUMENT);
 
-  @Input() tooltipText = '';
+  @Input() tooltipData : Tooltip | undefined;
 
   private tooltipComponent?: ComponentRef<TooltipComponent>;
   private hideTooltipTimeout?: any;
-
 
   @HostListener('mouseenter')
   onMouseEnter(): void {
@@ -37,9 +37,9 @@ export class TooltipDirective {
     this.tooltipComponent.hostView.detectChanges();
 
     // Schedule the tooltip to be removed after 1 second
-    this.hideTooltipTimeout = setTimeout(() => {
+    /* this.hideTooltipTimeout = setTimeout(() => {
       this.removeTooltip();
-    }, 1000);
+    }, 1000);*/
   }
 
   @HostListener('mouseleave')
@@ -66,15 +66,21 @@ export class TooltipDirective {
       return;
     }
 
-    this.tooltipComponent.instance.text = this.tooltipText;
+    this.tooltipComponent.instance.data = this.tooltipData;
 
     const elementRect = this.elementRef.nativeElement.getBoundingClientRect();
     const tooltipElement = this.tooltipComponent.location.nativeElement;
     const tooltipRect = tooltipElement.getBoundingClientRect();
+    // console.log(elementRect);
+    // console.log(tooltipRect);
 
     // Calculate initial position
-    let left = (elementRect.right - elementRect.left) / 2 + elementRect.left - tooltipRect.width / 2;
+    // let left = (elementRect.right - elementRect.left) / 2 + elementRect.left - tooltipRect.width / 2;
+    let left = elementRect.left + (elementRect.width - tooltipRect.width) / 2;
+
     let top = elementRect.bottom;
+
+   //  console.log('left :' + left + ', top:' + top);
 
     // Adjust position if tooltip goes beyond the right edge of the screen
     if (left + tooltipRect.width > window.innerWidth) {
@@ -90,6 +96,18 @@ export class TooltipDirective {
     if (top + tooltipRect.height > window.innerHeight) {
       top = elementRect.top - tooltipRect.height;
     }
+
+    // Adjust position if tooltip goes beyond the bottom edge of the screen
+    if (top + tooltipRect.height > window.innerHeight) {
+      top = elementRect.top - tooltipRect.height;
+    }
+
+    // Adjust position if tooltip goes beyond the top edge of the screen
+    if (top < 0) {
+      top = elementRect.bottom;
+    }
+
+    // console.log('left :' + left + ', top:' + top);
 
     // Set the adjusted position
     this.tooltipComponent.instance.left = left;
