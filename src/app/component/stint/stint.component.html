@@ -36,9 +36,7 @@
             </td>
             <td class="py-2 border-b border-gray-200 text-center text-xs xl:text-base text-black font-mono" colspan="2">{{ stint.startDate.toDate() | date:'HH:mm:ss' }}</td>
             <td class="py-2 border-b border-gray-200 text-center text-xs xl:text-base text-black font-mono" colspan="2">
-              @if (stint.endDate) {
-                {{ stint.endDate.toDate() | date:'HH:mm:ss' }}
-              }
+              {{ getEndDate(stint) }}
             </td>
             <td class="py-2 border-b border-gray-200 text-center text-xs xl:text-base text-black font-mono" colspan="2"> {{
                 calculateTimeOnTrack(stint.startDate.toDate(), stint.endDate?.toDate())
