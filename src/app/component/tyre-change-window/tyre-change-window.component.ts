@@ -4,11 +4,10 @@ import { getTimeUntilFutureDate } from "../../util/date.util";
 import { TyreService } from "../../service/tyre.service";
 
 @Component({
-  selector: 'app-tyre-change-window',
-  standalone: true,
-  imports: [DatePipe, NgClass],
-  templateUrl: './tyre-change-window.component.html',
-  styleUrl: './tyre-change-window.component.css'
+    selector: 'app-tyre-change-window',
+    imports: [DatePipe, NgClass],
+    templateUrl: './tyre-change-window.component.html',
+    styleUrl: './tyre-change-window.component.css'
 })
 export class TyreChangeWindowComponent {
   private readonly tyreService = inject(TyreService);

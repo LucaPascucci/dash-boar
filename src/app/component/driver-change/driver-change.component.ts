@@ -3,13 +3,12 @@ import { NgClass } from "@angular/common";
 import { PitService } from "../../service/pit.service";
 
 @Component({
-  selector: 'app-driver-change',
-  standalone: true,
-  imports: [
-    NgClass
-  ],
-  templateUrl: './driver-change.component.html',
-  styleUrl: './driver-change.component.css'
+    selector: 'app-driver-change',
+    imports: [
+        NgClass
+    ],
+    templateUrl: './driver-change.component.html',
+    styleUrl: './driver-change.component.css'
 })
 export class DriverChangeComponent {
   private readonly pitService = inject(PitService);

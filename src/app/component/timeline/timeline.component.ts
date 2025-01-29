@@ -7,15 +7,14 @@ import { TooltipDirective } from "../ui/tooltip/tooltip.directive";
 import { millisecondsToTimeString } from "../../util/date.util";
 
 @Component({
-  selector: 'app-timeline',
-  standalone: true,
-  imports: [
-    NgForOf,
-    NgClass,
-    TooltipDirective
-  ],
-  templateUrl: './timeline.component.html',
-  styleUrl: './timeline.component.css'
+    selector: 'app-timeline',
+    imports: [
+        NgForOf,
+        NgClass,
+        TooltipDirective
+    ],
+    templateUrl: './timeline.component.html',
+    styleUrl: './timeline.component.css'
 })
 export class TimelineComponent {
   private readonly timelineService = inject(TimelineService);

@@ -5,15 +5,14 @@ import { RaceConfigService } from "../../service/race-config.service";
 import { millisecondsToLapString } from "../../util/date.util";
 
 @Component({
-  selector: 'app-lap',
-  standalone: true,
-  imports: [
-    NgClass,
-    FormsModule,
-    ReactiveFormsModule
-  ],
-  templateUrl: './lap.component.html',
-  styleUrl: './lap.component.css'
+    selector: 'app-lap',
+    imports: [
+        NgClass,
+        FormsModule,
+        ReactiveFormsModule
+    ],
+    templateUrl: './lap.component.html',
+    styleUrl: './lap.component.css'
 })
 export class LapComponent {
   private readonly raceConfigService = inject(RaceConfigService);

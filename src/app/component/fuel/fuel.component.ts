@@ -7,11 +7,10 @@ import { FormsModule } from "@angular/forms";
 import { FuelService } from "../../service/fuel.service";
 
 @Component({
-  selector: 'app-fuel',
-  standalone: true,
-  imports: [NgClass, DatePipe, BatteryComponent, FormsModule],
-  templateUrl: './fuel.component.html',
-  styleUrl: './fuel.component.css'
+    selector: 'app-fuel',
+    imports: [NgClass, DatePipe, BatteryComponent, FormsModule],
+    templateUrl: './fuel.component.html',
+    styleUrl: './fuel.component.css'
 })
 export class FuelComponent {
   private readonly raceConfigService = inject(RaceConfigService);
