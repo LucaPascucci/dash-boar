@@ -17,7 +17,6 @@ import { getMessaging, provideMessaging } from '@angular/fire/messaging';
 import { getPerformance, providePerformance } from '@angular/fire/performance';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { getRemoteConfig, provideRemoteConfig } from '@angular/fire/remote-config';
-import { getVertexAI, provideVertexAI } from '@angular/fire/vertexai-preview';
 import { environment } from "../environments/environment";
 
 export const appConfig: ApplicationConfig = {
@@ -33,7 +32,6 @@ export const appConfig: ApplicationConfig = {
     provideMessaging(() => getMessaging()),
     providePerformance(() => getPerformance()),
     provideStorage(() => getStorage()),
-    provideRemoteConfig(() => getRemoteConfig()),
-    provideVertexAI(() => getVertexAI())
+    provideRemoteConfig(() => getRemoteConfig())
   ]
 };
