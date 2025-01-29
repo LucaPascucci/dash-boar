@@ -49,7 +49,6 @@ src/environments
 *-debug.log
 .runtimeconfig.json
 
-# Codium AI
+# Qodo - Codium AI
 .codiumai
-.qodo
 .qodo
