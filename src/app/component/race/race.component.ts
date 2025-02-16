@@ -9,6 +9,7 @@ import { NgForOf } from "@angular/common";
 import { DriverService } from "../../service/driver.service";
 import { Driver } from "../../model/driver";
 import { RaceConfigService } from "../../service/race-config.service";
+import { isAfter } from "date-fns";
 
 @Component({
     selector: 'app-race',
@@ -26,19 +27,26 @@ export class RaceComponent {
   private readonly driverService = inject(DriverService);
 
   readonly drivers: Signal<Driver[]> = this.driverService.drivers;
-  readonly endRaceDate: Signal<Date | undefined> = this.raceService.endRaceDate;
+  readonly willEndRaceDate: Signal<Date | undefined> = this.raceService.willEndRaceDate;
 
-  endRaceCountdown: string = '--:--:--';
+  endRaceCountdown: string = '00:00:00';
   selectedDriver: string = '1';
 
   constructor() {
     combineLatest({
-      endRaceDate: toObservable(this.endRaceDate),
+      willEndRaceDate: toObservable(this.willEndRaceDate),
       ping: interval(1000)
     })
     .pipe(takeUntilDestroyed())
     .subscribe(result => {
-      this.endRaceCountdown = getTimeUntilFutureDate(result.endRaceDate);
+      const willEndRaceDate = result.willEndRaceDate;
+      if (willEndRaceDate) {
+        if (isAfter(new Date(), willEndRaceDate)){
+          this.endRaceCountdown = '00:00:00';
+        } else {
+          this.endRaceCountdown = getTimeUntilFutureDate(willEndRaceDate);
+        }
+      }
     });
 
     effect(() => {
