@@ -1,22 +1,23 @@
 export interface RaceConfig {
   id: string;
   durationHour: number;
-  fuelDurationMinute: number;
-  minDriverChange: number;
-  minStintMinute: number;
-  startTyreChangeWindowHour: number;
   endTyreChangeWindowHour: number;
-  minTyreChange: number;
-  pitLaneCloseBeforeEndRaceMinute: number;
-  minDriverOnTrackHour: number;
+  endRaceThresholdSeconds: number;
+  fuelDurationMinute: number;
   maxDriverOnTrackHour: number;
-  warningDriverOnTrackThresholdMinute: number;
-  referenceLapTimeMillisecond: number;
+  minDriverChange: number;
+  minDriverOnTrackHour: number;
   minPitSeconds: number;
   minPitWithTyreChangeSeconds: number;
-  startRaceDriverId: string;
+  minStintMinute: number;
+  minTyreChange: number;
   nextPitDriverId: string;
   nextPitRefueling: boolean;
   nextPitTyreChange: boolean;
+  pitLaneCloseBeforeEndRaceMinute: number;
+  referenceLapTimeMillisecond: number;
+  startRaceDriverId: string;
+  startTyreChangeWindowHour: number;
+  warningDriverOnTrackThresholdMinute: number;
   deleted: boolean;
 }
