@@ -6,9 +6,8 @@ import { combineLatest, map, Observable, takeUntil } from "rxjs";
 import { FirestoreService } from "./firestore.service";
 import { addHours } from 'date-fns';
 import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
-import { RaceConfig } from "../model/race-config";
 import { DocumentData } from "@angular/fire/compat/firestore";
-import { Driver } from "../model/driver";
+import { RaceConfig } from "../model/race-config";
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +19,7 @@ export class RaceService extends FirestoreService {
   private readonly raceConfigService = inject(RaceConfigService);
 
   readonly activeRace: WritableSignal<Race | undefined> = signal(undefined);
-  readonly endRaceDate: WritableSignal<Date | undefined> = signal(undefined);
+  readonly willEndRaceDate: WritableSignal<Date | undefined> = signal(undefined);
 
   constructor() {
     super();
@@ -33,15 +32,15 @@ export class RaceService extends FirestoreService {
         takeUntilDestroyed(),
         map(({races, raceConfig}) => {
       if (races && raceConfig) {
-        const activeRace = this.getActiveRace(races, raceConfig);
-        const endRaceDate = (activeRace) ? addHours(activeRace.start.toDate(), raceConfig.durationHour) : undefined;
-        return { activeRace: activeRace, endRaceDate: endRaceDate };
+        const activeRace = this.getActiveRace(races);
+        const willEndRaceDate = this.getWillEndRaceDate(activeRace, raceConfig)
+        return { activeRace: activeRace, willEndRaceDate: willEndRaceDate };
       }
-      return { activeRace: undefined, endRaceDate: undefined};
+      return { activeRace: undefined, willEndRaceDate: undefined};
     }))
     .subscribe((result, )  => {
       this.activeRace.set(result.activeRace);
-      this.endRaceDate.set(result.endRaceDate);
+      this.willEndRaceDate.set(result.willEndRaceDate);
     });
   }
 
@@ -56,25 +55,31 @@ export class RaceService extends FirestoreService {
     return race;
   }
 
+  update(race: Race): Promise<void> {
+    return this.updateData(race.id, race);
+  }
+
   private getAll(): Observable<Race[]> {
     return collectionData(this.collectionRef).pipe(
         takeUntil(this.destroyed),
         map((data: DocumentData[]) => data.map(doc => doc as Race).filter(race => !race.deleted))
-
-    //map((races: Race[]) => races.filter(race => !race.deleted))
     );
   }
 
-  private getActiveRace(races: Race[], raceConfig: RaceConfig): Race | undefined {
-    const now = new Date();
+  private getActiveRace(races: Race[]): Race | undefined {
     const sortedRaces = races.sort((a, b) => b.start.toDate().getTime() - a.start.toDate().getTime());
+    return sortedRaces.at(0);
+  }
 
-    for (const race of sortedRaces) {
-      const finishDate = addHours(race.start.toDate(), raceConfig.durationHour);
-      if (finishDate >= now) {
-        return race;
-      }
+  private getWillEndRaceDate(activeRace: Race | undefined, raceConfig: RaceConfig): Date | undefined {
+    if (activeRace === undefined) {
+      return undefined;
     }
-    return undefined;
+
+    if (activeRace.end !== null) {
+      return activeRace.end.toDate();
+    }
+
+    return addHours(activeRace.start.toDate(), raceConfig.durationHour)
   }
 }

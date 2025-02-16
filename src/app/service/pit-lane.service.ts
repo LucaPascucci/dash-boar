@@ -21,15 +21,15 @@ export class PitLaneService {
 
   constructor() {
     combineLatest({
-      endRaceDate: toObservable(this.raceService.endRaceDate),
+      willEndRaceDate: toObservable(this.raceService.willEndRaceDate),
       activeStint: toObservable(this.stintService.activeStint),
       activeRaceConfig: toObservable(this.raceConfigService.activeRaceConfig),
       ping: interval(1000)
     })
     .pipe(takeUntilDestroyed())
-    .subscribe(({endRaceDate, activeStint, activeRaceConfig}) => {
-      if (endRaceDate && activeStint && activeRaceConfig) {
-        this.open.set(this.calculatePitLaneOpen(endRaceDate, activeStint, activeRaceConfig));
+    .subscribe(({willEndRaceDate, activeStint, activeRaceConfig}) => {
+      if (willEndRaceDate && activeStint && activeRaceConfig) {
+        this.open.set(this.calculatePitLaneOpen(willEndRaceDate, activeStint, activeRaceConfig));
         this.openInMilliseconds.set(this.calculatePitLaneOpenInMilliseconds(activeStint, activeRaceConfig));
       } else {
         this.open.set(false);

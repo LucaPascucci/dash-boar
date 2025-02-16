@@ -36,6 +36,18 @@ export class RaceManagerService {
     }
   }
 
+  async endRace(): Promise<void> {
+    const activeRace = this.activeRace();
+
+    if (activeRace) {
+      const now = Timestamp.now();
+      activeRace.end = now;
+      await this.raceService.update(activeRace);
+      await this.closeActiveStint(now)
+      await this.closeActivePit(now);
+    }
+  }
+
   async pitIn(newDriverId: string, refueling: boolean, tyreChange: boolean): Promise<void> {
     const activeRace = this.activeRace();
     const activeStint = this.activeStint();
@@ -84,6 +96,7 @@ export class RaceManagerService {
     return {
       id: '1',
       start: Timestamp.now(),
+      end: null,
       deleted: false
     };
   }
@@ -111,7 +124,6 @@ export class RaceManagerService {
       refuel: refueling,
       tyreChange: tyreChange,
       deleted: false,
-
     }
   }
 }

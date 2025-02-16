@@ -25,7 +25,7 @@ export class StintOptimizerService {
   constructor() {
     combineLatest({
       activeRace: toObservable(this.raceService.activeRace),
-      endRaceDate: toObservable(this.raceService.endRaceDate),
+      willEndRaceDate: toObservable(this.raceService.willEndRaceDate),
       activeRaceConfig: toObservable(this.raceConfigService.activeRaceConfig),
       remainingDriverChanges: toObservable(this.pitService.remainingDriverChanges),
       remainingTyreChange: toObservable(this.tyreService.remainingTyreChange),
@@ -33,12 +33,12 @@ export class StintOptimizerService {
       ping: interval(1000)
     })
     .pipe(takeUntilDestroyed())
-    .subscribe(({activeRace, endRaceDate, activeRaceConfig, remainingDriverChanges, remainingTyreChange, lastPit}) => {
+    .subscribe(({activeRace, willEndRaceDate, activeRaceConfig, remainingDriverChanges, remainingTyreChange, lastPit}) => {
       if (activeRaceConfig) {
         this.optimizedStint.set(
             this.calculateOptimizedStint(
                 activeRace ? activeRace.start.toDate() : new Date(),
-                endRaceDate || addHours(new Date(), activeRaceConfig.durationHour),
+                willEndRaceDate || addHours(new Date(), activeRaceConfig.durationHour),
                 activeRaceConfig,
                 remainingDriverChanges,
                 remainingTyreChange,
