@@ -7,6 +7,6 @@ export interface TimelineStep {
   stint: Stint | undefined;
   start: Date;
   end: Date | undefined;
-  durationMills:  number | undefined;
+  durationMills: number | undefined;
   status: 'DONE' | 'ACTIVE' | 'FUTURE'
 }

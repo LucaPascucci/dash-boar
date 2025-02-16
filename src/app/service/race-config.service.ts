@@ -85,7 +85,7 @@ export class RaceConfigService extends FirestoreService {
         takeUntil(this.destroyed),
         map((data: DocumentData[]) => data.map(doc => doc as RaceConfig).filter(raceConfig => !raceConfig.deleted))
 
-    // map((raceConfigs: RaceConfig[]) => raceConfigs.filter(raceConfig => !raceConfig.deleted))
+        // map((raceConfigs: RaceConfig[]) => raceConfigs.filter(raceConfig => !raceConfig.deleted))
     );
   }
 }

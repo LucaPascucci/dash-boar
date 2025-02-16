@@ -36,7 +36,14 @@ export class TimelineService {
       ping: interval(1000)
     })
     .pipe(takeUntilDestroyed())
-    .subscribe(({stints, pits, remainingDriverChanges, raceConfig, optimizedStint, remainingTyreChange}) => {
+    .subscribe(({
+                  stints,
+                  pits,
+                  remainingDriverChanges,
+                  raceConfig,
+                  optimizedStint,
+                  remainingTyreChange
+                }) => {
 
       let result: TimelineStep[] = this.createRealSteps(stints, pits);
 

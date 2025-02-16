@@ -4,7 +4,8 @@
       @if (step.type === 'STINT') {
         <div [ngClass]="getStintColor(step)"
              class="flex-1 flex px-1 py-3 justify-center items-center"
-             tooltip [tooltipData]=getStintTooltipInfo(step) [tooltipPosition]=getTooltipPosition(i)>
+             tooltip [tooltipData]=getStintTooltipInfo(step)
+             [tooltipPosition]=getTooltipPosition(i)>
           {{ getStintIcon(step) }}
         </div>
       } @else {

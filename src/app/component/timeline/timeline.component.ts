@@ -10,14 +10,14 @@ import { DriverService } from "../../service/driver.service";
 import { TooltipPosition } from "../ui/tooltip/tooltip.enums";
 
 @Component({
-    selector: 'app-timeline',
-    imports: [
-        NgForOf,
-        NgClass,
-        TooltipDirective
-    ],
-    templateUrl: './timeline.component.html',
-    styleUrl: './timeline.component.css'
+  selector: 'app-timeline',
+  imports: [
+    NgForOf,
+    NgClass,
+    TooltipDirective
+  ],
+  templateUrl: './timeline.component.html',
+  styleUrl: './timeline.component.css'
 })
 export class TimelineComponent {
   private readonly timelineService = inject(TimelineService);
@@ -28,6 +28,7 @@ export class TimelineComponent {
   hide = false;
 
   constructor() {
+    this.onResize();
     window.addEventListener('resize', this.onResize.bind(this));
   }
 
@@ -162,7 +163,7 @@ export class TimelineComponent {
   // GENERAL
   private getTooltipTitle(step: TimelineStep): string {
     if (step.type === 'STINT') {
-      let id = step.stint ? '(' + step.stint.id + ')': '';
+      let id = step.stint ? '(' + step.stint.id + ')' : '';
       if (step.status === 'ACTIVE') {
         return 'Active stint ' + id;
       } else if (step.status === 'DONE') {
@@ -173,7 +174,7 @@ export class TimelineComponent {
     }
 
     if (step.type === 'PIT') {
-      let id = step.pit ? '(' + step.pit.id + ')': '';
+      let id = step.pit ? '(' + step.pit.id + ')' : '';
       if (step.status === 'ACTIVE') {
         return 'Active pit ' + id;
       } else if (step.status === 'DONE') {

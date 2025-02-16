@@ -1,6 +1,6 @@
 import { computed, inject, Injectable, signal, WritableSignal } from '@angular/core';
-import { collection, collectionData, getDocs, } from "@angular/fire/firestore";
-import { combineLatest, from, interval, map, Observable, takeUntil } from "rxjs";
+import { collection, collectionData, } from "@angular/fire/firestore";
+import { combineLatest, interval, map, Observable, takeUntil } from "rxjs";
 import { Driver } from "../model/driver";
 import { FirestoreService } from "./firestore.service";
 import { takeUntilDestroyed, toObservable } from "@angular/core/rxjs-interop";
@@ -11,7 +11,7 @@ import { Stint } from "../model/stint";
 import { RaceConfigService } from "./race-config.service";
 import { RaceConfig } from "../model/race-config";
 import { hoursToMilliseconds, minutesToMilliseconds } from "date-fns";
-import { CollectionReference, DocumentData } from "@angular/fire/compat/firestore";
+import { DocumentData } from "@angular/fire/compat/firestore";
 
 @Injectable({
   providedIn: 'root'
@@ -70,7 +70,7 @@ export class DriverService extends FirestoreService {
     .pipe(
         takeUntil(this.destroyed),
         map((data: DocumentData[]) => data.map(doc => doc as Driver).filter(driver => !driver.deleted))
-    // map((drivers: Driver[]) => drivers.filter(driver => !driver.deleted))
+        // map((drivers: Driver[]) => drivers.filter(driver => !driver.deleted))
     );
   }
 

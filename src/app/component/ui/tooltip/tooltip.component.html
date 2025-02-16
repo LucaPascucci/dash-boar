@@ -11,18 +11,18 @@
     {{ data?.title }}
   </div>
   @for (paragraph of data?.paragraphs; track paragraph; let last = $last) {
-    @if (paragraph !== ''){
+    @if (paragraph !== '') {
       <div class="mb-1">
         {{ paragraph }}
       </div>
-      @if (!last){
+      @if (!last) {
         <hr class="mb-1">
       }
     }
   }
   @if (data?.footer !== '') {
     <hr class="mb-1">
-    <div class="text-lg" >
+    <div class="text-lg">
       {{ data?.footer }}
     </div>
   }

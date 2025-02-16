@@ -37,7 +37,7 @@ export class DeltaStintService {
   }
 
   private createDeltaStint(stint: Stint): DeltaStint {
-    const endDate: Date = stint.endDate ? stint.endDate.toDate(): new Date();
+    const endDate: Date = stint.endDate ? stint.endDate.toDate() : new Date();
     const timeOnTrack: number = endDate.getTime() - stint.startDate.toDate().getTime();
     const delta = timeOnTrack - stint.optimumMilliseconds;
 

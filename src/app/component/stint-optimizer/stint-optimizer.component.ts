@@ -4,10 +4,10 @@ import { StintOptimizerService } from "../../service/stint-optimizer.service";
 import { millisecondsToTimeString } from "../../util/date.util";
 
 @Component({
-    selector: 'app-stint-optimizer',
-    imports: [NgClass],
-    templateUrl: './stint-optimizer.component.html',
-    styleUrl: './stint-optimizer.component.css'
+  selector: 'app-stint-optimizer',
+  imports: [NgClass],
+  templateUrl: './stint-optimizer.component.html',
+  styleUrl: './stint-optimizer.component.css'
 })
 export class StintOptimizerComponent {
   private readonly stintOptimizerService = inject(StintOptimizerService);

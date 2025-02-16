@@ -83,7 +83,7 @@ export class PitService extends FirestoreService {
     return undefined;
   }
 
-  private calculateActivePitRemainingMilliseconds(pits: Pit[], raceConfig: RaceConfig | undefined): number  {
+  private calculateActivePitRemainingMilliseconds(pits: Pit[], raceConfig: RaceConfig | undefined): number {
     if (!raceConfig) {
       return 0;
     }

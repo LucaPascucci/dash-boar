@@ -4,10 +4,10 @@ import { getTimeUntilFutureDate } from "../../util/date.util";
 import { TyreService } from "../../service/tyre.service";
 
 @Component({
-    selector: 'app-tyre-change-window',
-    imports: [DatePipe, NgClass],
-    templateUrl: './tyre-change-window.component.html',
-    styleUrl: './tyre-change-window.component.css'
+  selector: 'app-tyre-change-window',
+  imports: [DatePipe, NgClass],
+  templateUrl: './tyre-change-window.component.html',
+  styleUrl: './tyre-change-window.component.css'
 })
 export class TyreChangeWindowComponent {
   private readonly tyreService = inject(TyreService);
@@ -18,9 +18,10 @@ export class TyreChangeWindowComponent {
   tyreChangeWindowOpen: Signal<boolean> = this.tyreService.tyreChangeWindowOpen;
 
   countdownOpeningTime = computed(() => getTimeUntilFutureDate(this.tyreService.openingTime()))
-  countdownClosingTime= computed(() => getTimeUntilFutureDate(this.tyreService.closingTime()))
+  countdownClosingTime = computed(() => getTimeUntilFutureDate(this.tyreService.closingTime()))
 
   isOpen = false;
 
-  constructor() { }
+  constructor() {
+  }
 }

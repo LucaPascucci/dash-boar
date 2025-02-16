@@ -1,6 +1,7 @@
 <div class="bg-white shadow-md rounded-lg p-2 md:p-3 lg:p-4 w-auto mx-auto border hover:shadow-xl">
 
-  <div [ngClass]="{'mb-2':isOpen}" (click)="isOpen = !isOpen" class="flex justify-between items-center hover:cursor-pointer">
+  <div [ngClass]="{'mb-2':isOpen}" (click)="isOpen = !isOpen"
+       class="flex justify-between items-center hover:cursor-pointer">
     <div class="text-lg lg:text-xl font-bold">👨🏻‍🔧 Pit</div>
     <div class="flex items-center">
       <div
@@ -16,10 +17,18 @@
         <thead class="sticky top-0">
         <tr>
           <th class="py-2 px-3 border-b border-gray-200 text-left text-sm xl:text-base font-medium text-gray-700"></th>
-          <th class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700">🐗 🔄</th>
-          <th class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700">⛽️</th>
-          <th class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700">🛞 🔄</th>
-          <th class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700" colspan="2">Time</th>
+          <th class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700">
+            🐗 🔄
+          </th>
+          <th class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700">
+            ⛽️
+          </th>
+          <th class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700">
+            🛞 🔄
+          </th>
+          <th class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700"
+              colspan="2">Time
+          </th>
         </tr>
         </thead>
       </table>
@@ -44,7 +53,8 @@
                 ✅
               }
             </td>
-            <td class="py-2 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono" colspan="2"> {{
+            <td class="py-2 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono"
+                colspan="2"> {{
                 calculatePitTime(pit.entryTime.toDate(), pit.exitTime?.toDate())
               }}
             </td>
@@ -56,11 +66,14 @@
         <table class="w-full table-fixed">
           <tfoot class="sticky bottom-0-0">
           <tr class="bg-gray-100 font-bold">
-            <td class="py-2 px-3 border-b border-gray-200 text-sm xl:text-base text-black">Totals</td>
+            <td class="py-2 px-3 border-b border-gray-200 text-sm xl:text-base text-black">Totals
+            </td>
             <td class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono">{{ completedDriverChanges() }}</td>
             <td class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono">{{ calculateTotalRefueling() }}</td>
             <td class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono">{{ calculateTotalTyreChanges() }}</td>
-            <td class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono" colspan="2">{{ calculateTotalPitTime() }}</td>
+            <td class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono"
+                colspan="2">{{ calculateTotalPitTime() }}
+            </td>
           </tr>
           </tfoot>
         </table>

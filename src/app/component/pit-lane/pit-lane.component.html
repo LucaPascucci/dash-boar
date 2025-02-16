@@ -1,16 +1,19 @@
 <div
     class="bg-white shadow-md rounded-lg p-2 md:p-3 lg:p-4 w-auto mx-auto border hover:shadow-xl">
 
-  <div [ngClass]="{'mb-4':isOpen}" (click)="isOpen = !isOpen" class="flex justify-between items-center hover:cursor-pointer">
+  <div [ngClass]="{'mb-4':isOpen}" (click)="isOpen = !isOpen"
+       class="flex justify-between items-center hover:cursor-pointer">
     <div class="text-lg lg:text-xl font-bold">🅿️ Pit Lane</div>
     @if (pitLaneOpenInMilliseconds() > 0) {
-      <div class="bg-green-500 px-2 py-1 rounded-lg text-white text-center font-medium mr-1 hover:cursor-default">
+      <div
+          class="bg-green-500 px-2 py-1 rounded-lg text-white text-center font-medium mr-1 hover:cursor-default">
         Open in: {{ pitLaneOpenInMillisecondsString() }}
       </div>
     }
     <div class="flex items-center">
       @if (pitLaneOpen()) {
-        <div class="bg-green-500 px-2 py-1 rounded-lg text-white text-center font-medium hover:cursor-default">
+        <div
+            class="bg-green-500 px-2 py-1 rounded-lg text-white text-center font-medium hover:cursor-default">
           Open
         </div>
       } @else {
@@ -25,24 +28,24 @@
   @if (isOpen) {
     <div class="flex flex-col items-center mb-2">
       @if (!activePit()) {
-      <div class="font-semibold mb-2">PIT SETTINGS</div>
-      <form>
-        <div class="mb-2">
-          <label for="driverSelect" class="mr-2">🐗 Driver</label>
-          <select
-              [disabled]="activePit() !== undefined"
-              id="driverSelect"
-              [(ngModel)]="selectedDriver"
-              (change)="updateDriverId()"
-              name="driverSelect"
-              class="border rounded p-1">
-            <option *ngFor="let driver of drivers()"
-                    [value]="driver.id">
-              {{ driver.raceName }}
-            </option>
-          </select>
+        <div class="font-semibold mb-2">PIT SETTINGS</div>
+        <form>
+          <div class="mb-2">
+            <label for="driverSelect" class="mr-2">🐗 Driver</label>
+            <select
+                [disabled]="activePit() !== undefined"
+                id="driverSelect"
+                [(ngModel)]="selectedDriver"
+                (change)="updateDriverId()"
+                name="driverSelect"
+                class="border rounded p-1">
+              <option *ngFor="let driver of drivers()"
+                      [value]="driver.id">
+                {{ driver.raceName }}
+              </option>
+            </select>
 
-        </div>
+          </div>
           <div class="mb-2">
             <label for="refueling" class="mr-2">⛽️ Refueling</label>
             <input
@@ -64,7 +67,7 @@
                 (change)="updateTyreChange()"
                 name="tyreChange">
           </div>
-      </form>
+        </form>
       } @else {
         @if (activePitRemainingMilliseconds() > 0) {
           <div
@@ -73,7 +76,8 @@
             Pit out enabled in: {{ activePitRemainingMillisecondsString() }}
           </div>
         } @else {
-          <div class="bg-green-500 p-2 rounded-lg text-white text-center text-xl font-black hover:cursor-default">
+          <div
+              class="bg-green-500 p-2 rounded-lg text-white text-center text-xl font-black hover:cursor-default">
             Pit out ready!
           </div>
         }
