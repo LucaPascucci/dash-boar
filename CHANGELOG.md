@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.27.0
+
+Added
+---------
+- Introduced end race component
+- Enhanced race manager and race service whit end race logic.
+
+----
+
 ## v0.26.0
 
 Added
