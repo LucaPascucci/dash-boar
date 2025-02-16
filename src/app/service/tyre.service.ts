@@ -55,7 +55,7 @@ export class TyreService {
     return false;
   }
 
-  private calculateRemainingTyreChange(pits: Pit[], minTyreChange:  number): number {
+  private calculateRemainingTyreChange(pits: Pit[], minTyreChange: number): number {
     const tyreChangesDone = pits.filter(pit => pit.tyreChange && pit.exitTime).length;
     return minTyreChange - tyreChangesDone;
   }

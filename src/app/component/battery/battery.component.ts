@@ -2,13 +2,13 @@ import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } f
 import { NgClass } from "@angular/common";
 
 @Component({
-    selector: 'app-battery',
-    imports: [
-        NgClass
-    ],
-    templateUrl: './battery.component.html',
-    styleUrl: './battery.component.css',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-battery',
+  imports: [
+    NgClass
+  ],
+  templateUrl: './battery.component.html',
+  styleUrl: './battery.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BatteryComponent implements OnChanges {
   @Input() charge: number = 100;

@@ -33,7 +33,14 @@ export class StintOptimizerService {
       ping: interval(1000)
     })
     .pipe(takeUntilDestroyed())
-    .subscribe(({activeRace, willEndRaceDate, activeRaceConfig, remainingDriverChanges, remainingTyreChange, lastPit}) => {
+    .subscribe(({
+                  activeRace,
+                  willEndRaceDate,
+                  activeRaceConfig,
+                  remainingDriverChanges,
+                  remainingTyreChange,
+                  lastPit
+                }) => {
       if (activeRaceConfig) {
         this.optimizedStint.set(
             this.calculateOptimizedStint(

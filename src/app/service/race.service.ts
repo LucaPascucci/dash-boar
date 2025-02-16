@@ -31,14 +31,14 @@ export class RaceService extends FirestoreService {
     .pipe(
         takeUntilDestroyed(),
         map(({races, raceConfig}) => {
-      if (races && raceConfig) {
-        const activeRace = this.getActiveRace(races);
-        const willEndRaceDate = this.getWillEndRaceDate(activeRace, raceConfig)
-        return { activeRace: activeRace, willEndRaceDate: willEndRaceDate };
-      }
-      return { activeRace: undefined, willEndRaceDate: undefined};
-    }))
-    .subscribe((result, )  => {
+          if (races && raceConfig) {
+            const activeRace = this.getActiveRace(races);
+            const willEndRaceDate = this.getWillEndRaceDate(activeRace, raceConfig)
+            return {activeRace: activeRace, willEndRaceDate: willEndRaceDate};
+          }
+          return {activeRace: undefined, willEndRaceDate: undefined};
+        }))
+    .subscribe((result,) => {
       this.activeRace.set(result.activeRace);
       this.willEndRaceDate.set(result.willEndRaceDate);
     });

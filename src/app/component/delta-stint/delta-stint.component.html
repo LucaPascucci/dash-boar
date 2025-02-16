@@ -4,16 +4,16 @@
        class="flex justify-between items-center hover:cursor-pointer">
     <div class="text-lg lg:text-xl font-bold">🧐 Delta stint</div>
     <div class="flex items-center">
-        <div
-            [ngClass]="{'bg-yellow-500': totalDeltaMilliseconds() < 0, 'bg-green-500': totalDeltaMilliseconds() >= 0}"
-            class="px-2 py-1 rounded-lg text-white text-center font-medium hover:cursor-default">
-          @if (totalDeltaMilliseconds() < 0) {
-           Losing:
-          } @else {
-            Gaining:
-          }
-          {{ getMillisecondsToTimeString(totalDeltaMilliseconds()) }}
-        </div>
+      <div
+          [ngClass]="{'bg-yellow-500': totalDeltaMilliseconds() < 0, 'bg-green-500': totalDeltaMilliseconds() >= 0}"
+          class="px-2 py-1 rounded-lg text-white text-center font-medium hover:cursor-default">
+        @if (totalDeltaMilliseconds() < 0) {
+          Losing:
+        } @else {
+          Gaining:
+        }
+        {{ getMillisecondsToTimeString(totalDeltaMilliseconds()) }}
+      </div>
     </div>
   </div>
 
@@ -23,9 +23,15 @@
         <thead class="sticky top-0">
         <tr>
           <th class="py-2 px-3 border-b border-gray-200 text-left text-xs xl:text-base font-medium text-gray-700"></th>
-          <th class="py-2 px-3 border-b border-gray-200 text-center text-xs xl:text-base font-medium text-gray-700" colspan="2">On track</th>
-          <th class="py-2 px-3 border-b border-gray-200 text-center text-xs xl:text-base font-medium text-gray-700" colspan="2">Optimum</th>
-          <th class="py-2 px-3 border-b border-gray-200 text-center text-xs xl:text-base font-medium text-gray-700" colspan="2">Delta</th>
+          <th class="py-2 px-3 border-b border-gray-200 text-center text-xs xl:text-base font-medium text-gray-700"
+              colspan="2">On track
+          </th>
+          <th class="py-2 px-3 border-b border-gray-200 text-center text-xs xl:text-base font-medium text-gray-700"
+              colspan="2">Optimum
+          </th>
+          <th class="py-2 px-3 border-b border-gray-200 text-center text-xs xl:text-base font-medium text-gray-700"
+              colspan="2">Delta
+          </th>
         </tr>
         </thead>
       </table>
@@ -35,14 +41,19 @@
           <tr *ngFor="let deltaStint of deltaStints()"
               [ngClass]="{'bg-green-100 font-semibold': deltaStint.id === activeStintId(), 'hover:bg-gray-50': deltaStint.id !== activeStintId()}">
             <td class="py-2 px-3 border-b border-gray-200 text-xs xl:text-base text-black">{{ deltaStint.id }}</td>
-            <td class="py-2 border-b border-gray-200 text-center text-xs xl:text-base text-black font-mono" colspan="2">{{ getMillisecondsToTimeString(deltaStint.timeOnTrack)}}</td>
-            <td class="py-2 border-b border-gray-200 text-center text-xs xl:text-base text-black font-mono" colspan="2">{{ getMillisecondsToTimeString(deltaStint.optimum) }}</td>
-            <td class="py-2 border-b border-gray-200 text-center text-xs xl:text-base font-mono" colspan="2">
+            <td class="py-2 border-b border-gray-200 text-center text-xs xl:text-base text-black font-mono"
+                colspan="2">{{ getMillisecondsToTimeString(deltaStint.timeOnTrack) }}
+            </td>
+            <td class="py-2 border-b border-gray-200 text-center text-xs xl:text-base text-black font-mono"
+                colspan="2">{{ getMillisecondsToTimeString(deltaStint.optimum) }}
+            </td>
+            <td class="py-2 border-b border-gray-200 text-center text-xs xl:text-base font-mono"
+                colspan="2">
               <div
-                [ngClass]="{'bg-yellow-500': deltaStint.delta < 0, 'bg-green-500': deltaStint.delta >= 0}"
-                class="p-1 text-center text-white rounded">
-              {{ getMillisecondsToTimeString(deltaStint.delta) }}
-            </div>
+                  [ngClass]="{'bg-yellow-500': deltaStint.delta < 0, 'bg-green-500': deltaStint.delta >= 0}"
+                  class="p-1 text-center text-white rounded">
+                {{ getMillisecondsToTimeString(deltaStint.delta) }}
+              </div>
             </td>
           </tr>
           </tbody>
@@ -52,8 +63,11 @@
         <table class="w-full table-fixed">
           <tfoot class="sticky bottom-0-0">
           <tr class="bg-gray-100 font-bold">
-            <td class="py-2 px-3 border-b border-gray-200 text-xs xl:text-base text-black" colspan="5">Totals</td>
-            <td class="py-2 border-b border-gray-200 text-center text-xs xl:text-base text-black font-mono" colspan="2">
+            <td class="py-2 px-3 border-b border-gray-200 text-xs xl:text-base text-black"
+                colspan="5">Totals
+            </td>
+            <td class="py-2 border-b border-gray-200 text-center text-xs xl:text-base text-black font-mono"
+                colspan="2">
               <div
                   [ngClass]="{'bg-yellow-500': totalDeltaMilliseconds() < 0, 'bg-green-500': totalDeltaMilliseconds() >= 0}"
                   class="p-1 text-center text-white rounded">

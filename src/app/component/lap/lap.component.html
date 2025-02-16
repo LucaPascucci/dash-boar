@@ -1,12 +1,13 @@
 <div class="bg-white shadow-md rounded-lg p-2 md:p-3 lg:p-4 w-auto mx-auto border hover:shadow-xl">
 
-  <div [ngClass]="{'mb-2':isOpen}" (click)="isOpen = !isOpen" class="flex justify-between items-center hover:cursor-pointer">
+  <div [ngClass]="{'mb-2':isOpen}" (click)="isOpen = !isOpen"
+       class="flex justify-between items-center hover:cursor-pointer">
     <div class="text-lg lg:text-xl font-bold">⏱️ Lap</div>
     <div class="flex items-center">
-        <div
-            class="bg-blue-500 px-2 py-1 rounded-lg text-white text-center font-medium hover:cursor-default">
-          Reference: {{ referenceLapTimeString }}
-        </div>
+      <div
+          class="bg-blue-500 px-2 py-1 rounded-lg text-white text-center font-medium hover:cursor-default">
+        Reference: {{ referenceLapTimeString }}
+      </div>
     </div>
   </div>
 
@@ -16,7 +17,10 @@
       <div>
         <div class="text-gray-600 text-center">Reference time (mills)</div>
         <div class="flex justify-end">
-          <button (click)="increaseReferenceLapTime()" class="bg-gray-200 hover:bg-gray-300 active:bg-gray-400 text-black px-4 mr-1 rounded">+</button>
+          <button (click)="increaseReferenceLapTime()"
+                  class="bg-gray-200 hover:bg-gray-300 active:bg-gray-400 text-black px-4 mr-1 rounded">
+            +
+          </button>
           <form (ngSubmit)="onSubmit()" class="text-right">
             <input
                 type="number"
@@ -28,7 +32,10 @@
                 min="1"
             />
           </form>
-          <button (click)="decreaseReferenceLapTime()" class="bg-gray-200 hover:bg-gray-300 active:bg-gray-400 text-black px-4 ml-1 rounded">-</button>
+          <button (click)="decreaseReferenceLapTime()"
+                  class="bg-gray-200 hover:bg-gray-300 active:bg-gray-400 text-black px-4 ml-1 rounded">
+            -
+          </button>
         </div>
       </div>
     </div>

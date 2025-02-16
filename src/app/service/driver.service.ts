@@ -70,7 +70,7 @@ export class DriverService extends FirestoreService {
     .pipe(
         takeUntil(this.destroyed),
         map((data: DocumentData[]) => data.map(doc => doc as Driver).filter(driver => !driver.deleted))
-    // map((drivers: Driver[]) => drivers.filter(driver => !driver.deleted))
+        // map((drivers: Driver[]) => drivers.filter(driver => !driver.deleted))
     );
   }
 

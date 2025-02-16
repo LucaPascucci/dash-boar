@@ -21,11 +21,11 @@ export class RaceManagerService {
   private readonly activeStint: Signal<Stint | undefined> = this.stintService.activeStint;
   private readonly activePit: Signal<Pit | undefined> = this.pitService.activePit;
   private readonly optimizedStintMilliseconds = computed(() => {
-      const optimizedStint = this.stintOptimizerService.optimizedStint();
-      if (optimizedStint) {
-        return optimizedStint.avgStintMillisecondsTime;
-      }
-      return 0;
+    const optimizedStint = this.stintOptimizerService.optimizedStint();
+    if (optimizedStint) {
+      return optimizedStint.avgStintMillisecondsTime;
+    }
+    return 0;
   })
 
   async startRace(firstDriverId: string): Promise<void> {
@@ -64,9 +64,9 @@ export class RaceManagerService {
     const activePit = this.activePit();
 
     if (activeRace && activePit) {
-        const now = Timestamp.now();
-        await this.closeActivePit(now);
-        await this.startStint(activeRace.id, activePit.exitDriverId, now);
+      const now = Timestamp.now();
+      await this.closeActivePit(now);
+      await this.startStint(activeRace.id, activePit.exitDriverId, now);
     }
   }
 
@@ -113,7 +113,7 @@ export class RaceManagerService {
     };
   }
 
-  private createPit(entryDriveId: string, exitDriverId: string, raceId: string, refueling: boolean, tyreChange: boolean ): Pit {
+  private createPit(entryDriveId: string, exitDriverId: string, raceId: string, refueling: boolean, tyreChange: boolean): Pit {
     return {
       id: "1",
       entryDriverId: entryDriveId,

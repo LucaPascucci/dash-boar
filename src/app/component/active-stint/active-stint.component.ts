@@ -5,12 +5,12 @@ import { millisecondsToTimeString } from "../../util/date.util";
 import { Stint } from "../../model/stint";
 
 @Component({
-    selector: 'app-active-stint',
-    imports: [
-        NgClass
-    ],
-    templateUrl: './active-stint.component.html',
-    styleUrl: './active-stint.component.css'
+  selector: 'app-active-stint',
+  imports: [
+    NgClass
+  ],
+  templateUrl: './active-stint.component.html',
+  styleUrl: './active-stint.component.css'
 })
 export class ActiveStintComponent {
   private readonly stintService = inject(StintService);

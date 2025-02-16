@@ -12,13 +12,13 @@ import { RaceConfigService } from "../../service/race-config.service";
 import { isAfter } from "date-fns";
 
 @Component({
-    selector: 'app-race',
-    imports: [
-        FormsModule,
-        NgForOf
-    ],
-    templateUrl: './race.component.html',
-    styleUrl: './race.component.css'
+  selector: 'app-race',
+  imports: [
+    FormsModule,
+    NgForOf
+  ],
+  templateUrl: './race.component.html',
+  styleUrl: './race.component.css'
 })
 export class RaceComponent {
   private readonly raceService = inject(RaceService);
@@ -41,7 +41,7 @@ export class RaceComponent {
     .subscribe(result => {
       const willEndRaceDate = result.willEndRaceDate;
       if (willEndRaceDate) {
-        if (isAfter(new Date(), willEndRaceDate)){
+        if (isAfter(new Date(), willEndRaceDate)) {
           this.endRaceCountdown = '00:00:00';
         } else {
           this.endRaceCountdown = getTimeUntilFutureDate(willEndRaceDate);

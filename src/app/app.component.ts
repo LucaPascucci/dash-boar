@@ -40,4 +40,5 @@ import { EndRaceComponent } from "./component/end-race/end-race.component";
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent { }
+export class AppComponent {
+}

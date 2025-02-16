@@ -17,10 +17,18 @@
         <thead class="sticky top-0">
         <tr>
           <th class="py-2 px-3 border-b border-gray-200 text-left text-xs xl:text-base font-medium text-gray-700"></th>
-          <th class="py-2 border-b border-gray-200 text-left text-xs xl:text-base font-medium text-gray-700">Driver</th>
-          <th class="py-2 px-3 border-b border-gray-200 text-center text-xs xl:text-base font-medium text-gray-700" colspan="2">Start</th>
-          <th class="py-2 px-3 border-b border-gray-200 text-center text-xs xl:text-base font-medium text-gray-700" colspan="2">End</th>
-          <th class="py-2 px-3 border-b border-gray-200 text-center text-xs xl:text-base font-medium text-gray-700" colspan="2">On track</th>
+          <th class="py-2 border-b border-gray-200 text-left text-xs xl:text-base font-medium text-gray-700">
+            Driver
+          </th>
+          <th class="py-2 px-3 border-b border-gray-200 text-center text-xs xl:text-base font-medium text-gray-700"
+              colspan="2">Start
+          </th>
+          <th class="py-2 px-3 border-b border-gray-200 text-center text-xs xl:text-base font-medium text-gray-700"
+              colspan="2">End
+          </th>
+          <th class="py-2 px-3 border-b border-gray-200 text-center text-xs xl:text-base font-medium text-gray-700"
+              colspan="2">On track
+          </th>
         </tr>
         </thead>
       </table>
@@ -34,11 +42,15 @@
                 getDriverRacingName(stint.driverId)
               }}
             </td>
-            <td class="py-2 border-b border-gray-200 text-center text-xs xl:text-base text-black font-mono" colspan="2">{{ stint.startDate.toDate() | date:'HH:mm:ss' }}</td>
-            <td class="py-2 border-b border-gray-200 text-center text-xs xl:text-base text-black font-mono" colspan="2">
+            <td class="py-2 border-b border-gray-200 text-center text-xs xl:text-base text-black font-mono"
+                colspan="2">{{ stint.startDate.toDate() | date:'HH:mm:ss' }}
+            </td>
+            <td class="py-2 border-b border-gray-200 text-center text-xs xl:text-base text-black font-mono"
+                colspan="2">
               {{ getEndDate(stint) }}
             </td>
-            <td class="py-2 border-b border-gray-200 text-center text-xs xl:text-base text-black font-mono" colspan="2"> {{
+            <td class="py-2 border-b border-gray-200 text-center text-xs xl:text-base text-black font-mono"
+                colspan="2"> {{
                 calculateTimeOnTrack(stint.startDate.toDate(), stint.endDate?.toDate())
               }}
             </td>
@@ -50,8 +62,12 @@
         <table class="w-full table-fixed">
           <tfoot class="sticky bottom-0-0">
           <tr class="bg-gray-100 font-bold">
-            <td class="py-2 px-3 border-b border-gray-200 text-xs xl:text-base text-black" colspan="6">Totals</td>
-            <td class="py-2 border-b border-gray-200 text-center text-xs xl:text-base text-black font-mono" colspan="2">{{ calculateTotalTimeOnTrack() }}</td>
+            <td class="py-2 px-3 border-b border-gray-200 text-xs xl:text-base text-black"
+                colspan="6">Totals
+            </td>
+            <td class="py-2 border-b border-gray-200 text-center text-xs xl:text-base text-black font-mono"
+                colspan="2">{{ calculateTotalTimeOnTrack() }}
+            </td>
           </tr>
           </tfoot>
         </table>

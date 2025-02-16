@@ -40,12 +40,12 @@ export class FuelService {
            lastRefuelPit,
            activeRace,
            raceConfig
-        }) => {
+         }) => {
           this.lastRefuelTime.set(this.getLastRefuelDate(lastRefuelPit, activeRace));
           this.emptyFuelTime.set(this.calculateEmptyFuelTime(this.lastRefuelTime(), raceConfig));
           this.remainingFuelLap.set(this.calculateRemainingFuelLaps(this.emptyFuelTime(), raceConfig));
           this.remainingFuelPercentage.set(this.calculateRemainingFuelPercentage(this.emptyFuelTime(), raceConfig));
-    });
+        });
   }
 
   private getLastRefuelDate(lastRefuelPit: Pit | undefined, activeRace: Race | undefined): Date | undefined {

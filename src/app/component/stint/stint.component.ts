@@ -7,14 +7,14 @@ import { Stint } from "../../model/stint";
 import { addMilliseconds, format } from "date-fns";
 
 @Component({
-    selector: 'app-stint',
-    imports: [
-        NgClass,
-        NgForOf,
-        DatePipe
-    ],
-    templateUrl: './stint.component.html',
-    styleUrl: './stint.component.css'
+  selector: 'app-stint',
+  imports: [
+    NgClass,
+    NgForOf,
+    DatePipe
+  ],
+  templateUrl: './stint.component.html',
+  styleUrl: './stint.component.css'
 })
 export class StintComponent {
   private readonly stintService = inject(StintService);

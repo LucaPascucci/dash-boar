@@ -1,7 +1,7 @@
 @if (!willEndRaceDate()) {
   <div class="flex items-center justify-center">
-      <div class="font-bold mr-2">
-        <form>
+    <div class="font-bold mr-2">
+      <form>
         <label for="driverSelect" class="mr-2">Start driver</label>
         <select
             id="driverSelect"
@@ -14,8 +14,8 @@
             {{ driver.raceName }}
           </option>
         </select>
-        </form>
-      </div>
+      </form>
+    </div>
     <button
         (click)="startRace()"
         class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
