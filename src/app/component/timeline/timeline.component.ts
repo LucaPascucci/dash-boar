@@ -28,6 +28,7 @@ export class TimelineComponent {
   hide = false;
 
   constructor() {
+    this.onResize();
     window.addEventListener('resize', this.onResize.bind(this));
   }
 
