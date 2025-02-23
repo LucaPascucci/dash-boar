@@ -45,7 +45,7 @@ export class EndRaceComponent {
   }
 
   private calculateHide(race: Race, raceConfig: RaceConfig): boolean {
-    if (race.end !== null) {
+    if (race.end === null) {
       return true;
     }
 
