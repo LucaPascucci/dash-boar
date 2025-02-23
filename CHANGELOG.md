@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.29.0
+
+Changed
+---------
+- Updated layout to include additional images and improved responsiveness.
+- Fixed logic in delta-stint component to correctly display gaining or losing status.
+- Corrected condition in end-race component to properly handle race end state.
+
+--- 
+
 ## v0.28.0
 
 Added
@@ -10,6 +20,8 @@ Added
 Changed
 ---------
 - Updated the delta stint component to use delta milliseconds for display logic.
+
+--- 
 
 ## v0.27.0
 

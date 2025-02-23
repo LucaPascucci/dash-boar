@@ -10,7 +10,7 @@
           class="px-2 py-1 rounded-lg text-white text-center font-medium hover:cursor-default">
         @if (deltaMilliseconds() < 0) {
           Losing:
-        } @else {
+        } @else if (deltaMilliseconds() > 0) {
           Gaining:
         }
         {{ getMillisecondsToTimeString(deltaMilliseconds()) }}
