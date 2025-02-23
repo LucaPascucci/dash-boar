@@ -9,20 +9,21 @@ import { Race } from "../../model/race";
 import { addHours, differenceInSeconds } from "date-fns";
 
 @Component({
-  selector: 'app-end-race',
+  selector: 'app-race-button',
   imports: [],
-  templateUrl: './end-race.component.html',
-  styleUrl: './end-race.component.css'
+  templateUrl: './race-button.component.html',
+  styleUrl: './race-button.component.css'
 })
-export class EndRaceComponent {
+export class RaceButtonComponent {
   private readonly raceService = inject(RaceService);
   private readonly raceConfigService = inject(RaceConfigService);
   private readonly raceManagerService = inject(RaceManagerService);
 
   readonly activeRace: Signal<Race | undefined> = this.raceService.activeRace;
   readonly activeRaceConfig: Signal<RaceConfig | undefined> = this.raceConfigService.activeRaceConfig;
+  readonly willEndRaceDate: Signal<Date | undefined> = this.raceService.willEndRaceDate;
 
-  hide = true;
+  hideEndRaceButton = true;
 
   constructor() {
     combineLatest({
@@ -33,9 +34,9 @@ export class EndRaceComponent {
     .pipe(takeUntilDestroyed())
     .subscribe(({activeRace, activeRaceConfig}) => {
       if (activeRace && activeRaceConfig) {
-        this.hide = this.calculateHide(activeRace, activeRaceConfig);
+        this.hideEndRaceButton = this.calculateHide(activeRace, activeRaceConfig);
       } else {
-        this.hide = true;
+        this.hideEndRaceButton = true;
       }
     });
   }
@@ -52,5 +53,9 @@ export class EndRaceComponent {
     const willEnd = addHours(race.start.toDate(), raceConfig.durationHour);
     const difference = differenceInSeconds(willEnd, new Date());
     return difference > raceConfig.endRaceThresholdSeconds;
+  }
+
+  startRace(): void {
+    this.raceManagerService.startRace('');
   }
 }
