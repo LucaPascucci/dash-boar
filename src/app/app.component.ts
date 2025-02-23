@@ -15,7 +15,7 @@ import { LapComponent } from "./component/lap/lap.component";
 import { PitComponent } from "./component/pit/pit.component";
 import { DeltaStintComponent } from "./component/delta-stint/delta-stint.component";
 import { TimelineComponent } from "./component/timeline/timeline.component";
-import { EndRaceComponent } from "./component/end-race/end-race.component";
+import { RaceButtonComponent } from "./component/race-button/race-button.component";
 
 
 @Component({
@@ -35,7 +35,7 @@ import { EndRaceComponent } from "./component/end-race/end-race.component";
     PitComponent,
     DeltaStintComponent,
     TimelineComponent,
-    EndRaceComponent
+    RaceButtonComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
