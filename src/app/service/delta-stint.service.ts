@@ -13,6 +13,7 @@ export class DeltaStintService {
 
   readonly deltaStints: WritableSignal<DeltaStint[]> = signal([]);
   readonly totalDeltaMilliseconds: WritableSignal<number> = signal(0);
+  readonly deltaMilliseconds: WritableSignal<number> = signal(0);
 
 
   constructor() {
@@ -25,7 +26,15 @@ export class DeltaStintService {
       const deltaStints = this.createDeltaStints(stints)
       this.deltaStints.set(deltaStints);
       this.totalDeltaMilliseconds.set(deltaStints.reduce((accumulator, currentValue) => accumulator + currentValue.delta, 0));
+      this.deltaMilliseconds.set(
+          this.createDeltaStints(this.filterCompletedStints(stints))
+          .reduce((accumulator, currentValue) => accumulator + currentValue.delta, 0)
+      );
     })
+  }
+
+  private filterCompletedStints(stints: Stint[]): Stint[] {
+    return stints.filter(stint => stint.endDate !== null);
   }
 
   private createDeltaStints(stints: Stint[]): DeltaStint[] {

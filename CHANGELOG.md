@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.28.0
+
+Added
+---------
+- Introduced tooltip functionality to the delta stint component.
+- Added a new signal to track delta milliseconds for completed stints.
+
+Changed
+---------
+- Updated the delta stint component to use delta milliseconds for display logic.
+
 ## v0.27.0
 
 Added
