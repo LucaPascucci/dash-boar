@@ -5,14 +5,15 @@
     <div class="text-lg lg:text-xl font-bold">🧐 Delta stint</div>
     <div class="flex items-center">
       <div
-          [ngClass]="{'bg-yellow-500': totalDeltaMilliseconds() < 0, 'bg-green-500': totalDeltaMilliseconds() >= 0}"
+          [ngClass]="{'bg-yellow-500': deltaMilliseconds() < 0, 'bg-green-500': deltaMilliseconds() >= 0}"
+          tooltip [tooltipData]=tooltipInfo [tooltipPosition]=tooltipPosition
           class="px-2 py-1 rounded-lg text-white text-center font-medium hover:cursor-default">
-        @if (totalDeltaMilliseconds() < 0) {
+        @if (deltaMilliseconds() < 0) {
           Losing:
         } @else {
           Gaining:
         }
-        {{ getMillisecondsToTimeString(totalDeltaMilliseconds()) }}
+        {{ getMillisecondsToTimeString(deltaMilliseconds()) }}
       </div>
     </div>
   </div>
