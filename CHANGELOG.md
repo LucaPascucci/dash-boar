@@ -9,6 +9,7 @@ Added
 Changed
 ---------
 - Replaced EndRaceComponent with RaceButtonComponent in the main application layout.
+- Improved responsive layout and dark mode support
 
 ---
 
