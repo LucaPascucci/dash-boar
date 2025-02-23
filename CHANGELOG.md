@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.30.0
+
+Added
+---------
+- Introduced a new RaceButtonComponent to manage race start and end actions.
+
+Changed
+---------
+- Replaced EndRaceComponent with RaceButtonComponent in the main application layout.
+
+---
+
 ## v0.29.0
 
 Changed
