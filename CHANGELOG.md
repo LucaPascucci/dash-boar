@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.31.0
+
+Changed
+---------
+- Improved logic for calculating optimized stints and tooltip positioning.
+- Enhanced styling for delta stint component with adaptive tooltip positioning.
+
+---
+
 ## v0.30.0
 
 Added
