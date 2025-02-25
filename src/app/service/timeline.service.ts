@@ -36,20 +36,21 @@ export class TimelineService {
       ping: interval(1000)
     })
     .pipe(takeUntilDestroyed())
-    .subscribe(({
-                  stints,
-                  pits,
-                  remainingDriverChanges,
-                  raceConfig,
-                  optimizedStint,
-                  remainingTyreChange
-                }) => {
+    .subscribe((
+        {
+          stints,
+          pits,
+          remainingDriverChanges,
+          raceConfig,
+          optimizedStint,
+          remainingTyreChange
+        }) => {
 
       let result: TimelineStep[] = this.createRealSteps(stints, pits);
 
       result = result.sort((a, b) => a.start.getTime() - b.start.getTime());
 
-      if (remainingDriverChanges > 0 && optimizedStint && raceConfig) {
+      if (optimizedStint && raceConfig) {
         const futureSteps = this.createFutureSteps(
             result.at(result.length - 1),
             remainingDriverChanges,
@@ -111,7 +112,6 @@ export class TimelineService {
       raceConfig: RaceConfig,
       remainingTyreChange: number
   ): TimelineStep[] {
-
     const result: TimelineStep[] = [];
     let lastEndDate: Date = this.calculateLastEndDateFromRealStep(lastRealStep, optimizedStint, raceConfig);
 
@@ -166,9 +166,12 @@ export class TimelineService {
     }
   }
 
-  private calculateLastEndDateFromRealStep(lastRealStep: TimelineStep | undefined,
-                                           optimizedStint: OptimizedStint,
-                                           raceConfig: RaceConfig): Date {
+  private calculateLastEndDateFromRealStep(
+      lastRealStep: TimelineStep | undefined,
+      optimizedStint: OptimizedStint,
+      raceConfig: RaceConfig
+  ): Date {
+
     if (lastRealStep === undefined) {
       return new Date();
     }
