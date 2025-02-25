@@ -5,9 +5,9 @@
     <div class="text-lg lg:text-xl font-bold">🧐 Delta stint</div>
     <div class="flex items-center">
       <div
-          [ngClass]="{'bg-yellow-500': deltaMilliseconds() < 0, 'bg-green-500': deltaMilliseconds() >= 0}"
+          [ngClass]="{'bg-yellow-500 text-white': deltaMilliseconds() < 0, 'bg-green-500 text-white': deltaMilliseconds() > 0}"
           tooltip [tooltipData]=tooltipInfo [tooltipPosition]=tooltipPosition
-          class="px-2 py-1 rounded-lg text-white text-center font-medium hover:cursor-default">
+          class="px-2 py-1 rounded-lg text-center font-medium hover:cursor-default">
         @if (deltaMilliseconds() < 0) {
           Losing:
         } @else if (deltaMilliseconds() > 0) {

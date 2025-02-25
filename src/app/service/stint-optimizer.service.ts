@@ -9,6 +9,7 @@ import { PitService } from "./pit.service";
 import { OptimizedStint } from "../model/optimized-stint";
 import { RaceConfig } from "../model/race-config";
 import { TyreService } from "./tyre.service";
+import { Race } from "../model/race";
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +45,7 @@ export class StintOptimizerService {
       if (activeRaceConfig) {
         this.optimizedStint.set(
             this.calculateOptimizedStint(
+                activeRace,
                 activeRace ? activeRace.start.toDate() : new Date(),
                 willEndRaceDate || addHours(new Date(), activeRaceConfig.durationHour),
                 activeRaceConfig,
@@ -57,6 +59,7 @@ export class StintOptimizerService {
   }
 
   calculateOptimizedStint(
+      activeRace: Race | undefined,
       startRaceDate: Date,
       endRaceDate: Date,
       raceConfig: RaceConfig,
@@ -92,13 +95,18 @@ export class StintOptimizerService {
     const avgStintTime = timeRemainingFromLastDriverChange / (remainingDriverChanges + 1);
 
     // Case 2: Calculate avgIfChangedNow if a driver change happens now
-    const avgIfChangedNow = timeRemaining / remainingDriverChanges;
+    let avgIfChangedNow = 0
+    let lapsIfDriverChangeNow = 0;
+    if (remainingDriverChanges > 0 && activeRace !== undefined) {
+      avgIfChangedNow = timeRemaining / remainingDriverChanges;
+      lapsIfDriverChangeNow = Math.floor(avgIfChangedNow / raceConfig.referenceLapTimeMillisecond)
+    }
 
     return {
       avgStintMillisecondsTime: avgStintTime,
       laps: Math.floor(avgStintTime / raceConfig.referenceLapTimeMillisecond),
       avgStintMillisecondsIfDriverChangedNow: avgIfChangedNow,
-      lapsIfDriverChangeNow: Math.floor(avgIfChangedNow / raceConfig.referenceLapTimeMillisecond)
+      lapsIfDriverChangeNow: lapsIfDriverChangeNow
     };
   }
 
