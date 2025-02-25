@@ -69,8 +69,8 @@
             <td class="py-2 border-b border-gray-200 text-center text-xs xl:text-base text-black font-mono"
                 colspan="2">
               <div
-                  [ngClass]="{'bg-yellow-500': totalDeltaMilliseconds() < 0, 'bg-green-500': totalDeltaMilliseconds() >= 0}"
-                  class="p-1 text-center text-white rounded">
+                  [ngClass]="{'bg-yellow-500 text-white': totalDeltaMilliseconds() < 0, 'bg-green-500 text-white': totalDeltaMilliseconds() > 0}"
+                  class="p-1 text-center rounded">
                 {{ getMillisecondsToTimeString(totalDeltaMilliseconds()) }}
               </div>
             </td>
