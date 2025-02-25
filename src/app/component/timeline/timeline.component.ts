@@ -37,12 +37,20 @@ export class TimelineComponent {
   }
 
   getTooltipPosition(stepIndex: number): TooltipPosition {
-    if (stepIndex < 5) {
-      return TooltipPosition.RIGHT;
+    const length = this.timelineSteps().length;
+
+    if (length <= 9 ) {
+      return TooltipPosition.BELOW;
     }
-    if (stepIndex >= 56) {
+
+    // Adaptive algorithm to determine tooltip position
+    const threshold = Math.floor(length / 10);
+    if (stepIndex < threshold) {
+      return TooltipPosition.RIGHT;
+    } else if (stepIndex >= length - threshold) {
       return TooltipPosition.LEFT;
     }
+
     return TooltipPosition.BELOW;
   }
 
@@ -137,7 +145,6 @@ export class TimelineComponent {
         result.push('Time: ' + millisecondsToTimeString(step.durationMills));
         result.push('Exit: ' + (step.end ? format(step.end, 'HH:mm:ss') : ''));
         break;
-
     }
 
     return result.filter(Boolean).join('\n');
