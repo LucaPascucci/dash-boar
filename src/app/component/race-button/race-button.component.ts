@@ -56,6 +56,10 @@ export class RaceButtonComponent {
   }
 
   startRace(): void {
-    this.raceManagerService.startRace('');
+    const startDriverId = this.raceConfigService.activeRaceConfig()?.startRaceDriverId;
+    if (startDriverId) {
+      this.raceManagerService.startRace(startDriverId);
+    }
+
   }
 }

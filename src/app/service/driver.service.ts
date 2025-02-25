@@ -61,7 +61,6 @@ export class DriverService extends FirestoreService {
       this.driversStintCountMap.set(this.createDriverStintCountMap(stints, drivers));
       this.driverWithMoreTimeFromLastStint.set(this.getDriverWithMoreTimeFromLastStint(stints, drivers));
       this.driversTimeFromLastStintMap.set(this.createDriversTimeFromLastStintMap(stints, drivers));
-
     })
   }
 
