@@ -16,6 +16,7 @@ import { PitComponent } from "./component/pit/pit.component";
 import { DeltaStintComponent } from "./component/delta-stint/delta-stint.component";
 import { TimelineComponent } from "./component/timeline/timeline.component";
 import { RaceButtonComponent } from "./component/race-button/race-button.component";
+import { DocumentComponent } from "./component/document/document.component";
 
 
 @Component({
@@ -35,7 +36,8 @@ import { RaceButtonComponent } from "./component/race-button/race-button.compone
     PitComponent,
     DeltaStintComponent,
     TimelineComponent,
-    RaceButtonComponent
+    RaceButtonComponent,
+    DocumentComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
