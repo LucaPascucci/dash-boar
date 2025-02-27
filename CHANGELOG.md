@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.32.0
+
+Added
+---------
+- Introduced a new Document component to display and open documents.
+- Updated the layout to include the new Document component.
+- Enhanced image display with improved sizing for larger screens.
+
+---
+
 ## v0.31.0
 
 Changed
