@@ -1,0 +1,32 @@
+<div class="bg-white shadow-md rounded-lg p-2 md:p-3 lg:p-4 w-auto mx-auto border hover:shadow-xl">
+
+  <div [ngClass]="{'mb-2':isOpen}" (click)="isOpen = !isOpen" class="flex justify-between items-center hover:cursor-pointer">
+    <div class="text-lg lg:text-xl font-bold">🎧 🪖 Pairing</div>
+  </div>
+
+  @if (isOpen) {
+    <div class="flex">
+      <ul class="list-decimal list-inside">
+        <li class="mb-2">
+          🎧 Spegnere interfono CUFFIE (premere tasto centrale e posteriore per 3 secondi)
+        </li>
+        <li class="mb-2">
+          🎧 Mettere interfono CUFFIE in Impostazioni (premere tasto centrale per 7 secondi - si accende il led rosso)
+        </li>
+        <li class="mb-2">
+          🎧 Mettere interfono CUFFIE in abbinamento (premere tasto centrale per 3 secondi - il led flasha)
+        </li>
+        <li class="mb-2">
+          🪖 Accendere interfono CASCO (premere tasto davanti e basso per 3 secondi)
+        </li>
+        <li class="mb-2">
+          🪖 Mettere interfono CASCO in abbinamento (premete tasto sopra per 3 secondi)
+        </li>
+        <li class="mb-2">
+          🪖 Aspettare l'abbinamento (i led di entrambi i dispositivi smettono di flashare)
+        </li>
+      </ul>
+    </div>
+  }
+</div>
+
