@@ -17,6 +17,7 @@ import { DeltaStintComponent } from "./component/delta-stint/delta-stint.compone
 import { TimelineComponent } from "./component/timeline/timeline.component";
 import { RaceButtonComponent } from "./component/race-button/race-button.component";
 import { DocumentComponent } from "./component/document/document.component";
+import { PairingComponent } from "./component/pairing/pairing.component";
 
 
 @Component({
@@ -37,7 +38,8 @@ import { DocumentComponent } from "./component/document/document.component";
     DeltaStintComponent,
     TimelineComponent,
     RaceButtonComponent,
-    DocumentComponent
+    DocumentComponent,
+    PairingComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
