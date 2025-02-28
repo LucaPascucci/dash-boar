@@ -19,7 +19,8 @@ export class DocumentComponent {
     { name: 'Entry list', url: 'assets/documents/entry-list.pdf' },
     { name: 'Programma Venerdì', url: 'assets/documents/programma-venerdi.pdf' },
     { name: 'Programma 24H', url: 'assets/documents/programma-24h.pdf' },
-    { name: 'Regolamento 24H', url: 'assets/documents/regolamento-24h.pdf' }
+    { name: 'Regolamento 24H', url: 'assets/documents/regolamento-24h.pdf' },
+    { name: 'Interfono cuffie', url: 'assets/documents/interfono-cuffie.pdf' },
   ];
 
   openDocument(url: string) {
