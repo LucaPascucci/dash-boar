@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { NgClass, NgForOf } from "@angular/common";
+import { NgClass } from "@angular/common";
 
 @Component({
   selector: 'app-pairing',
   imports: [
-    NgForOf,
     NgClass
   ],
   templateUrl: './pairing.component.html',

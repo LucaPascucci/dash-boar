@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.33.0
+
+Added
+---------
+- Introduced a new Pairing component for managing intercom device connections.
+- Added a new document link for "Interfono cuffie" in the Document component.
+
 ## v0.32.0
 
 Added
