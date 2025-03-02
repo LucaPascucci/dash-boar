@@ -46,13 +46,14 @@ export class RaceButtonComponent {
   }
 
   private calculateHide(race: Race, raceConfig: RaceConfig): boolean {
-    if (race.end === null) {
+    if (race.end !== null) {
       return true;
     }
 
     const willEnd = addHours(race.start.toDate(), raceConfig.durationHour);
     const difference = differenceInSeconds(willEnd, new Date());
-    return difference > raceConfig.endRaceThresholdSeconds;
+
+    return difference > raceConfig.endRaceThresholdSeconds || race.end !== null;
   }
 
   startRace(): void {
