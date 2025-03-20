@@ -1,11 +1,33 @@
 # Changelog
 
+## v0.35.0
+
+Added
+---------
+- Introduced a new Interphone component for managing interphone battery.
+
+Changed
+---------
+- Extracted pit config from race config.
+
+---
+
+## v0.34.0
+
+Changed
+---------
+- Fixed race button visibility logic.
+
+---
+
 ## v0.33.0
 
 Added
 ---------
 - Introduced a new Pairing component for managing intercom device connections.
 - Added a new document link for "Interfono cuffie" in the Document component.
+
+---
 
 ## v0.32.0
 
