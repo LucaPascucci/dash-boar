@@ -58,4 +58,7 @@ export class PitComponent {
   calculateTotalTyreChanges(): number {
     return this.pitService.pits().filter(pit => pit.tyreChange).length;
   }
+  calculateTotalInterphoneChanges(): number {
+    return this.pitService.pits().filter(pit => pit.interphoneChange).length;
+  }
 }

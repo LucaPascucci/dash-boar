@@ -28,7 +28,7 @@ export class DriverComponent {
     return undefined;
   });
 
-  isOpen = true;
+  isOpen = false;
 
   getDriverTimeOnTrack(driverId: string): string {
     return millisecondsToTimeString(this.driverService.driversTimeOnTrackMap().get(driverId));

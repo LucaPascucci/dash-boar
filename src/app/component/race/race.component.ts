@@ -50,7 +50,7 @@ export class RaceComponent {
     });
 
     effect(() => {
-      const activeRaceConfig = this.raceConfigService.activeRaceConfig()
+      const activeRaceConfig = this.raceConfigService.raceConfig()
       if (activeRaceConfig) {
         this.selectedDriver = activeRaceConfig.startRaceDriverId;
       }

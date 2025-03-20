@@ -67,6 +67,17 @@
                 (change)="updateTyreChange()"
                 name="tyreChange">
           </div>
+
+          <div class="mb-2">
+            <label for="tyreChange" class="mr-2">🔊 Interphone change</label>
+            <input
+                [disabled]="activePit() !== undefined"
+                type="checkbox"
+                id="interphoneChange"
+                [(ngModel)]="interphoneChange"
+                (change)="updateInterphoneChange()"
+                name="tyreChange">
+          </div>
         </form>
       } @else {
         @if (activePitRemainingMilliseconds() > 0) {

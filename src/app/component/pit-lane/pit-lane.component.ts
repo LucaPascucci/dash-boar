@@ -51,23 +51,25 @@ export class PitLaneComponent {
   isOpen = true;
   refueling = false;
   tyreChange = false;
+  interphoneChange = false;
   selectedDriver: string = '1';
 
   constructor() {
 
     effect(() => {
-      const activeRaceConfig = this.raceConfigService.activeRaceConfig()
-      if (activeRaceConfig) {
-        this.selectedDriver = activeRaceConfig.nextPitDriverId;
-        this.refueling = activeRaceConfig.nextPitRefueling;
-        this.tyreChange = activeRaceConfig.nextPitTyreChange;
+      const raceConfig = this.raceConfigService.raceConfig()
+      if (raceConfig) {
+        this.selectedDriver = raceConfig.pitConfig.nextPitDriverId;
+        this.refueling = raceConfig.pitConfig.nextPitRefueling;
+        this.tyreChange = raceConfig.pitConfig.nextPitTyreChange;
+        this.interphoneChange = raceConfig.pitConfig.nextPitInterphoneChange
       }
     });
   }
 
   async pitIn() {
     this.audioService.playFile('assets/box_box_box_box.mp3');
-    await this.raceManagerService.pitIn(this.selectedDriver, this.refueling, this.tyreChange);
+    await this.raceManagerService.pitIn(this.selectedDriver, this.refueling, this.tyreChange, this.interphoneChange);
   }
 
   async pitOut() {
@@ -91,5 +93,9 @@ export class PitLaneComponent {
 
   updateRefueling() {
     this.raceConfigService.updateNextPitRefueling(this.refueling);
+  }
+
+  updateInterphoneChange(){
+    this.raceConfigService.updateNextPitInterphoneChange(this.interphoneChange);
   }
 }

@@ -26,6 +26,9 @@
           <th class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700">
             🛞 🔄
           </th>
+          <th class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700">
+            🔊 🔄
+          </th>
           <th class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700"
               colspan="2">Time
           </th>
@@ -53,6 +56,11 @@
                 ✅
               }
             </td>
+            <td class="py-2 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono">
+              @if (pit.interphoneChange) {
+                ✅
+              }
+            </td>
             <td class="py-2 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono"
                 colspan="2"> {{
                 calculatePitTime(pit.entryTime.toDate(), pit.exitTime?.toDate())
@@ -71,6 +79,7 @@
             <td class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono">{{ completedDriverChanges() }}</td>
             <td class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono">{{ calculateTotalRefueling() }}</td>
             <td class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono">{{ calculateTotalTyreChanges() }}</td>
+            <td class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono">{{ calculateTotalInterphoneChanges() }}</td>
             <td class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono"
                 colspan="2">{{ calculateTotalPitTime() }}
             </td>

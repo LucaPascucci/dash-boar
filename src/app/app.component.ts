@@ -17,7 +17,8 @@ import { DeltaStintComponent } from "./component/delta-stint/delta-stint.compone
 import { TimelineComponent } from "./component/timeline/timeline.component";
 import { RaceButtonComponent } from "./component/race-button/race-button.component";
 import { DocumentComponent } from "./component/document/document.component";
-import { PairingComponent } from "./component/pairing/pairing.component";
+import { InterphonePairingComponent } from "./component/interphone-pairing/interphone-pairing.component";
+import { InterphoneComponent } from "./component/interphone/interphone.component";
 
 
 @Component({
@@ -39,7 +40,8 @@ import { PairingComponent } from "./component/pairing/pairing.component";
     TimelineComponent,
     RaceButtonComponent,
     DocumentComponent,
-    PairingComponent
+    InterphonePairingComponent,
+    InterphoneComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

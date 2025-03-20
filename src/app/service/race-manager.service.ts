@@ -48,12 +48,12 @@ export class RaceManagerService {
     }
   }
 
-  async pitIn(newDriverId: string, refueling: boolean, tyreChange: boolean): Promise<void> {
+  async pitIn(newDriverId: string, refueling: boolean, tyreChange: boolean, interphoneChange: boolean): Promise<void> {
     const activeRace = this.activeRace();
     const activeStint = this.activeStint();
 
     if (activeRace && activeStint) {
-      const pit = this.createPit(activeStint.driverId, newDriverId, activeRace.id, refueling, tyreChange);
+      const pit = this.createPit(activeStint.driverId, newDriverId, activeRace.id, refueling, tyreChange, interphoneChange);
       const createdPit = await this.pitService.create(pit);
       await this.closeActiveStint(createdPit.entryTime);
     }
@@ -113,7 +113,7 @@ export class RaceManagerService {
     };
   }
 
-  private createPit(entryDriveId: string, exitDriverId: string, raceId: string, refueling: boolean, tyreChange: boolean): Pit {
+  private createPit(entryDriveId: string, exitDriverId: string, raceId: string, refueling: boolean, tyreChange: boolean, interphoneChange: boolean): Pit {
     return {
       id: "1",
       entryDriverId: entryDriveId,
@@ -123,6 +123,7 @@ export class RaceManagerService {
       raceId: raceId,
       refuel: refueling,
       tyreChange: tyreChange,
+      interphoneChange: interphoneChange,
       deleted: false,
     }
   }

@@ -26,7 +26,7 @@ export class RaceService extends FirestoreService {
 
     combineLatest({
       races: this.getAll(),
-      raceConfig: toObservable(this.raceConfigService.activeRaceConfig)
+      raceConfig: toObservable(this.raceConfigService.raceConfig)
     })
     .pipe(
         takeUntilDestroyed(),

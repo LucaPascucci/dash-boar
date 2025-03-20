@@ -12,7 +12,7 @@ import { NgClass, NgForOf } from "@angular/common";
 })
 export class DocumentComponent {
 
-  isOpen = true;
+  isOpen = false;
 
   documents = [
     { name: 'Briefing', url: 'assets/documents/briefing.pdf' },

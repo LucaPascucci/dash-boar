@@ -29,7 +29,7 @@ export class StintComponent {
     return undefined;
   })
 
-  isOpen = true;
+  isOpen = false;
 
   getDriverRacingName(driverId: string): string {
     const drivers = this.driverService.drivers();

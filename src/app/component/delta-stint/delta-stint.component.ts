@@ -34,7 +34,7 @@ export class DeltaStintComponent {
     return undefined;
   })
 
-  isOpen: boolean = true;
+  isOpen: boolean = false;
 
   protected tooltipInfo: Tooltip = {
     footer: "",

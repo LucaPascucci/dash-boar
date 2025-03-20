@@ -12,6 +12,7 @@ import { RaceConfigService } from "./race-config.service";
 import { RaceConfig } from "../model/race-config";
 import { addMilliseconds, addSeconds, secondsToMilliseconds } from "date-fns";
 import { TyreService } from "./tyre.service";
+import { PitConfig } from "../model/pit-config";
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,7 @@ export class TimelineService {
       stints: toObservable(this.stintService.stints),
       pits: toObservable(this.pitService.pits),
       remainingDriverChanges: toObservable(this.pitService.remainingDriverChanges),
-      raceConfig: toObservable(this.raceConfigService.activeRaceConfig),
+      raceConfig: toObservable(this.raceConfigService.raceConfig),
       optimizedStint: toObservable(this.stintOptimizerService.optimizedStint),
       remainingTyreChange: toObservable(this.tyreService.remainingTyreChange),
       ping: interval(1000)
@@ -113,7 +114,7 @@ export class TimelineService {
       remainingTyreChange: number
   ): TimelineStep[] {
     const result: TimelineStep[] = [];
-    let lastEndDate: Date = this.calculateLastEndDateFromRealStep(lastRealStep, optimizedStint, raceConfig);
+    let lastEndDate: Date = this.calculateLastEndDateFromRealStep(lastRealStep, optimizedStint, raceConfig.pitConfig);
 
     if (lastRealStep === undefined || lastRealStep.type === 'PIT') {
       const stintEndDate = addMilliseconds(lastEndDate, optimizedStint.avgStintMillisecondsTime);
@@ -125,10 +126,10 @@ export class TimelineService {
 
     for (let i = 0; i < remainingDriverChanges; i++) {
 
-      let pitDuration = secondsToMilliseconds(raceConfig.minPitSeconds);
+      let pitDuration = secondsToMilliseconds(raceConfig.pitConfig.minPitSeconds);
 
       if (remainingTyreChange > 0 && i >= midPoint - Math.floor(remainingTyreChange / 2) && i < midPoint + Math.ceil(remainingTyreChange / 2)) {
-        pitDuration = secondsToMilliseconds(raceConfig.minPitWithTyreChangeSeconds);
+        pitDuration = secondsToMilliseconds(raceConfig.pitConfig.minPitWithTyreChangeSeconds);
         remainingTyreChange--;
       }
 
@@ -169,7 +170,7 @@ export class TimelineService {
   private calculateLastEndDateFromRealStep(
       lastRealStep: TimelineStep | undefined,
       optimizedStint: OptimizedStint,
-      raceConfig: RaceConfig
+      pitConfig: PitConfig
   ): Date {
 
     if (lastRealStep === undefined) {
@@ -177,7 +178,7 @@ export class TimelineService {
     }
     let supposedEndDate: Date;
     if (lastRealStep.type === 'PIT') {
-      supposedEndDate = addSeconds(lastRealStep.start, raceConfig.minPitSeconds);
+      supposedEndDate = addSeconds(lastRealStep.start, pitConfig.minPitSeconds);
     } else {
       supposedEndDate = addMilliseconds(lastRealStep.start, optimizedStint.avgStintMillisecondsTime);
     }

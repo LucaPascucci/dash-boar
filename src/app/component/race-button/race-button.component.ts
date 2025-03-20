@@ -20,7 +20,7 @@ export class RaceButtonComponent {
   private readonly raceManagerService = inject(RaceManagerService);
 
   readonly activeRace: Signal<Race | undefined> = this.raceService.activeRace;
-  readonly activeRaceConfig: Signal<RaceConfig | undefined> = this.raceConfigService.activeRaceConfig;
+  readonly activeRaceConfig: Signal<RaceConfig | undefined> = this.raceConfigService.raceConfig;
   readonly willEndRaceDate: Signal<Date | undefined> = this.raceService.willEndRaceDate;
 
   hideEndRaceButton = true;
@@ -57,7 +57,7 @@ export class RaceButtonComponent {
   }
 
   startRace(): void {
-    const startDriverId = this.raceConfigService.activeRaceConfig()?.startRaceDriverId;
+    const startDriverId = this.raceConfigService.raceConfig()?.startRaceDriverId;
     if (startDriverId) {
       this.raceManagerService.startRace(startDriverId);
     }
