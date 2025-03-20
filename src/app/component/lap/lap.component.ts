@@ -17,14 +17,14 @@ import { millisecondsToLapString } from "../../util/date.util";
 export class LapComponent {
   private readonly raceConfigService = inject(RaceConfigService);
 
-  isOpen = true;
+  isOpen = false;
 
   referenceLapTime = 0
   referenceLapTimeString: string = "--:--:---";
 
   constructor() {
     effect(() => {
-      const activeRaceConfig = this.raceConfigService.activeRaceConfig()
+      const activeRaceConfig = this.raceConfigService.raceConfig()
       if (activeRaceConfig) {
         this.referenceLapTime = activeRaceConfig.referenceLapTimeMillisecond;
         this.referenceLapTimeString = millisecondsToLapString(activeRaceConfig.referenceLapTimeMillisecond);

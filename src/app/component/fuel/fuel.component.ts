@@ -32,16 +32,17 @@ export class FuelComponent {
   warning = computed(() => {
     return this.remainingFuelPercentage() <= 20;
   });
+
   remainingColor = computed(() => {
     return this.getRemainingColor(this.remainingFuelPercentage());
   });
 
-  isOpen = true;
+  isOpen = false;
   fuelDurationMinute = 0;
 
   constructor() {
     effect(() => {
-      const activeRaceConfig = this.raceConfigService.activeRaceConfig()
+      const activeRaceConfig = this.raceConfigService.raceConfig()
       if (activeRaceConfig) {
         this.fuelDurationMinute = activeRaceConfig.fuelDurationMinute;
       }
