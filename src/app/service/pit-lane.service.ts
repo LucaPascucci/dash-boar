@@ -23,14 +23,14 @@ export class PitLaneService {
     combineLatest({
       willEndRaceDate: toObservable(this.raceService.willEndRaceDate),
       activeStint: toObservable(this.stintService.activeStint),
-      activeRaceConfig: toObservable(this.raceConfigService.activeRaceConfig),
+      raceConfig: toObservable(this.raceConfigService.raceConfig),
       ping: interval(1000)
     })
     .pipe(takeUntilDestroyed())
-    .subscribe(({willEndRaceDate, activeStint, activeRaceConfig}) => {
-      if (willEndRaceDate && activeStint && activeRaceConfig) {
-        this.open.set(this.calculatePitLaneOpen(willEndRaceDate, activeStint, activeRaceConfig));
-        this.openInMilliseconds.set(this.calculatePitLaneOpenInMilliseconds(activeStint, activeRaceConfig));
+    .subscribe(({willEndRaceDate, activeStint, raceConfig}) => {
+      if (willEndRaceDate && activeStint && raceConfig) {
+        this.open.set(this.calculatePitLaneOpen(willEndRaceDate, activeStint, raceConfig));
+        this.openInMilliseconds.set(this.calculatePitLaneOpenInMilliseconds(activeStint, raceConfig));
       } else {
         this.open.set(false);
         this.openInMilliseconds.set(0);
@@ -38,20 +38,20 @@ export class PitLaneService {
     })
   }
 
-  private calculatePitLaneOpenInMilliseconds(activeStint: Stint, activeRaceConfig: RaceConfig): number {
+  private calculatePitLaneOpenInMilliseconds(activeStint: Stint, raceConfig: RaceConfig): number {
     const now = new Date().getTime();
-    return addMinutes(activeStint.startDate.toDate(), activeRaceConfig.minStintMinute).getTime() - now;
+    return addMinutes(activeStint.startDate.toDate(), raceConfig.minStintMinute).getTime() - now;
   }
 
-  private calculatePitLaneOpen(endRaceDate: Date, activeStint: Stint, activeRaceConfig: RaceConfig): boolean {
+  private calculatePitLaneOpen(endRaceDate: Date, activeStint: Stint, raceConfig: RaceConfig): boolean {
     const now = new Date();
 
     // Check if the current time is at least X minutes before the end of the race
-    const pitLaneCloseTime = subMinutes(endRaceDate, activeRaceConfig.pitLaneCloseBeforeEndRaceMinute);
+    const pitLaneCloseTime = subMinutes(endRaceDate, raceConfig.pitConfig.pitLaneCloseBeforeEndRaceMinute);
     const isBeforePitLaneClose = isBefore(now, pitLaneCloseTime);
 
     // Check if at least X minutes have passed since the start of the active active-stint
-    const minStintTime = addMinutes(activeStint.startDate.toDate(), activeRaceConfig.minStintMinute);
+    const minStintTime = addMinutes(activeStint.startDate.toDate(), raceConfig.minStintMinute);
     const isAfterMinStintTime = isAfter(now, minStintTime)
 
     return isBeforePitLaneClose && isAfterMinStintTime;

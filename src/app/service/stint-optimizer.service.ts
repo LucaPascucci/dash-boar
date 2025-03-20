@@ -10,6 +10,7 @@ import { OptimizedStint } from "../model/optimized-stint";
 import { RaceConfig } from "../model/race-config";
 import { TyreService } from "./tyre.service";
 import { Race } from "../model/race";
+import { PitConfig } from "../model/pit-config";
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class StintOptimizerService {
     combineLatest({
       activeRace: toObservable(this.raceService.activeRace),
       willEndRaceDate: toObservable(this.raceService.willEndRaceDate),
-      activeRaceConfig: toObservable(this.raceConfigService.activeRaceConfig),
+      activeRaceConfig: toObservable(this.raceConfigService.raceConfig),
       remainingDriverChanges: toObservable(this.pitService.remainingDriverChanges),
       remainingTyreChange: toObservable(this.tyreService.remainingTyreChange),
       lastPit: toObservable(this.pitService.lastPit),
@@ -74,7 +75,7 @@ export class StintOptimizerService {
       return undefined;
     }
 
-    const remainingPitTime = this.calculateRemainingPitTime(raceConfig, remainingDriverChanges, remainingTyreChange);
+    const remainingPitTime = this.calculateRemainingPitTime(raceConfig.pitConfig, remainingDriverChanges, remainingTyreChange);
 
     const timeRemaining = differenceInMilliseconds(endRaceDate, currentDate) - remainingPitTime;
 
@@ -83,7 +84,7 @@ export class StintOptimizerService {
       if (lastPit.exitTime) {
         lastDriverChangeExitDate = lastPit.exitTime.toDate();
       } else {
-        lastDriverChangeExitDate = addSeconds(lastPit.entryTime.toDate(), raceConfig.minPitSeconds);
+        lastDriverChangeExitDate = addSeconds(lastPit.entryTime.toDate(), raceConfig.pitConfig.minPitSeconds);
       }
     }
 
@@ -111,14 +112,14 @@ export class StintOptimizerService {
   }
 
   calculateRemainingPitTime(
-      raceConfig: RaceConfig,
+      pitConfig: PitConfig,
       remainingDriverChanges: number,
       remainingTyreChange: number
   ): number {
     let normalDriverChanges = remainingDriverChanges - remainingTyreChange;
 
-    let remainingNormalPitTime = secondsToMilliseconds(raceConfig.minPitSeconds * normalDriverChanges);
-    let remainingTyreChangePitTime = secondsToMilliseconds(raceConfig.minPitWithTyreChangeSeconds * remainingTyreChange);
+    let remainingNormalPitTime = secondsToMilliseconds(pitConfig.minPitSeconds * normalDriverChanges);
+    let remainingTyreChangePitTime = secondsToMilliseconds(pitConfig.minPitWithTyreChangeSeconds * remainingTyreChange);
     return remainingNormalPitTime + remainingTyreChangePitTime;
   }
 }

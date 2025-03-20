@@ -30,30 +30,30 @@ export class FuelService {
   constructor() {
     combineLatest({
       lastRefuelPit: toObservable(this.pitService.lastRefuelPit),
-      activeRace: toObservable(this.raceService.activeRace),
-      raceConfig: toObservable(this.raceConfigService.activeRaceConfig),
+      race: toObservable(this.raceService.activeRace),
+      raceConfig: toObservable(this.raceConfigService.raceConfig),
       ping: interval(1000)
     })
     .pipe(takeUntilDestroyed())
     .subscribe(
         ({
            lastRefuelPit,
-           activeRace,
+           race,
            raceConfig
          }) => {
-          this.lastRefuelTime.set(this.getLastRefuelDate(lastRefuelPit, activeRace));
+          this.lastRefuelTime.set(this.getLastRefuelDate(lastRefuelPit, race));
           this.emptyFuelTime.set(this.calculateEmptyFuelTime(this.lastRefuelTime(), raceConfig));
           this.remainingFuelLap.set(this.calculateRemainingFuelLaps(this.emptyFuelTime(), raceConfig));
           this.remainingFuelPercentage.set(this.calculateRemainingFuelPercentage(this.emptyFuelTime(), raceConfig));
         });
   }
 
-  private getLastRefuelDate(lastRefuelPit: Pit | undefined, activeRace: Race | undefined): Date | undefined {
-    if (lastRefuelPit && lastRefuelPit.exitTime) {
+  private getLastRefuelDate(lastRefuelPit: Pit | undefined, race: Race | undefined): Date | undefined {
+    if (lastRefuelPit?.exitTime) {
       return lastRefuelPit.exitTime.toDate();
     }
-    if (activeRace) {
-      return activeRace.start.toDate();
+    if (race) {
+      return race.start.toDate();
     }
     return undefined;
   }

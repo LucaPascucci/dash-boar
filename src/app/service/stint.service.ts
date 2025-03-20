@@ -37,7 +37,7 @@ export class StintService extends FirestoreService {
     super();
     combineLatest({
       stints: this.getRaceStints(),
-      activeRaceConfig: toObservable(this.raceConfigService.activeRaceConfig),
+      activeRaceConfig: toObservable(this.raceConfigService.raceConfig),
       optimizedStint: toObservable(this.stintOptimizerService.optimizedStint),
       ping: interval(1000)
     })

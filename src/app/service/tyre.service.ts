@@ -26,7 +26,7 @@ export class TyreService {
     combineLatest({
       pits: toObservable(this.pitService.pits),
       activeRace: toObservable(this.raceService.activeRace),
-      raceConfig: toObservable(this.raceConfigService.activeRaceConfig),
+      raceConfig: toObservable(this.raceConfigService.raceConfig),
       ping: interval(1000)
     })
     .pipe(takeUntilDestroyed())
@@ -42,7 +42,7 @@ export class TyreService {
       }
 
       if (raceConfig) {
-        this.remainingTyreChange.set(this.calculateRemainingTyreChange(pits, raceConfig.minTyreChange));
+        this.remainingTyreChange.set(this.calculateRemainingTyreChange(pits, raceConfig.pitConfig.minTyreChange));
       }
     });
   }

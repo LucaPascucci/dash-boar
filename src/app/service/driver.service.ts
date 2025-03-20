@@ -49,7 +49,7 @@ export class DriverService extends FirestoreService {
       drivers: this.getAll(),
       laps: toObservable(this.lapService.laps),
       stints: toObservable(this.stintService.stints),
-      activeRaceConfig: toObservable(this.raceConfigService.activeRaceConfig),
+      activeRaceConfig: toObservable(this.raceConfigService.raceConfig),
       ping: interval(1000)
     })
     .pipe(takeUntilDestroyed())

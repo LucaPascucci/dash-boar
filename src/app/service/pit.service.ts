@@ -22,6 +22,7 @@ export class PitService extends FirestoreService {
   readonly activePit: WritableSignal<Pit | undefined> = signal(undefined);
   readonly activePitRemainingMilliseconds: WritableSignal<number> = signal(0);
   readonly lastRefuelPit: WritableSignal<Pit | undefined> = signal(undefined);
+  readonly lastInterphoneChangePit: WritableSignal<Pit | undefined> = signal(undefined);
   readonly pits: WritableSignal<Pit[]> = signal([]);
   readonly completedDriverChanges: WritableSignal<number> = signal(0);
   readonly lastPit: WritableSignal<Pit | undefined> = signal(undefined);
@@ -31,7 +32,7 @@ export class PitService extends FirestoreService {
     super();
     combineLatest({
       pits: this.getRacePits(),
-      activeRaceConfig: toObservable(this.raceConfigService.activeRaceConfig),
+      activeRaceConfig: toObservable(this.raceConfigService.raceConfig),
       ping: interval(1000)
     })
     .pipe(takeUntilDestroyed())
@@ -40,6 +41,7 @@ export class PitService extends FirestoreService {
       this.activePit.set(this.getActivePit(pits));
       this.activePitRemainingMilliseconds.set(this.calculateActivePitRemainingMilliseconds(pits, activeRaceConfig))
       this.lastRefuelPit.set(this.getLastRefuelPit(pits));
+      this.lastInterphoneChangePit.set(this.getLastInterphoneChangePit(pits));
       this.lastPit.set(this.getLastPit(pits));
       this.completedDriverChanges.set(this.calculateCompletedDriverChanges(pits));
       this.remainingDriverChanges.set(this.calculateRemainingDriverChanges(pits, activeRaceConfig));
@@ -91,7 +93,7 @@ export class PitService extends FirestoreService {
     const activePit = this.getActivePit(pits);
     if (activePit) {
       const now = new Date().getTime();
-      const endPitTime = addSeconds(activePit.entryTime.toDate(), raceConfig.minPitSeconds).getTime()
+      const endPitTime = addSeconds(activePit.entryTime.toDate(), raceConfig.pitConfig.minPitSeconds).getTime()
       return endPitTime - now;
     }
 
@@ -101,6 +103,13 @@ export class PitService extends FirestoreService {
   private getLastRefuelPit(pits: Pit[]): Pit | undefined {
     const filteredRefuelPits = pits
     .filter(pit => pit.refuel && pit.exitTime)
+    .sort((a, b) => b.entryTime.toDate().getTime() - a.entryTime.toDate().getTime());
+    return filteredRefuelPits.at(0);
+  }
+
+  private getLastInterphoneChangePit(pits: Pit[]): Pit | undefined {
+    const filteredRefuelPits = pits
+    .filter(pit => pit.interphoneChange && pit.exitTime)
     .sort((a, b) => b.entryTime.toDate().getTime() - a.entryTime.toDate().getTime());
     return filteredRefuelPits.at(0);
   }
