@@ -1,10 +1,10 @@
 <div class="w-16 lg:w-20 h-8 grid grid-cols-6 items-center">
-  <div [ngClass]="batteryBorderColor" class="shadow col-span-5 rounded border-2 flex relative">
+  <div [ngClass]="batteryBorderColor" class="shadow-sm col-span-5 rounded-sm border-2 flex relative bg-neutral-100 dark:bg-neutral-900">
     <div
         [ngClass]="batteryColor"
         [style.width.%]="charge"
-        class="cursor-default leading-none rounded-sm flex items-center m-0.5 py-3">
-      <div class="absolute right-2 text-black font-semibold font-mono">{{ charge }}</div>
+        class="cursor-default leading-none rounded-xs flex items-center py-3">
+      <div class="absolute right-2 text-neutral-900 dark:text-neutral-100 font-semibold font-mono">{{ charge }}</div>
     </div>
   </div>
   <div [ngClass]="batteryBorderColor" class="ml-0.5 border-r-8 w-1 h-4 rounded-r"></div>

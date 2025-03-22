@@ -1,19 +1,19 @@
-<div class="bg-white shadow-md rounded-lg p-2 md:p-3 lg:p-4 w-auto mx-auto border hover:shadow-xl">
+<div class="bg-neutral-50 dark:bg-neutral-800 shadow-md dark:shadow-white/40 rounded-lg p-2 md:p-3 lg:p-4 w-auto mx-auto border hover:shadow-xl">
 
   <div [ngClass]="{'mb-2':isOpen}" (click)="isOpen = !isOpen"
        class="flex justify-between items-center hover:cursor-pointer">
-    <div class="text-lg lg:text-xl font-bold">⛽️ Fuel</div>
+    <div class="text-lg lg:text-xl font-bold text-neutral-900 dark:text-neutral-100">⛽️ Fuel</div>
     <div
         [ngClass]="{'animate-bounce': warning() }"
         class="flex items-center">
       <div
           [ngClass]="remainingColor()"
-          class="px-2 py-1 w-36 rounded-lg text-left text-white font-medium mr-1 hover:cursor-default">
+          class="px-2 py-1 w-36 rounded-lg text-left text-neutral-100 font-medium mr-1 hover:cursor-default">
         Empty: {{ emptyFuelCountdown() }}
       </div>
       <div
           [ngClass]="remainingColor()"
-          class="px-2 py-1 rounded-lg text-center text-white font-medium mr-1 hover:cursor-default">
+          class="px-2 py-1 rounded-lg text-center text-neutral-100 font-medium mr-1 hover:cursor-default">
         Laps: {{ remainingFuelLap() }}
       </div>
       <app-battery [charge]="remainingFuelPercentage()"></app-battery>
@@ -23,8 +23,8 @@
   @if (isOpen) {
     <div class="flex justify-between mb-2">
       <div>
-        <div class="text-gray-600">Last refuel time</div>
-        <div class="text-black font-mono">
+        <div class="text-neutral-500 dark:text-neutral-400">Last refuel time</div>
+        <div class="text-neutral-900 dark:text-neutral-100 font-mono">
           @if (lastRefuelTime()) {
             {{ lastRefuelTime() | date:'HH:mm:ss' }}
           } @else {
@@ -33,8 +33,8 @@
         </div>
       </div>
       <div>
-        <div class="text-gray-600 text-right">Since last refuel</div>
-        <div class="text-black font-mono text-right">
+        <div class="text-neutral-500 dark:text-neutral-400 text-right">Since last refuel</div>
+        <div class="text-neutral-900 dark:text-neutral-100 font-mono text-right">
           {{ sinceLastRefuel() }}
         </div>
       </div>
@@ -44,8 +44,8 @@
 
     <div class="flex justify-between mb-2">
       <div>
-        <div class="text-gray-600">Empty time</div>
-        <div class="text-black font-mono">
+        <div class="text-neutral-500 dark:text-neutral-400">Empty time</div>
+        <div class="text-neutral-900 dark:text-neutral-100 font-mono">
           @if (emptyFuelTime()) {
             {{ emptyFuelTime() | date:'HH:mm:ss' }}
           } @else {
@@ -55,8 +55,8 @@
       </div>
 
       <div>
-        <div class="text-gray-600 text-right">Empty in</div>
-        <div class="text-black font-mono text-right">
+        <div class="text-neutral-500 dark:text-neutral-400 text-right">Empty in</div>
+        <div class="text-neutral-900 dark:text-neutral-100 font-mono text-right">
           {{ emptyFuelCountdown() }}
         </div>
       </div>
@@ -66,16 +66,16 @@
 
     <div class="flex justify-between">
       <div>
-        <div class="text-gray-600">Remaining laps</div>
-        <div class="text-black font-mono">
+        <div class="text-neutral-500 dark:text-neutral-400">Remaining laps</div>
+        <div class="text-neutral-900 dark:text-neutral-100 font-mono">
           {{ remainingFuelLap() }}
         </div>
       </div>
       <div>
-        <div class="text-gray-600 text-right">Fuel duration (min)</div>
+        <div class="text-neutral-500 dark:text-neutral-400 text-right">Fuel duration (min)</div>
         <div class="flex justify-end">
           <button (click)="increaseFuelDuration()"
-                  class="bg-gray-200 hover:bg-gray-300 active:bg-gray-400 text-black px-4 mr-1 rounded">
+                  class="bg-neutral-200 hover:bg-neutral-400 active:bg-neutral-500 text-neutral-900 px-4 mr-1 rounded-sm">
             +
           </button>
           <form (ngSubmit)="onSubmit()" class="text-right">
@@ -84,13 +84,13 @@
                 id="fuelDuration"
                 [(ngModel)]="fuelDurationMinute"
                 name="fuelDuration"
-                class="border rounded-lg px-2 py-1 w-20 text-right"
+                class="border rounded-lg px-2 py-1 w-20 text-right text-neutral-900 dark:text-neutral-100"
                 required
                 min="1"
             />
           </form>
           <button (click)="decreaseFuelDuration()"
-                  class="bg-gray-200 hover:bg-gray-300 active:bg-gray-400 text-black px-4 ml-1 rounded">
+                  class="bg-neutral-200 hover:bg-neutral-400 active:bg-neutral-500 text-neutral-900 px-4 ml-1 rounded-sm">
             -
           </button>
         </div>

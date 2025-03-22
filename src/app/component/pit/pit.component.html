@@ -1,11 +1,11 @@
-<div class="bg-white shadow-md rounded-lg p-2 md:p-3 lg:p-4 w-auto mx-auto border hover:shadow-xl">
+<div class="bg-neutral-50 dark:bg-neutral-800 shadow-md dark:shadow-white/40 rounded-lg p-2 md:p-3 lg:p-4 w-auto mx-auto border hover:shadow-xl">
 
   <div [ngClass]="{'mb-2':isOpen}" (click)="isOpen = !isOpen"
        class="flex justify-between items-center hover:cursor-pointer">
-    <div class="text-lg lg:text-xl font-bold">👨🏻‍🔧 Pit</div>
+    <div class="text-lg lg:text-xl font-bold text-neutral-900 dark:text-neutral-100">👨🏻‍🔧 Pit</div>
     <div class="flex items-center">
       <div
-          class="bg-blue-500 px-2 py-1 rounded-lg text-white text-center font-medium hover:cursor-default">
+          class="bg-blue-500 px-2 py-1 rounded-lg text-neutral-100 text-center font-medium hover:cursor-default">
         Total: {{ pits().length }}
       </div>
     </div>
@@ -13,23 +13,23 @@
 
   @if (isOpen) {
     <div class="max-h-72 flex flex-col overflow-clip">
-      <table class="w-full bg-white table-fixed">
+      <table class="w-full bg-neutral-50 dark:bg-neutral-800 table-fixed">
         <thead class="sticky top-0">
         <tr>
-          <th class="py-2 px-3 border-b border-gray-200 text-left text-sm xl:text-base font-medium text-gray-700"></th>
-          <th class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700">
+          <th class="py-2 px-3 border-b border-neutral-200 dark:border-neutral-400 text-left text-sm xl:text-base font-medium text-neutral-700 dark:text-neutral-400"></th>
+          <th class="py-2 px-3 border-b border-neutral-200 dark:border-neutral-400 text-center text-sm xl:text-base font-medium text-neutral-700 dark:text-neutral-400">
             🐗 🔄
           </th>
-          <th class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700">
+          <th class="py-2 px-3 border-b border-neutral-200 dark:border-neutral-400 text-center text-sm xl:text-base font-medium text-neutral-700 dark:text-neutral-400">
             ⛽️
           </th>
-          <th class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700">
+          <th class="py-2 px-3 border-b border-neutral-200 dark:border-neutral-400 text-center text-sm xl:text-base font-medium text-neutral-700 dark:text-neutral-400">
             🛞 🔄
           </th>
-          <th class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700">
+          <th class="py-2 px-3 border-b border-neutral-200 dark:border-neutral-400 text-center text-sm xl:text-base font-medium text-neutral-700 dark:text-neutral-400">
             🔊 🔄
           </th>
-          <th class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700"
+          <th class="py-2 px-3 border-b border-neutral-200 dark:border-neutral-400 text-center text-sm xl:text-base font-medium text-neutral-700 dark:text-neutral-400"
               colspan="2">Time
           </th>
         </tr>
@@ -39,29 +39,29 @@
         <table class="w-full table-fixed">
           <tbody>
           <tr *ngFor="let pit of pits()"
-              [ngClass]="{'bg-green-100 font-semibold': pit.id === activePitId(), 'hover:bg-gray-50': pit.id !== activePitId()}">
-            <td class="py-2 px-3 border-b border-gray-200 text-sm xl:text-base text-black">{{ pit.id }}</td>
-            <td class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base text-black">
+              [ngClass]="{'bg-green-100 dark:bg-green-900 font-semibold': pit.id === activePitId(), 'hover:bg-neutral-50 dark:hover:bg-neutral-700': pit.id !== activePitId()}">
+            <td class="py-2 px-3 border-b border-neutral-200 dark:border-neutral-400 text-sm xl:text-base text-neutral-900 dark:text-neutral-100">{{ pit.id }}</td>
+            <td class="py-2 px-3 border-b border-neutral-200 dark:border-neutral-400 text-center text-sm xl:text-base text-neutral-900 dark:text-neutral-100">
               @if (pit.entryDriverId !== pit.exitDriverId) {
                 ✅
               }
             </td>
-            <td class="py-2 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono">
+            <td class="py-2 border-b border-neutral-200 dark:border-neutral-400 text-center text-sm xl:text-base text-neutral-900 dark:text-neutral-100 font-mono">
               @if (pit.refuel) {
                 ✅
               }
             </td>
-            <td class="py-2 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono">
+            <td class="py-2 border-b border-neutral-200 dark:border-neutral-400 text-center text-sm xl:text-base text-neutral-900 dark:text-neutral-100 font-mono">
               @if (pit.tyreChange) {
                 ✅
               }
             </td>
-            <td class="py-2 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono">
+            <td class="py-2 border-b border-neutral-200 dark:border-neutral-400 text-center text-sm xl:text-base text-neutral-900 dark:text-neutral-100 font-mono">
               @if (pit.interphoneChange) {
                 ✅
               }
             </td>
-            <td class="py-2 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono"
+            <td class="py-2 border-b border-neutral-200 dark:border-neutral-400 text-center text-sm xl:text-base text-neutral-900 dark:text-neutral-100 font-mono"
                 colspan="2"> {{
                 calculatePitTime(pit.entryTime.toDate(), pit.exitTime?.toDate())
               }}
@@ -73,14 +73,14 @@
       <div class="flex">
         <table class="w-full table-fixed">
           <tfoot class="sticky bottom-0-0">
-          <tr class="bg-gray-100 font-bold">
-            <td class="py-2 px-3 border-b border-gray-200 text-sm xl:text-base text-black">Totals
+          <tr class="bg-neutral-100 dark:bg-neutral-700 font-bold">
+            <td class="py-2 px-3 border-b border-neutral-200 dark:border-neutral-400 text-sm xl:text-base text-neutral-900 dark:text-neutral-100">Totals
             </td>
-            <td class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono">{{ completedDriverChanges() }}</td>
-            <td class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono">{{ calculateTotalRefueling() }}</td>
-            <td class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono">{{ calculateTotalTyreChanges() }}</td>
-            <td class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono">{{ calculateTotalInterphoneChanges() }}</td>
-            <td class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono"
+            <td class="py-2 px-3 border-b border-neutral-200 dark:border-neutral-400 text-center text-sm xl:text-base text-neutral-900 dark:text-neutral-100 font-mono">{{ completedDriverChanges() }}</td>
+            <td class="py-2 px-3 border-b border-neutral-200 dark:border-neutral-400 text-center text-sm xl:text-base text-neutral-900 dark:text-neutral-100 font-mono">{{ calculateTotalRefueling() }}</td>
+            <td class="py-2 px-3 border-b border-neutral-200 dark:border-neutral-400 text-center text-sm xl:text-base text-neutral-900 dark:text-neutral-100 font-mono">{{ calculateTotalTyreChanges() }}</td>
+            <td class="py-2 px-3 border-b border-neutral-200 dark:border-neutral-400 text-center text-sm xl:text-base text-neutral-900 dark:text-neutral-100 font-mono">{{ calculateTotalInterphoneChanges() }}</td>
+            <td class="py-2 px-3 border-b border-neutral-200 dark:border-neutral-400 text-center text-sm xl:text-base text-neutral-900 dark:text-neutral-100 font-mono"
                 colspan="2">{{ calculateTotalPitTime() }}
             </td>
           </tr>

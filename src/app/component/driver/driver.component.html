@@ -1,19 +1,19 @@
 <div
-    class="bg-white shadow-md rounded-lg p-2 md:p-3 lg:p-4 w-auto mx-auto border hover:shadow-xl">
+    class="bg-neutral-50 dark:bg-neutral-800 shadow-md dark:shadow-white/40 rounded-lg p-2 md:p-3 lg:p-4 w-auto mx-auto border hover:shadow-xl">
 
   <div [ngClass]="{'mb-2':isOpen}" (click)="isOpen = !isOpen"
        class="flex justify-between items-center hover:cursor-pointer">
-    <div class="text-lg lg:text-xl font-bold">🐗 Driver</div>
+    <div class="text-lg lg:text-xl font-bold text-neutral-900 dark:text-neutral-100">🐗 Driver</div>
     <div class="flex items-center">
 
       @if (driversTimeOnTrackWarningCount() > 0) {
         <div
-            class="bg-yellow-500 px-2 py-1 rounded-lg text-white text-center font-medium hover:cursor-default">
+            class="bg-yellow-500 px-2 py-1 rounded-lg text-neutral-100 text-center font-medium hover:cursor-default">
           Warning: {{ driversTimeOnTrackWarningCount() }}
         </div>
       } @else {
         <div
-            class="bg-green-500 px-2 py-1 rounded-lg text-white text-center font-medium hover:cursor-default">
+            class="bg-green-500 px-2 py-1 rounded-lg text-neutral-100 text-center font-medium hover:cursor-default">
           Completed!
         </div>
       }
@@ -22,21 +22,21 @@
 
   @if (isOpen) {
     <div class="flex flex-col overflow-clip">
-      <table class="w-full bg-white table-fixed">
+      <table class="w-full bg-neutral-50 dark:bg-neutral-800 table-fixed">
         <thead class="sticky top-0">
         <tr>
-          <th class="py-2 px-3 border-b border-gray-200 text-left text-sm xl:text-base font-medium text-gray-700"></th>
-          <th class="py-2 border-b border-gray-200 text-left text-sm xl:text-base font-medium text-gray-700">
+          <th class="py-2 px-3 border-b border-neutral-200 dark:border-neutral-400 text-left text-sm xl:text-base font-medium text-neutral-700 dark:text-neutral-400"></th>
+          <th class="py-2 border-b border-neutral-200 dark:border-neutral-400 text-left text-sm xl:text-base font-medium text-neutral-700 dark:text-neutral-400">
             Name
           </th>
-          <th class="py-2 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700">
+          <th class="py-2 border-b border-neutral-200 dark:border-neutral-400 text-center text-sm xl:text-base font-medium text-neutral-700 dark:text-neutral-400">
             Stint
           </th>
-          <th class="py-2 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700"
+          <th class="py-2 border-b border-neutral-200 dark:border-neutral-400 text-center text-sm xl:text-base font-medium text-neutral-700 dark:text-neutral-400"
               colspan="2">
             On track
           </th>
-          <th class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base font-medium text-gray-700"
+          <th class="py-2 px-3 border-b border-neutral-200 dark:border-neutral-400 text-center text-sm xl:text-base font-medium text-neutral-700 dark:text-neutral-400"
               colspan="2">
             From last stint
           </th>
@@ -47,22 +47,22 @@
         <table class="w-full table-fixed">
           <tbody>
           <tr *ngFor="let driver of drivers()"
-              [ngClass]="{'bg-green-100 font-semibold': driver.id === activeStintDriverId(), 'hover:bg-gray-50': driver.id !== activeStintDriverId()}">
-            <td class="py-2 px-3 border-b border-gray-200 text-left text-sm xl:text-base text-black">{{ driver.id }}</td>
-            <td class="py-2 border-b border-gray-200 text-left text-sm xl:text-base text-black">{{ driver.raceName }}</td>
-            <td class="py-2 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono"> {{
+              [ngClass]="{'bg-green-100 dark:bg-green-900 font-semibold': driver.id === activeStintDriverId(), 'hover:bg-neutral-50 dark:hover:bg-neutral-700': driver.id !== activeStintDriverId()}">
+            <td class="py-2 px-3 border-b border-neutral-200 dark:border-neutral-400 text-left text-sm xl:text-base text-neutral-900 dark:text-neutral-100">{{ driver.id }}</td>
+            <td class="py-2 border-b border-neutral-200 dark:border-neutral-400 text-left text-sm xl:text-base text-neutral-900 dark:text-neutral-100">{{ driver.raceName }}</td>
+            <td class="py-2 border-b border-neutral-200 dark:border-neutral-400 text-center text-sm xl:text-base text-neutral-900 dark:text-neutral-100 font-mono"> {{
                 getDriverStintCount(driver.id)
               }}
             </td>
-            <td class="py-2 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono"
+            <td class="py-2 border-b border-neutral-200 dark:border-neutral-400 text-center text-sm xl:text-base text-neutral-900 dark:text-neutral-100 font-mono"
                 colspan="2">
               <div
                   [ngClass]="{'bg-yellow-500 text-white': getDriverTimeOnTrackWarning(driver.id)}"
-                  class="p-1 text-center rounded">
+                  class="p-1 text-center rounded-sm">
                 {{ getDriverTimeOnTrack(driver.id) }}
               </div>
             </td>
-            <td class="py-2 px-3 border-b border-gray-200 text-center text-sm xl:text-base text-black font-mono"
+            <td class="py-2 px-3 border-b border-neutral-200 dark:border-neutral-400 text-center text-sm xl:text-base text-neutral-900 dark:text-neutral-100 font-mono"
                 colspan="2">{{
                 getDriverTimeFromLastStint(driver.id)
               }}
