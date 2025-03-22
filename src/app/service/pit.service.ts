@@ -135,6 +135,6 @@ export class PitService extends FirestoreService {
     if (!raceConfig) {
       return 0;
     }
-    return Math.max(0, raceConfig.minDriverChange - this.calculateCompletedDriverChanges(pits));
+    return Math.max(0, raceConfig.driverConfig.minDriverChange - this.calculateCompletedDriverChanges(pits));
   }
 }

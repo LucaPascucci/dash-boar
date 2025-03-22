@@ -1,5 +1,5 @@
 <div
-    class="bg-neutral-50 dark:bg-neutral-800 shadow-md dark:shadow-white/40 rounded-lg p-2 md:p-3 lg:p-4 w-auto mx-auto border hover:shadow-xl">
+    class="bg-neutral-50 dark:bg-neutral-800 shadow-md dark:shadow-white/20 rounded-lg p-2 md:p-3 lg:p-4 w-auto mx-auto border hover:shadow-xl">
 
   <div [ngClass]="{'mb-4':isOpen}" (click)="isOpen = !isOpen"
        class="flex justify-between items-center hover:cursor-pointer">
@@ -76,7 +76,7 @@
                 id="interphoneChange"
                 [(ngModel)]="interphoneChange"
                 (change)="updateInterphoneChange()"
-                name="tyreChange">
+                name="interphoneChange">
           </div>
         </form>
       } @else {

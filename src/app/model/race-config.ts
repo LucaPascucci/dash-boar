@@ -1,21 +1,18 @@
 import { PitConfig } from "./pit-config";
+import { TyreConfig } from "./tyre-config";
+import { DriverConfig } from "./driver-config";
 
-// TODO: Estrarre: TyreConfig + DriverConfig
 export interface RaceConfig {
   id: string;
   durationHour: number;
-  endTyreChangeWindowHour: number;
   endRaceThresholdSeconds: number;
   fuelDurationMinute: number;
   interphoneBatteryDurationMinute: number;
-  maxDriverOnTrackHour: number;
-  minDriverChange: number;
-  minDriverOnTrackHour: number;
   minStintMinute: number;
   referenceLapTimeMillisecond: number;
   startRaceDriverId: string;
-  startTyreChangeWindowHour: number;
-  warningDriverOnTrackThresholdMinute: number;
+  driverConfig: DriverConfig;
   pitConfig: PitConfig;
+  tyreConfig: TyreConfig;
   deleted: boolean;
 }
