@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.36.0
+
+Changed
+---------
+- Implemented dark mode with neutral color palette.
+- Upgraded tailwind to v4.0.15 with postcss integration
+
+---
+
 ## v0.35.0
 
 Added
