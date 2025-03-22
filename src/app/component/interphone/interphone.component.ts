@@ -1,4 +1,4 @@
-import { Component, computed, inject, Signal } from '@angular/core';
+import { Component, computed, effect, inject, Signal } from '@angular/core';
 import { RaceConfigService } from "../../service/race-config.service";
 import { BatteryComponent } from "../battery/battery.component";
 import { DatePipe, NgClass } from "@angular/common";
@@ -45,6 +45,15 @@ export class InterphoneComponent {
 
   isOpen = false;
   batteryDurationMinute = 0;
+
+  constructor() {
+    effect(() => {
+      const raceConfig = this.raceConfigService.raceConfig()
+      if (raceConfig) {
+        this.batteryDurationMinute = raceConfig.interphoneBatteryDurationMinute;
+      }
+    });
+  }
 
   onSubmit() {
     this.raceConfigService.updateInterphoneBatteryDurationMinute(this.batteryDurationMinute);

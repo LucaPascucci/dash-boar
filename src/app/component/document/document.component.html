@@ -1,18 +1,18 @@
-<div class="bg-white shadow-md rounded-lg p-2 md:p-3 lg:p-4 w-auto mx-auto border hover:shadow-xl">
+<div class="bg-neutral-50 dark:bg-neutral-800 shadow-md dark:shadow-white/40 rounded-lg p-2 md:p-3 lg:p-4 w-auto mx-auto border hover:shadow-xl">
 
   <div [ngClass]="{'mb-2':isOpen}" (click)="isOpen = !isOpen"
        class="flex justify-between items-center hover:cursor-pointer">
-    <div class="text-lg lg:text-xl font-bold">🗂️ Document</div>
+    <div class="text-lg lg:text-xl font-bold text-neutral-900 dark:text-neutral-100">🗂️ Document</div>
   </div>
 
   @if (isOpen) {
     <div class="flex">
       <ul class="list-disc list-inside">
-        <li *ngFor="let document of documents" (click)="openDocument(document.url)" class="hover:underline cursor-pointer">
+        <li *ngFor="let document of documents" (click)="openDocument(document.url)"
+            class="hover:underline cursor-pointer text-neutral-900 dark:text-neutral-100">
           {{ document.name }}
         </li>
       </ul>
     </div>
   }
 </div>
-

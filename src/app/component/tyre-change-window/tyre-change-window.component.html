@@ -1,31 +1,31 @@
 <div
-    class="bg-white shadow-md rounded-lg p-2 md:p-3 lg:p-4 w-auto mx-auto border hover:shadow-xl">
+    class="bg-neutral-50 dark:bg-neutral-800 shadow-md dark:shadow-white/40 rounded-lg p-2 md:p-3 lg:p-4 w-auto mx-auto border hover:shadow-xl">
 
   <div [ngClass]="{'mb-2':isOpen}" (click)="isOpen = !isOpen"
        class="flex justify-between items-center hover:cursor-pointer">
-    <div class="text-lg lg:text-xl font-bold">🛞 🔄 Tyre change</div>
+    <div class="text-lg lg:text-xl font-bold text-neutral-900 dark:text-neutral-100">🛞 🔄 Tyre change</div>
     <div class="flex items-center">
 
       @if (remainingTyreChange() > 0) {
         <div
-            class="bg-yellow-500 px-2 py-1 rounded-lg text-white text-center font-medium mr-1 hover:cursor-default">
+            class="bg-yellow-500 px-2 py-1 rounded-lg text-neutral-100 text-center font-medium mr-1 hover:cursor-default">
           Remaining: {{ remainingTyreChange() }}
         </div>
       } @else {
         <div
-            class="bg-green-500 px-2 py-1 rounded-lg text-white text-center font-medium mr-1 hover:cursor-default">
+            class="bg-green-500 px-2 py-1 rounded-lg text-neutral-100 text-center font-medium mr-1 hover:cursor-default">
           Completed!
         </div>
       }
 
       @if (tyreChangeWindowOpen()) {
         <div [ngClass]="{'animate-bounce': remainingTyreChange() > 0}"
-             class="bg-green-500 px-2 py-1 rounded-lg text-white text-center font-medium hover:cursor-default">
+             class="bg-green-500 px-2 py-1 rounded-lg text-neutral-100 text-center font-medium hover:cursor-default">
           Window open
         </div>
       } @else {
         <div
-            class="bg-red-500 px-2 py-1 rounded-lg text-white text-center font-medium hover:cursor-default">
+            class="bg-red-500 px-2 py-1 rounded-lg text-neutral-100 text-center font-medium hover:cursor-default">
           Window closed
         </div>
       }
@@ -35,8 +35,8 @@
   @if (isOpen) {
     <div class="flex justify-between mb-2">
       <div>
-        <div class="text-gray-600">Opening time</div>
-        <div class="text-black font-mono">
+        <div class="text-neutral-500 dark:text-neutral-400">Opening time</div>
+        <div class="text-neutral-900 dark:text-neutral-100 font-mono">
           @if (openingTime()) {
             {{ openingTime() | date:'HH:mm:ss' }}
           } @else {
@@ -46,8 +46,8 @@
       </div>
 
       <div>
-        <div class="text-gray-600 text-right">Opening in</div>
-        <div class="text-black font-mono text-right">
+        <div class="text-neutral-500 dark:text-neutral-400 text-right">Opening in</div>
+        <div class="text-neutral-900 dark:text-neutral-100 font-mono text-right">
           {{ countdownOpeningTime() }}
         </div>
       </div>
@@ -57,8 +57,8 @@
 
     <div class="flex justify-between">
       <div>
-        <div class="text-gray-600 ">Closing time</div>
-        <div class="text-black font-mono">
+        <div class="text-neutral-500 dark:text-neutral-400">Closing time</div>
+        <div class="text-neutral-900 dark:text-neutral-100 font-mono">
           @if (closingTime()) {
             {{ closingTime() | date:'HH:mm:ss' }}
           } @else {
@@ -68,8 +68,8 @@
       </div>
 
       <div>
-        <div class="text-gray-600 text-right">Closing in</div>
-        <div class="text-black font-mono text-right">
+        <div class="text-neutral-500 dark:text-neutral-400 text-right">Closing in</div>
+        <div class="text-neutral-900 dark:text-neutral-100 font-mono text-right">
           {{ countdownClosingTime() }}
         </div>
       </div>

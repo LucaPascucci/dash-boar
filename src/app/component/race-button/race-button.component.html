@@ -4,7 +4,7 @@
     @if (!willEndRaceDate()) {
       <button
           (click)="startRace()"
-          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+          class="bg-green-500 hover:bg-green-700 text-neutral-100 font-bold py-2 px-4 rounded-sm">
         Start race
       </button>
     }
@@ -12,7 +12,7 @@
     @if (!hideEndRaceButton) {
       <button
           (click)="endRace()"
-          class="bg-red-500 hover:bg-red-700 disabled:bg-red-200 text-white font-bold py-2 px-4 rounded">
+          class="bg-red-500 hover:bg-red-700 disabled:bg-red-200 text-neutral-100 font-bold py-2 px-4 rounded-sm">
         End race
       </button>
     }
