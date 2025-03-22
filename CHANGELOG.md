@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.37.0
+
+Changed
+---------
+- Refactored race configuration to separate concerns into distinct TyreConfig and DriverConfig interfaces.
+- Updated component styles for improved shadow effects.
+- Corrected form input name in pit-lane component.
+
+---
+
 ## v0.36.0
 
 Changed
