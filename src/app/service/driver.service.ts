@@ -124,14 +124,14 @@ export class DriverService extends FirestoreService {
 
   private createDriversTimeOnTrackWarningMap(
       driverTrackTimeMap: Map<string, number>,
-      activeRaceConfig: RaceConfig | undefined
+      raceConfig: RaceConfig | undefined
   ): Map<string, boolean> {
     const result = new Map<string, boolean>();
 
-    if (activeRaceConfig) {
-      const minDriverOnTrackMillis = hoursToMilliseconds(activeRaceConfig.minDriverOnTrackHour);
-      const maxDriverOnTrackMillis = hoursToMilliseconds(activeRaceConfig.maxDriverOnTrackHour);
-      const warningThresholdMillis = minutesToMilliseconds(activeRaceConfig.warningDriverOnTrackThresholdMinute);
+    if (raceConfig) {
+      const minDriverOnTrackMillis = hoursToMilliseconds(raceConfig.driverConfig.minDriverOnTrackHour);
+      const maxDriverOnTrackMillis = hoursToMilliseconds(raceConfig.driverConfig.maxDriverOnTrackHour);
+      const warningThresholdMillis = minutesToMilliseconds(raceConfig.driverConfig.warningDriverOnTrackThresholdMinute);
 
       driverTrackTimeMap.forEach((timeOnTrack, driverId) => {
         const isBelowMin = timeOnTrack < minDriverOnTrackMillis;

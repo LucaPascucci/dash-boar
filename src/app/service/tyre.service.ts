@@ -25,15 +25,15 @@ export class TyreService {
 
     combineLatest({
       pits: toObservable(this.pitService.pits),
-      activeRace: toObservable(this.raceService.activeRace),
+      race: toObservable(this.raceService.activeRace),
       raceConfig: toObservable(this.raceConfigService.raceConfig),
       ping: interval(1000)
     })
     .pipe(takeUntilDestroyed())
-    .subscribe(({pits, activeRace, raceConfig}) => {
-      if (activeRace && raceConfig) {
-        this.openingTime.set(addHours(activeRace.start.toDate(), raceConfig.startTyreChangeWindowHour));
-        this.closingTime.set(addHours(activeRace.start.toDate(), raceConfig.endTyreChangeWindowHour));
+    .subscribe(({pits, race, raceConfig}) => {
+      if (race && raceConfig) {
+        this.openingTime.set(addHours(race.start.toDate(), raceConfig.tyreConfig.startTyreChangeWindowHour));
+        this.closingTime.set(addHours(race.start.toDate(), raceConfig.tyreConfig.startTyreChangeWindowHour));
         this.tyreChangeWindowOpen.set(this.isTyreChangeWindowOpen(this.openingTime(), this.closingTime()));
       } else {
         this.openingTime.set(undefined);
@@ -42,7 +42,7 @@ export class TyreService {
       }
 
       if (raceConfig) {
-        this.remainingTyreChange.set(this.calculateRemainingTyreChange(pits, raceConfig.pitConfig.minTyreChange));
+        this.remainingTyreChange.set(this.calculateRemainingTyreChange(pits, raceConfig.tyreConfig.minTyreChange));
       }
     });
   }

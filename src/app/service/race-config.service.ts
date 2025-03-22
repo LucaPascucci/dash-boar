@@ -27,28 +27,28 @@ export class RaceConfigService extends FirestoreService {
   }
 
   updateFuelDurationMinute(value: number): Promise<void> {
-    const activeRaceConfig = this.raceConfig();
-    if (activeRaceConfig) {
-      activeRaceConfig.fuelDurationMinute = value;
-      return this.updateData(activeRaceConfig.id, activeRaceConfig)
+    const raceConfig = this.raceConfig();
+    if (raceConfig) {
+      raceConfig.fuelDurationMinute = value;
+      return this.updateData(raceConfig.id, raceConfig)
     }
     return Promise.resolve();
   }
 
   updateInterphoneBatteryDurationMinute(value: number): Promise<void> {
-    const activeRaceConfig = this.raceConfig();
-    if (activeRaceConfig) {
-      activeRaceConfig.interphoneBatteryDurationMinute = value;
-      return this.updateData(activeRaceConfig.id, activeRaceConfig)
+    const raceConfig = this.raceConfig();
+    if (raceConfig) {
+      raceConfig.interphoneBatteryDurationMinute = value;
+      return this.updateData(raceConfig.id, raceConfig)
     }
     return Promise.resolve();
   }
 
   updateStartRaceDriverId(driverId: string): Promise<void> {
-    const activeRaceConfig = this.raceConfig();
-    if (activeRaceConfig) {
-      activeRaceConfig.startRaceDriverId = driverId;
-      return this.updateData(activeRaceConfig.id, activeRaceConfig)
+    const raceConfig = this.raceConfig();
+    if (raceConfig) {
+      raceConfig.startRaceDriverId = driverId;
+      return this.updateData(raceConfig.id, raceConfig)
     }
     return Promise.resolve();
   }
